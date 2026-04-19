@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Data fetching in Nuxt 4 — Hasan Ahmed — Field Manual — § 06.01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..800;1,8..60,300..700&family=JetBrains+Mono:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_field-manual.css">
+<style>
+/* ─── § 06.01 — READING PAGE ─── */
+
+.article-head {
+  padding-top: var(--sp-6);
+  padding-bottom: var(--sp-7);
+  border-bottom: 2px solid var(--rule-strong);
+  margin-bottom: var(--sp-8);
+}
+
+.breadcrumb {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-5);
+  display: flex;
+  gap: var(--sp-3);
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.breadcrumb a {
+  color: var(--fg-secondary);
+  text-decoration: none;
+  transition: color var(--dur-default);
+}
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb .sep { color: var(--fg-tertiary); }
+.breadcrumb .here { color: var(--accent); }
+
+.article-num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--sp-3);
+}
+
+.article-title {
+  font-family: var(--font-serif);
+  font-size: 72px;
+  font-weight: var(--fw-regular);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 72;
+  text-wrap: balance;
+  max-width: 20ch;
+  margin-bottom: var(--sp-4);
+}
+.article-title em { font-style: italic; color: var(--fg-secondary); }
+
+.article-deck {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--fg-secondary);
+  font-style: italic;
+  max-width: 52ch;
+  font-variation-settings: "opsz" 22;
+  margin-bottom: var(--sp-6);
+  text-wrap: pretty;
+}
+
+.article-meta {
+  display: flex;
+  gap: var(--sp-6);
+  padding: var(--sp-4) 0;
+  border-top: 1px solid var(--rule-default);
+  border-bottom: 1px solid var(--rule-default);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  color: var(--fg-secondary);
+  letter-spacing: var(--tracking-mono);
+  flex-wrap: wrap;
+}
+.article-meta .meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.article-meta .k {
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+}
+.article-meta .v { color: var(--fg-primary); font-variant-numeric: tabular-nums; }
+.article-meta .v .accent { color: var(--accent); }
+
+/* Body: two-column with reading gutter */
+.article-body {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: var(--sp-8);
+  align-items: start;
+}
+
+.article-col {
+  max-width: 64ch;
+}
+
+/* Prose */
+.prose-body {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.68;
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 18;
+  text-wrap: pretty;
+}
+.prose-body p { margin-bottom: var(--sp-5); }
+.prose-body p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-semibold);
+  font-size: 4.4em;
+  float: left;
+  line-height: 0.82;
+  padding: 8px 10px 0 0;
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 60;
+}
+.prose-body em { font-style: italic; color: var(--fg-secondary); }
+.prose-body strong { font-weight: var(--fw-semibold); color: var(--fg-primary); }
+.prose-body .accent { color: var(--accent); font-style: italic; }
+.prose-body code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  color: var(--accent);
+  background: var(--bg-inset);
+  padding: 1px 5px;
+  border: 1px solid var(--rule-default);
+  letter-spacing: var(--tracking-mono);
+  white-space: nowrap;
+}
+.prose-body h2 {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: var(--fw-regular);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 32;
+  margin: var(--sp-8) 0 var(--sp-4) 0;
+  text-wrap: balance;
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+}
+.prose-body h2 .num {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: var(--tracking-caps);
+  color: var(--accent);
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.prose-body h2 em { font-style: italic; color: var(--fg-secondary); }
+.prose-body h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: var(--fw-semibold);
+  line-height: 1.25;
+  color: var(--fg-primary);
+  margin: var(--sp-6) 0 var(--sp-3);
+}
+.prose-body ul, .prose-body ol {
+  margin: var(--sp-4) 0 var(--sp-5) var(--sp-5);
+  padding: 0;
+}
+.prose-body ul li, .prose-body ol li {
+  margin-bottom: var(--sp-3);
+  padding-left: var(--sp-2);
+}
+.prose-body ul li::marker { color: var(--accent); }
+.prose-body ol li::marker { color: var(--accent); font-family: var(--font-mono); font-size: 0.9em; }
+
+/* Code blocks */
+.code-block {
+  background: var(--bg-inset);
+  border: 1px solid var(--rule-default);
+  margin: var(--sp-5) 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-x: auto;
+}
+.code-block .file-head {
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--rule-default);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  background: var(--bg-elevated);
+}
+.code-block .file-head .fname { color: var(--fg-primary); }
+.code-block pre {
+  margin: 0;
+  padding: var(--sp-4);
+  white-space: pre;
+  color: var(--fg-primary);
+  letter-spacing: var(--tracking-mono);
+}
+.code-block .k { color: #D9A441; }        /* keyword */
+.code-block .s { color: var(--accent); }   /* string / accent */
+.code-block .c { color: var(--fg-tertiary); font-style: italic; }
+.code-block .fn { color: #E8E1D1; }
+.code-block .lit { color: #A8A193; }
+
+/* Pull quote */
+.pull {
+  margin: var(--sp-7) 0;
+  padding: var(--sp-5) 0 var(--sp-5) var(--sp-5);
+  border-left: 3px solid var(--accent);
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 26;
+  max-width: 30ch;
+  text-wrap: balance;
+}
+.pull em { font-style: normal; color: var(--fg-secondary); }
+
+/* Callout — warning / note */
+.callout {
+  margin: var(--sp-5) 0;
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--bg-elevated);
+  border: 1px solid var(--rule-default);
+  border-left: 3px solid var(--accent);
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--fg-primary);
+}
+.callout .tag {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: var(--sp-2);
+}
+
+/* Comparison table */
+.cmp {
+  margin: var(--sp-6) 0;
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+}
+.cmp th, .cmp td {
+  text-align: left;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--rule-default);
+  vertical-align: top;
+  letter-spacing: var(--tracking-mono);
+}
+.cmp thead th {
+  border-bottom: 2px solid var(--rule-strong);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  font-weight: var(--fw-regular);
+}
+.cmp td.k { color: var(--fg-secondary); width: 22%; }
+.cmp td.v3 { color: var(--fg-primary); width: 39%; }
+.cmp td.v4 { color: var(--fg-primary); width: 39%; background: rgba(200,57,28,0.04); }
+.cmp td.v4 .accent { color: var(--accent); font-family: var(--font-serif); font-style: italic; }
+
+/* Margin notes */
+.margin-col {
+  position: sticky;
+  top: 84px;
+  padding-top: 4px;
+}
+.margin-note {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-secondary);
+  line-height: 1.55;
+  padding-left: var(--sp-4);
+  border-left: 1px solid var(--rule-default);
+  margin-bottom: var(--sp-5);
+}
+.margin-note .lbl {
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 4px;
+}
+.margin-note em { font-family: var(--font-serif); font-style: italic; color: var(--fg-primary); font-size: 14px; }
+.margin-note a { color: var(--fg-primary); text-decoration: none; border-bottom: 1px solid var(--rule-default); }
+.margin-note a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* TOC in margin */
+.toc-margin {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-secondary);
+  line-height: 1.7;
+  padding-left: var(--sp-4);
+  border-left: 1px solid var(--rule-default);
+  margin-bottom: var(--sp-6);
+}
+.toc-margin .lbl {
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  display: block;
+  margin-bottom: var(--sp-3);
+}
+.toc-margin ol { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
+.toc-margin li {
+  counter-increment: toc;
+  padding-left: 28px;
+  position: relative;
+  margin-bottom: var(--sp-2);
+}
+.toc-margin li::before {
+  content: counter(toc, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.toc-margin a {
+  color: var(--fg-primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-default);
+}
+.toc-margin a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Footnotes */
+.footnotes {
+  margin-top: var(--sp-9);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--rule-strong);
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--fg-secondary);
+  max-width: 64ch;
+}
+.footnotes h4 {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  font-weight: var(--fw-regular);
+  margin-bottom: var(--sp-4);
+}
+.footnotes ol { list-style: none; padding: 0; margin: 0; }
+.footnotes li {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+.footnotes li .num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: var(--tracking-caps);
+}
+.footnotes li em { font-style: italic; color: var(--fg-primary); }
+
+/* Article footer: prev / next */
+.article-foot {
+  margin-top: var(--sp-9);
+  padding-top: var(--sp-5);
+  border-top: 2px solid var(--rule-strong);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-6);
+}
+.article-foot .nav-link {
+  font-family: var(--font-mono);
+  text-decoration: none;
+  color: var(--fg-primary);
+  padding: var(--sp-4) 0;
+  transition: color var(--dur-default);
+}
+.article-foot .nav-link .dir {
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  display: block;
+  margin-bottom: var(--sp-2);
+}
+.article-foot .nav-link .t {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 18;
+  line-height: 1.35;
+}
+.article-foot .nav-link:hover .t { color: var(--accent); }
+.article-foot .nav-link.next { text-align: right; }
+
+/* Reading progress */
+.read-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: transparent;
+  z-index: 100;
+}
+.read-progress .fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0;
+  transition: width 80ms linear;
+}
+
+@media (max-width: 980px) {
+  .article-title { font-size: 44px; }
+  .article-body { grid-template-columns: 1fr; gap: var(--sp-5); }
+  .margin-col { position: static; }
+  .margin-note, .toc-margin { border-left: 0; border-top: 1px solid var(--rule-default); padding-left: 0; padding-top: var(--sp-3); }
+  .article-foot { grid-template-columns: 1fr; }
+  .article-foot .nav-link.next { text-align: left; }
+  .cmp { font-size: 11px; }
+  .cmp th, .cmp td { padding: var(--sp-2) var(--sp-3); }
+}
+</style>
+</head>
+<body>
+
+<div class="read-progress" aria-hidden="true"><div class="fill" id="progress"></div></div>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-left"><a href="index.html">Hasan Ahmed &nbsp;/&nbsp; Field Manual &nbsp;/&nbsp; Vol. 01</a></div>
+    <div class="masthead-center"><span class="sigil">§</span><span>06.01 — Data fetching in Nuxt 4</span></div>
+    <div class="masthead-right">
+      <span class="pulse"></span>
+      <span class="label">Last revised</span>
+      <span id="last-revised">2026-04-11 16:40 ICT</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-rail" aria-label="Section index">
+  <a href="index.html"><span class="num">01</span><span class="lbl">Opening</span></a>
+  <a href="About.html"><span class="num">02</span><span class="lbl">About</span></a>
+  <a href="Work.html"><span class="num">03</span><span class="lbl">Work</span></a>
+  <a href="Research.html"><span class="num">04</span><span class="lbl">Research</span></a>
+  <a href="Now.html"><span class="num">05</span><span class="lbl">Now</span></a>
+  <a href="Notes.html" class="active"><span class="num">06</span><span class="lbl">Notes</span></a>
+  <a href="#"><span class="num">07</span><span class="lbl">Commits</span></a>
+  <a href="#"><span class="num">08</span><span class="lbl">Education</span></a>
+  <a href="#"><span class="num">09</span><span class="lbl">Colophon</span></a>
+</nav>
+
+<main class="page">
+
+  <article class="section reveal" style="padding-top: var(--sp-6)">
+
+    <div class="body" style="grid-column: 1 / -1">
+
+      <div class="article-head">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Field Manual</a>
+          <span class="sep">/</span>
+          <a href="Notes.html">§ 06 Notes</a>
+          <span class="sep">/</span>
+          <span class="here">§ 06.01 Data fetching in Nuxt 4</span>
+        </nav>
+
+        <div class="article-num">§ 06.01 · Frontend · Published 2026-04-11</div>
+
+        <h1 class="article-title">Data fetching in Nuxt 4: <em>what actually changed, and what didn't.</em></h1>
+
+        <p class="article-deck">
+          <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--accent);background:var(--bg-inset);padding:1px 6px;border:1px solid var(--rule-default)">useAsyncData</code> and <code style="font-family:var(--font-mono);font-size:0.88em;color:var(--accent);background:var(--bg-inset);padding:1px 6px;border:1px solid var(--rule-default)">useFetch</code> look the same from the outside. The cache keys, SSR payloads, and hydration rules do not. A short field guide for teams mid-migration.
+        </p>
+
+        <div class="article-meta">
+          <div class="meta-item"><span class="k">Published</span><span class="v">2026-04-11</span></div>
+          <div class="meta-item"><span class="k">Revised</span><span class="v">2026-04-14</span></div>
+          <div class="meta-item"><span class="k">Reading time</span><span class="v"><span class="accent">9 min</span></span></div>
+          <div class="meta-item"><span class="k">Words</span><span class="v">1,840</span></div>
+          <div class="meta-item"><span class="k">Tag</span><span class="v">Frontend · Nuxt</span></div>
+          <div class="meta-item"><span class="k">Code tested on</span><span class="v">Nuxt 4.0.2 · Vue 3.5</span></div>
+        </div>
+      </div>
+
+      <div class="article-body">
+
+        <div class="article-col">
+          <div class="prose-body">
+
+            <p>
+              The Nuxt 4 release notes sell the new data-fetching story as an incremental cleanup. From the outside, that's true: the function signatures of <code>useAsyncData</code> and <code>useFetch</code> haven't moved, the return shapes are identical, and most existing call sites keep working without edits. It's <em>inside</em> the composables — the cache keys, the hydration payload, and the request deduplication — that the rules have quietly changed. And because the API didn't change, the bugs look like your bugs rather than Nuxt's.
+            </p>
+
+            <p>
+              This post is what I wish someone had handed our team on day one of the migration: the three behaviours that actually moved between v3 and v4, the two footguns that are new in v4, and a small set of mental models that kept us from re-writing the fetch layer twice. <span class="accent">The composables are the same. The guarantees around them are not.</span>
+            </p>
+
+            <h2 id="s1"><span class="num">01</span>What the rename did not change</h2>
+
+            <p>
+              It is worth being precise about what did <em>not</em> change, because most of the migration anxiety online is about things that are still true. The <code>useAsyncData</code> composable still accepts a key and a handler. <code>useFetch</code> is still a wrapper over <code>useAsyncData</code> that also knows about URLs and request bodies. Both still return the same <code>{ data, pending, error, refresh, execute, status }</code> shape, and both still participate in the SSR payload so that the client does not re-fetch on hydration.
+            </p>
+
+            <p>
+              If your v3 codebase was written in the <em>intended</em> style — one call per logical piece of data, keys derived from the URL rather than reused across components, and <code>refresh</code> rather than a manual re-render to pick up a change — you will not have to rewrite a line. If it was not, the migration is going to expose whichever shortcut you took. Which brings us to the part that <em>did</em> change.
+            </p>
+
+            <h2 id="s2"><span class="num">02</span>Cache keys, and why yours might be lying</h2>
+
+            <p>
+              In Nuxt 3, when you called <code>useFetch('/api/invoices')</code> from two components on the same page, the composable deduplicated the request by <em>URL</em>. Nuxt 4 deduplicates by <em>key</em>, and the auto-generated key is no longer the URL — it's a hash that includes the call site. Two call sites fetching the same URL now produce <em>two</em> network requests unless you pass a shared <code>key</code> option.
+            </p>
+
+            <div class="code-block">
+              <div class="file-head"><span class="fname">composables/useInvoices.ts</span><span>Nuxt 4 · explicit key</span></div>
+<pre><span class="c">// Before (Nuxt 3) — dedup was implicit on URL:</span>
+<span class="k">const</span> { data } = <span class="fn">await useFetch</span>(<span class="s">'/api/invoices'</span>)
+
+<span class="c">// After (Nuxt 4) — pass a key to dedupe across components:</span>
+<span class="k">const</span> { data } = <span class="fn">await useFetch</span>(<span class="s">'/api/invoices'</span>, {
+  key: <span class="s">'invoices:list'</span>,
+})</pre>
+            </div>
+
+            <p>
+              The first time I hit this, the symptom was a payroll dashboard that fired the same <code>/api/invoices</code> call three times on load. The fix is two characters of YAML and a rule: <em>every fetch call gets an explicit key.</em> Auto-generated keys are fine for prototypes; they are not a contract you want to rely on.
+            </p>
+
+            <div class="callout">
+              <span class="tag">Footgun</span>
+              If the same URL is fetched from both a <code>server/</code> route handler and a Vue component on the same page, the server call does not participate in the payload dedupe unless you route it through <code>useFetch</code> with a matching key. Two fetches, one SSR payload entry, hydration mismatch.
+            </div>
+
+            <h2 id="s3"><span class="num">03</span>The SSR payload, smaller and stricter</h2>
+
+            <p>
+              Nuxt 4 trims the SSR payload aggressively. In v3, the response body was serialized in full and shipped to the client, which is why <code>useFetch</code> on hydration was effectively a no-op. In v4, the payload is serialized only for the keys the client will actually consume on hydration, and anything reachable only from a <code>&lt;ClientOnly&gt;</code> subtree is dropped.
+            </p>
+
+            <table class="cmp">
+              <thead>
+                <tr>
+                  <th>Behaviour</th>
+                  <th>Nuxt 3</th>
+                  <th>Nuxt 4</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="k">Dedup key</td>
+                  <td class="v3">URL (implicit)</td>
+                  <td class="v4"><span class="accent">Hash of call site + URL</span></td>
+                </tr>
+                <tr>
+                  <td class="k">Payload coverage</td>
+                  <td class="v3">All fetches, always</td>
+                  <td class="v4"><span class="accent">Only fetches reachable on SSR</span></td>
+                </tr>
+                <tr>
+                  <td class="k">ClientOnly children</td>
+                  <td class="v3">Payload still shipped</td>
+                  <td class="v4"><span class="accent">Payload omitted</span></td>
+                </tr>
+                <tr>
+                  <td class="k">Auto-imported composables</td>
+                  <td class="v3">From <code>composables/</code></td>
+                  <td class="v4">Also <code>shared/</code></td>
+                </tr>
+                <tr>
+                  <td class="k">Refresh on navigation</td>
+                  <td class="v3">Opt-in via <code>watch</code></td>
+                  <td class="v4"><span class="accent">Opt-in via <code>getCachedData</code></span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>
+              The practical upshot: a fetch inside <code>&lt;ClientOnly&gt;</code> that used to warm the cache on SSR now always runs on the client. For UX this is usually what you want — <em>unless</em> you were unknowingly depending on the payload to seed a cache a few components deep. Audit your <code>ClientOnly</code> boundaries once; the second time is not worth it.
+            </p>
+
+            <p class="pull">
+              "<em>The composables are the same.</em> The guarantees around them are not."
+            </p>
+
+            <h2 id="s4"><span class="num">04</span>getCachedData — the new seam</h2>
+
+            <p>
+              The single largest practical change is <code>getCachedData</code>, a new option on <code>useAsyncData</code>. It is how you tell Nuxt: <em>if I've already fetched this, don't re-fetch — hand me what you have.</em> It runs before the handler, and if it returns a non-nullish value, the handler is skipped entirely.
+            </p>
+
+            <div class="code-block">
+              <div class="file-head"><span class="fname">composables/useCurrentUser.ts</span><span>Nuxt 4</span></div>
+<pre><span class="k">export const</span> <span class="fn">useCurrentUser</span> = () =&gt; {
+  <span class="k">const</span> nuxt = <span class="fn">useNuxtApp</span>()
+  <span class="k">return</span> <span class="fn">useAsyncData</span>(<span class="s">'user:me'</span>, () =&gt; $fetch(<span class="s">'/api/me'</span>), {
+    getCachedData: (key) =&gt; nuxt.payload.data[key] ?? nuxt.static.data[key],
+  })
+}</pre>
+            </div>
+
+            <p>
+              This is the piece that replaces a grab-bag of Nuxt 3 idioms: the <code>initialCache</code> option, <code>watch</code>-based invalidation, and the pattern of setting <code>lazy: true</code> and then manually reading from <code>$nuxt</code>. One option, one place to put the logic. <em>It's also the only seam for client-navigation caching</em> — if you want a <code>useFetch</code> to not re-run when the user returns to a page, <code>getCachedData</code> is where it goes.
+            </p>
+
+            <h2 id="s5"><span class="num">05</span>Rules that survived the migration intact</h2>
+
+            <p>
+              A short list, kept only because writing it down once saved the team three arguments:
+            </p>
+
+            <ol>
+              <li>
+                <strong>Always pass an explicit <code>key</code>.</strong> Auto-keys are convenient in a single-component demo and a footgun in a real app. One key per logical piece of data.
+              </li>
+              <li>
+                <strong>Fetch at the page, not in the leaves.</strong> Components deep in the tree should receive data through props or a shared composable. A leaf that fetches its own data cannot participate in <code>getCachedData</code> at the page level.
+              </li>
+              <li>
+                <strong>Use <code>$fetch</code> for fire-and-forget.</strong> <code>useFetch</code> allocates a reactive <code>data</code> ref; if you don't need one, don't pay for one.
+              </li>
+              <li>
+                <strong>Reach for <code>useLazyAsyncData</code> before <code>&lt;Suspense&gt;</code>.</strong> The lazy variants exist for exactly the cases where you want the page to render before the fetch resolves.
+              </li>
+            </ol>
+
+            <h2 id="s6"><span class="num">06</span>What's left</h2>
+
+            <p>
+              The v3-to-v4 story is not a rewrite; it is a <em>tightening.</em> The composables are stricter about what they'll do for free, and more cooperative with a caching layer you actually design. If your team writes one key per fetch, fetches at the page boundary, and understands <code>getCachedData</code> as the cache seam, the migration is <em>eight files and an afternoon.</em> If not, the migration will find every place you didn't.
+            </p>
+
+            <p>
+              Next note in this series: the <code>shared/</code> folder, and why it replaces a category of auto-import hacks that most teams did not realise they were relying on.<sup style="color:var(--accent); font-family:var(--font-mono); font-size:0.75em; letter-spacing:var(--tracking-caps)">¹</sup>
+            </p>
+
+          </div>
+
+          <!-- Footnotes -->
+          <footer class="footnotes">
+            <h4>Footnotes &amp; references</h4>
+            <ol>
+              <li>
+                <span class="num">¹</span>
+                <span>See <em>§ 06.03 — The shared folder in Nuxt 4.</em> Drafted alongside this note; published when the migration at work clears its last blocker.</span>
+              </li>
+              <li>
+                <span class="num">²</span>
+                <span>Code samples tested on Nuxt 4.0.2, Vue 3.5.13, Node 22.4. Corrections welcome via email; the revision log is at the top of this page.</span>
+              </li>
+              <li>
+                <span class="num">³</span>
+                <span>Official RFC: <em>Nuxt Data Fetching v4</em> — useful for the "why," less so for the day-to-day. This note is the day-to-day.</span>
+              </li>
+            </ol>
+          </footer>
+
+          <!-- Prev / next -->
+          <nav class="article-foot" aria-label="Adjacent notes">
+            <a href="Notes.html" class="nav-link prev">
+              <span class="dir">← Back to index</span>
+              <span class="t">§ 06 — Notes &nbsp;·&nbsp; All entries</span>
+            </a>
+            <a href="Notes.html" class="nav-link next">
+              <span class="dir">Next →</span>
+              <span class="t"><em>Reactivity in Vue 3, line by line.</em></span>
+            </a>
+          </nav>
+
+        </div>
+
+        <!-- Margin column -->
+        <aside class="margin-col" aria-label="Article sidebar">
+          <div class="toc-margin">
+            <span class="lbl">On this page</span>
+            <ol>
+              <li><a href="#s1">What the rename did not change</a></li>
+              <li><a href="#s2">Cache keys &amp; lying dedup</a></li>
+              <li><a href="#s3">SSR payload, smaller</a></li>
+              <li><a href="#s4"><code style="font-size:0.9em;color:var(--accent)">getCachedData</code>, the seam</a></li>
+              <li><a href="#s5">Rules that survived</a></li>
+              <li><a href="#s6">What's left</a></li>
+            </ol>
+          </div>
+          <div class="margin-note">
+            <span class="lbl">Tested on</span>
+            <em>Nuxt 4.0.2 · Vue 3.5.13 · Node 22.4.</em>
+            Samples re-verified on each revision.
+          </div>
+          <div class="margin-note">
+            <span class="lbl">Corrections</span>
+            Email if the v4 release notes contradict a claim here. I'd rather be corrected in public than be wrong in private.
+          </div>
+          <div class="margin-note">
+            <span class="lbl">See also</span>
+            <a href="Notes.html">§ 06 index</a> ·
+            <a href="Work.html">§ 03.2 Apple</a>
+          </div>
+        </aside>
+
+      </div>
+
+    </div>
+
+    <div class="section-rule" data-end="§ 06.01 / End" style="grid-column: 1 / -1;"></div>
+
+  </article>
+
+</main>
+
+<script>
+  // Last-revised
+  (function rev(){
+    try {
+      const d = new Date(document.lastModified || Date.now());
+      const u = d.getTime() + d.getTimezoneOffset()*60000;
+      const i = new Date(u + 6*3600*1000);
+      const p = n => String(n).padStart(2,'0');
+      const s = i.getUTCFullYear()+'-'+p(i.getUTCMonth()+1)+'-'+p(i.getUTCDate())+' '+p(i.getUTCHours())+':'+p(i.getUTCMinutes())+' ICT';
+      const el = document.getElementById('last-revised');
+      if (el) el.textContent = s;
+    } catch(_) {}
+  })();
+
+  // Reveal
+  (function reveal(){
+    const r = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = document.querySelectorAll('.reveal');
+    if (r) { els.forEach(e => e.classList.add('in')); return; }
+    els.forEach((e,i) => setTimeout(() => e.classList.add('in'), 80 + i*70));
+  })();
+
+  // Reading progress
+  (function progress(){
+    const bar = document.getElementById('progress');
+    function update() {
+      const h = document.documentElement;
+      const scrolled = h.scrollTop;
+      const height = h.scrollHeight - h.clientHeight;
+      const pct = height > 0 ? Math.min(100, (scrolled / height) * 100) : 0;
+      bar.style.width = pct + '%';
+    }
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  })();
+
+  // Smooth scroll for TOC
+  document.querySelectorAll('.toc-margin a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        e.preventDefault();
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+</body>
+</html>

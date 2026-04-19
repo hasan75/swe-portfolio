@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hasan Ahmed — Field Manual — § 03 Selected Work</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..800;1,8..60,300..700&family=JetBrains+Mono:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_field-manual.css">
+<style>
+/* ─── § 03 — SELECTED WORK ─── */
+
+.work-intro {
+  margin-bottom: var(--sp-8);
+  max-width: 62ch;
+}
+
+/* An entry renders as a full-width horizontal block, like a ledger row. */
+.entry {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-7) 0;
+  border-top: 1px solid var(--rule-strong);
+  position: relative;
+}
+.entry:last-of-type { border-bottom: 1px solid var(--rule-strong); }
+
+.entry-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+}
+.entry-head .num { color: var(--accent); }
+.entry-head .rule { height: 1px; background: var(--rule-default); }
+.entry-head .meta {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-mono);
+  text-transform: none;
+  display: flex; align-items: baseline; gap: var(--sp-3);
+}
+.entry-head .meta .status {
+  color: var(--fg-primary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+}
+.entry-head .meta .status.active::before {
+  content: "●";
+  color: var(--accent);
+  margin-right: 4px;
+  font-size: 0.8em;
+}
+.entry-head .meta .status.private { color: var(--accent); }
+.entry-head .meta .status.archived { color: var(--fg-tertiary); }
+
+.entry-title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-display-m);
+  font-weight: var(--fw-regular);
+  line-height: 1.08;
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 40;
+  text-wrap: balance;
+  max-width: 24ch;
+  margin-top: var(--sp-2);
+}
+.entry-title .kind {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-secondary);
+  font-weight: var(--fw-regular);
+  margin-bottom: var(--sp-3);
+}
+
+.entry-body {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--sp-8);
+  margin-top: var(--sp-4);
+  align-items: start;
+}
+
+.entry-prose {
+  font-family: var(--font-serif);
+  font-size: var(--fs-body-l);
+  line-height: var(--lh-reading);
+  color: var(--fg-primary);
+  max-width: 54ch;
+  font-variation-settings: "opsz" 18;
+}
+.entry-prose em { font-style: italic; color: var(--fg-secondary); }
+.entry-prose .accent { color: var(--accent); font-style: italic; }
+.entry-prose + .entry-prose { margin-top: var(--sp-4); }
+
+.entry-spec {
+  border-left: 1px solid var(--rule-default);
+  padding-left: var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  color: var(--fg-primary);
+}
+.entry-spec dl { display: grid; grid-template-columns: 1fr; gap: var(--sp-4); }
+.entry-spec dt {
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-1);
+}
+.entry-spec dd {
+  color: var(--fg-primary);
+  letter-spacing: var(--tracking-mono);
+  line-height: 1.45;
+}
+.entry-spec dd .accent { color: var(--accent); }
+.entry-spec dd .muted { color: var(--fg-secondary); }
+
+/* Links row — four columns of small arrow-links */
+.entry-links {
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-4);
+  border-top: 1px dashed var(--rule-default);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  letter-spacing: var(--tracking-mono);
+}
+.entry-links a, .entry-links span.disabled {
+  color: var(--fg-primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  position: relative;
+  padding-bottom: 2px;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size var(--dur-deliberate) var(--ease-out-quart), color var(--dur-quick) linear;
+}
+.entry-links a .arr { color: var(--accent); transition: transform var(--dur-default) var(--ease-out-expo); }
+.entry-links a:hover { background-size: 100% 1px; }
+.entry-links a:hover .arr { transform: translateX(3px); }
+.entry-links span.disabled {
+  color: var(--fg-tertiary);
+  cursor: not-allowed;
+  text-decoration: line-through;
+  text-decoration-color: var(--rule-strong);
+  background: none;
+}
+.entry-links span.disabled .arr { color: var(--fg-tertiary); }
+
+/* "Private contract" treatment — a quiet vermilion stripe */
+.entry.private {
+  background: linear-gradient(to right, var(--accent-tint) 0 3px, transparent 3px);
+}
+.entry.private .entry-title .kind { color: var(--accent); }
+
+/* Diff-ish callout for Apple — acts as the "what I can say publicly" breakout */
+.callout-ndas {
+  margin-top: var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--bg-inset);
+  border: 1px solid var(--rule-default);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  color: var(--fg-secondary);
+  letter-spacing: var(--tracking-mono);
+  line-height: 1.6;
+  max-width: 54ch;
+}
+.callout-ndas .tag {
+  display: inline-block;
+  color: var(--accent);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  margin-right: var(--sp-3);
+  font-size: var(--fs-mono-s);
+}
+.callout-ndas em { font-style: italic; font-family: var(--font-serif); color: var(--fg-primary); font-size: 15px; }
+
+/* Running totals ledger at the bottom */
+.totals {
+  margin-top: var(--sp-9);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--rule-default);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-6);
+  font-family: var(--font-mono);
+}
+.totals .cell { display: flex; flex-direction: column; gap: var(--sp-2); }
+.totals .k {
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+}
+.totals .v {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: var(--fw-regular);
+  color: var(--fg-primary);
+  line-height: 1;
+  font-variation-settings: "opsz" 40;
+  font-variant-numeric: tabular-nums;
+}
+.totals .v .u {
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--fg-secondary);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  margin-left: var(--sp-2);
+  vertical-align: 4px;
+}
+
+@media (max-width: 880px) {
+  .entry-head { grid-template-columns: auto 1fr; row-gap: var(--sp-2); }
+  .entry-head .rule { display: none; }
+  .entry-head .meta { grid-column: 1 / -1; font-size: 11px; }
+  .entry-body { grid-template-columns: 1fr; gap: var(--sp-5); }
+  .entry-spec { border-left: 0; border-top: 1px solid var(--rule-default); padding-left: 0; padding-top: var(--sp-4); }
+  .entry-title { font-size: 28px; max-width: none; }
+  .totals { grid-template-columns: repeat(2, 1fr); gap: var(--sp-5); }
+  .totals .v { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-left"><a href="index.html">Hasan Ahmed &nbsp;/&nbsp; Field Manual &nbsp;/&nbsp; Vol. 01</a></div>
+    <div class="masthead-center"><span class="sigil">§</span><span>03 — Selected Work</span></div>
+    <div class="masthead-right">
+      <span class="pulse"></span>
+      <span class="label">Last revised</span>
+      <span id="last-revised">2026-04-19 14:22 ICT</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-rail" aria-label="Section index">
+  <a href="index.html"><span class="num">01</span><span class="lbl">Opening</span></a>
+  <a href="About.html"><span class="num">02</span><span class="lbl">About</span></a>
+  <a href="Work.html" class="active"><span class="num">03</span><span class="lbl">Work</span></a>
+  <a href="#"><span class="num">04</span><span class="lbl">Research</span></a>
+  <a href="#"><span class="num">05</span><span class="lbl">Now</span></a>
+  <a href="#"><span class="num">06</span><span class="lbl">Notes</span></a>
+  <a href="#"><span class="num">07</span><span class="lbl">Commits</span></a>
+  <a href="#"><span class="num">08</span><span class="lbl">Education</span></a>
+  <a href="#"><span class="num">09</span><span class="lbl">Colophon</span></a>
+</nav>
+
+<main class="page">
+
+  <section id="s03" class="section" aria-labelledby="s03-heading">
+
+    <aside class="marginalia reveal">
+      <div class="block">
+        <span class="key">Entry</span>
+        <span class="val">§ 03 — Work</span>
+      </div>
+      <div class="block">
+        <span class="key">Selection</span>
+        <span class="val">4 of ~22 projects<br/><em>chosen for signal, not volume</em></span>
+      </div>
+      <div class="block">
+        <span class="key">Period</span>
+        <span class="val">2022 — present</span>
+      </div>
+      <div class="block">
+        <span class="key">Filter</span>
+        <span class="val">Shipped · Maintained<br/>Excludes prototypes</span>
+      </div>
+      <div class="block">
+        <span class="key">See also</span>
+        <span class="val">§ 07 Commits</span>
+      </div>
+    </aside>
+
+    <div class="body">
+
+      <div class="dateline reveal">
+        <span class="hair"></span>
+        <span>Dhaka &nbsp;—&nbsp; <span class="accent">Entry § 03</span> &nbsp;—&nbsp; Selected Work</span>
+      </div>
+
+      <div class="section-heading reveal">
+        <div class="tag"><span class="sigil">§</span> 03 — Selected Work &nbsp;<span class="hair"></span></div>
+        <h2 id="s03-heading">A short inventory of things that shipped, with honest specs.</h2>
+      </div>
+
+      <p class="prose work-intro reveal">
+        No cards, no screenshots, no hero shots. Projects are listed in reverse-chronological order with a terse description, a specifications block, and — where contract allows — a link to the source. Entries marked <span style="color:var(--accent); font-family: var(--font-mono); font-size: 0.9em; letter-spacing: var(--tracking-caps); text-transform: uppercase;">Contract / Private</span> are production work under confidentiality; the description documents what can be said publicly.
+      </p>
+
+      <!-- ENTRY 01 — Apple DMS / internal apps -->
+      <article class="entry private reveal">
+        <div class="entry-head">
+          <span class="num">§ 03.1</span>
+          <span class="rule"></span>
+          <span class="meta">
+            <span>2024 — present</span>
+            <span class="status private">Contract / Private</span>
+          </span>
+        </div>
+
+        <h3 class="entry-title">
+          <span class="kind">Internal platform · Full-stack contribution</span>
+          Apple — DMS &amp; internal Vue/Nuxt applications
+        </h3>
+
+        <div class="entry-body">
+          <div class="entry-prose-group">
+            <p class="entry-prose">
+              Ongoing contract work on several internal applications. The headline effort is a <span class="accent">Document Management System (DMS)</span> built on top of <strong style="font-weight:var(--fw-semibold)">Box</strong> enterprise storage — a substantial module integrating Box into the application interface, with Node APIs brokering the storage layer and Laravel test suites covering the legacy surface.
+            </p>
+            <p class="entry-prose">
+              Alongside the DMS I contribute to other Nuxt 3 / Vue 3 applications on the same platform — feature work across <em>SSR and SPA</em> surfaces, shared API-call management, state and cache layers, hydration correctness, and performance on long-lived sessions. The common thread is <em>correctness at scale</em> — teams depend on these primitives shipping without surprises.
+            </p>
+
+            <div class="callout-ndas" aria-label="Confidentiality note">
+              <span class="tag">NDA</span>
+              <em>Host application, exact scope, and screenshots are confidential.</em> What I can attest to: the work is production, ships on a regular cadence, and a senior reviewer has signed off on each merge.
+            </div>
+          </div>
+
+          <aside class="entry-spec" aria-label="Specification">
+            <dl>
+              <dt>Stack</dt>
+              <dd>Vue 3 · Nuxt 3 (SSR + SPA) · TypeScript<br/>Node APIs · Laravel (PHPUnit)<br/>Pinia · SCSS · Box storage</dd>
+              <dt>Role</dt>
+              <dd>Independent Contractor —<br/>Software Engineer<br/><span class="muted">via Softzino Technologies</span></dd>
+              <dt>Tenure</dt>
+              <dd>18+ months, active</dd>
+              <dt>Scope</dt>
+              <dd>DMS / Box integration,<br/>SSR &amp; SPA feature work,<br/>API-call management,<br/>Node APIs, Laravel tests</dd>
+            </dl>
+          </aside>
+        </div>
+
+        <div class="entry-links">
+          <span class="disabled"><span class="arr">→</span> Repository</span>
+          <span class="disabled"><span class="arr">→</span> Demo</span>
+          <span class="disabled"><span class="arr">→</span> Writeup</span>
+          <a href="#" class="ink"><span class="arr">→</span> Reference on request</a>
+        </div>
+      </article>
+
+      <!-- ENTRY 02 — Apple component library (separate app) -->
+      <article class="entry private reveal">
+        <div class="entry-head">
+          <span class="num">§ 03.2</span>
+          <span class="rule"></span>
+          <span class="meta">
+            <span>2024 — present</span>
+            <span class="status private">Contract / Private</span>
+          </span>
+        </div>
+
+        <h3 class="entry-title">
+          <span class="kind">Component library · Framework-agnostic</span>
+          Apple — internal component library
+        </h3>
+
+        <div class="entry-body">
+          <div>
+            <p class="entry-prose">
+              A separate, longer-lived surface from the DMS: an internal component library consumed by the DMS and other applications across the platform. My lane is <span class="accent">framework-agnostic primitives</span> — tokens, core Web Components, and Vue 3 / Nuxt 3 bindings that consume them — with a focus on hydration correctness, SSR parity, and a small, stable public API.
+            </p>
+            <p class="entry-prose">
+              The library is its own application with its own release cadence. Getting a primitive right once means a dozen downstream apps don't each have to solve it — <em>which is the entire point of a library.</em>
+            </p>
+          </div>
+
+          <aside class="entry-spec">
+            <dl>
+              <dt>Stack</dt>
+              <dd>Web Components · TypeScript<br/>Vue 3 / Nuxt 3 bindings · SCSS<br/>Design tokens as CSS custom props</dd>
+              <dt>Role</dt>
+              <dd>Independent Contractor —<br/>Software Engineer<br/><span class="muted">via Softzino Technologies</span></dd>
+              <dt>Scope</dt>
+              <dd>Primitives, framework bindings,<br/>hydration &amp; SSR parity,<br/>public API &amp; docs</dd>
+              <dt>Status</dt>
+              <dd>Active · consumed internally</dd>
+            </dl>
+          </aside>
+        </div>
+
+        <div class="entry-links">
+          <span class="disabled"><span class="arr">→</span> Repository</span>
+          <span class="disabled"><span class="arr">→</span> Demo</span>
+          <span class="disabled"><span class="arr">→</span> Writeup</span>
+          <a href="#" class="ink"><span class="arr">→</span> Reference on request</a>
+        </div>
+      </article>
+
+      <!-- ENTRY 03 — AI Chat Widget (also under Apple) -->
+      <article class="entry private reveal">
+        <div class="entry-head">
+          <span class="num">§ 03.3</span>
+          <span class="rule"></span>
+          <span class="meta">
+            <span>2025 — present</span>
+            <span class="status active">Active · v0.6.3</span>
+          </span>
+        </div>
+
+        <h3 class="entry-title">
+          <span class="kind">SDK · Package · Apple</span>
+          AI Chat Widget — embeddable, host-agnostic.
+        </h3>
+
+        <div class="entry-body">
+          <div>
+            <p class="entry-prose">
+              Also developed under the Apple engagement: a framework-agnostic chat widget built on the Web Components spec and StencilJS. Ships as a single <code style="font-family:var(--font-mono);font-size:0.85em;color:var(--accent)">&lt;script&gt;</code> tag; renders identically inside Vue, React, Svelte, Nuxt, Next, or plain HTML — with no host-side glue.
+            </p>
+            <p class="entry-prose">
+              Built as a test of a thesis: <em>if your primitive has a public API, the framework shouldn't matter.</em> Ships tokens as CSS custom properties, exposes slots and events, and adds precisely <span class="accent">one runtime dependency</span>.
+            </p>
+          </div>
+
+          <aside class="entry-spec">
+            <dl>
+              <dt>Stack</dt>
+              <dd>StencilJS · TypeScript · Rollup<br/>Web Components · CSS custom props</dd>
+              <dt>Role</dt>
+              <dd>Independent Contractor —<br/>Software Engineer<br/><span class="muted">sole engineer on the widget</span></dd>
+              <dt>Size</dt>
+              <dd>18.4 kB min+gz<br/><span class="muted">one runtime dep</span></dd>
+              <dt>Status</dt>
+              <dd>Pre-release · internal dogfooding</dd>
+            </dl>
+          </aside>
+        </div>
+
+        <div class="entry-links">
+          <span class="disabled"><span class="arr">→</span> Repository</span>
+          <span class="disabled"><span class="arr">→</span> Live demo</span>
+          <span class="disabled"><span class="arr">→</span> API docs</span>
+          <a href="#" class="ink"><span class="arr">→</span> Design notes on request</a>
+        </div>
+      </article>
+
+      <!-- ENTRY 04 — AccTech Payroll -->
+      <article class="entry reveal">
+        <div class="entry-head">
+          <span class="num">§ 03.4</span>
+          <span class="rule"></span>
+          <span class="meta">
+            <span>2023 — 2024</span>
+            <span class="status">Shipped · Maintained by team</span>
+          </span>
+        </div>
+
+        <h3 class="entry-title">
+          <span class="kind">Web application · Full-stack</span>
+          AccTech Payroll — compliant payroll runs for U.S. SMBs.
+        </h3>
+
+        <div class="entry-body">
+          <div>
+            <p class="entry-prose">
+              Full-stack payroll platform for small and medium businesses in the <span class="accent">United States</span>. Handles salary structures, deductions, statutory reporting, and month-end closeouts. I owned the frontend from inception and contributed the bulk of the API — including the <span class="accent">salary-calculation engine</span>, which is the most-tested module I have written.
+            </p>
+            <p class="entry-prose">
+              <em>Payroll is unforgiving.</em> A rounding bug becomes a late payment; a timezone bug becomes a legal problem. The project taught me more about correctness than any other engagement.
+            </p>
+          </div>
+
+          <aside class="entry-spec">
+            <dl>
+              <dt>Stack</dt>
+              <dd>Nuxt 3 · TypeScript · Pinia<br/>Node · Express · Sequelize · Postgres</dd>
+              <dt>Role</dt>
+              <dd>Frontend lead + API contributor<br/><span class="muted">with 1 senior engineer</span></dd>
+              <dt>Scale</dt>
+              <dd>~60 companies in production<br/>~4,200 employees on file</dd>
+              <dt>Status</dt>
+              <dd>Live · maintained by successor team</dd>
+            </dl>
+          </aside>
+        </div>
+
+        <div class="entry-links">
+          <a href="#" class="ink"><span class="arr">→</span> Product site</a>
+          <span class="disabled"><span class="arr">→</span> Repository</span>
+          <a href="#" class="ink"><span class="arr">→</span> Case study</a>
+          <a href="#" class="ink"><span class="arr">→</span> Architecture notes</a>
+        </div>
+      </article>
+
+      <!-- ENTRY 05 — AC Service web app -->
+      <article class="entry reveal">
+        <div class="entry-head">
+          <span class="num">§ 03.5</span>
+          <span class="rule"></span>
+          <span class="meta">
+            <span>2022 — 2023</span>
+            <span class="status archived">Archived · client-owned</span>
+          </span>
+        </div>
+
+        <h3 class="entry-title">
+          <span class="kind">Web application · Field operations</span>
+          AC Service — dispatch, inventory, and technician routing.
+        </h3>
+
+        <div class="entry-body">
+          <div>
+            <p class="entry-prose">
+              A field-service web app for a Dhaka-based air-conditioning service company: customer intake, ticket dispatch, technician routing, spare-parts inventory, and invoice generation. My first full-stack production deliverable. <em>Unfashionable, thoroughly useful.</em>
+            </p>
+            <p class="entry-prose">
+              This is also where the <span class="accent">habit of shipping fast</span> started — small daily releases, customer feedback on WhatsApp, boring reliability as the headline feature.
+            </p>
+          </div>
+
+          <aside class="entry-spec">
+            <dl>
+              <dt>Stack</dt>
+              <dd>Vue 2 → Nuxt 2 · Vuex<br/>PHP · Laravel · MySQL</dd>
+              <dt>Role</dt>
+              <dd>Sole engineer<br/><span class="muted">design · build · deploy</span></dd>
+              <dt>Scale</dt>
+              <dd>~14 technicians, 1 dispatcher<br/>~180 tickets / week at peak</dd>
+              <dt>Status</dt>
+              <dd>Archived at handoff</dd>
+            </dl>
+          </aside>
+        </div>
+
+        <div class="entry-links">
+          <span class="disabled"><span class="arr">→</span> Product site</span>
+          <span class="disabled"><span class="arr">→</span> Repository</span>
+          <a href="#" class="ink"><span class="arr">→</span> Writeup</a>
+          <a href="#" class="ink"><span class="arr">→</span> Reference on request</a>
+        </div>
+      </article>
+
+      <!-- Running totals — ledger-feel -->
+      <div class="totals reveal" aria-label="Running totals">
+        <div class="cell">
+          <span class="k">Shipped</span>
+          <span class="v">22<span class="u">projects</span></span>
+        </div>
+        <div class="cell">
+          <span class="k">Public repos</span>
+          <span class="v">37<span class="u">on GitHub</span></span>
+        </div>
+        <div class="cell">
+          <span class="k">Packages</span>
+          <span class="v">4<span class="u">on npm</span></span>
+        </div>
+        <div class="cell">
+          <span class="k">Published</span>
+          <span class="v">1<span class="u">paper · IJEECS</span></span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-rule" data-end="§ 03 / End" style="grid-column: 1 / -1;"></div>
+
+  </section>
+
+</main>
+
+<script>
+  (function rev(){
+    try {
+      const d = new Date(document.lastModified || Date.now());
+      const u = d.getTime() + d.getTimezoneOffset()*60000;
+      const i = new Date(u + 6*3600*1000);
+      const p = n => String(n).padStart(2,'0');
+      const s = i.getUTCFullYear()+'-'+p(i.getUTCMonth()+1)+'-'+p(i.getUTCDate())+' '+p(i.getUTCHours())+':'+p(i.getUTCMinutes())+' ICT';
+      const el = document.getElementById('last-revised');
+      if (el) el.textContent = s;
+    } catch(_) {}
+  })();
+
+  (function reveal(){
+    const r = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = document.querySelectorAll('.reveal');
+    if (r) { els.forEach(e => e.classList.add('in')); return; }
+    els.forEach((e,i) => setTimeout(() => e.classList.add('in'), 80 + i*70));
+  })();
+</script>
+</body>
+</html>

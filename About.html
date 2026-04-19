@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hasan Ahmed — Field Manual — § 02 About</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..800;1,8..60,300..700&family=JetBrains+Mono:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_field-manual.css">
+<style>
+/* ─── § 02 — ABOUT (section-local styles) ─── */
+
+/* Sub-block — a labeled chunk within the body column */
+.subblock {
+  position: relative;
+  padding-top: var(--sp-7);
+  margin-top: var(--sp-7);
+  border-top: 1px solid var(--rule-faint);
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: var(--sp-6);
+}
+.subblock:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; }
+
+.subblock .sb-tag {
+  font-family: var(--font-mono); font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  color: var(--fg-tertiary);
+  padding-top: 6px; /* align with serif cap height */
+}
+.subblock .sb-tag .sigil { color: var(--accent); }
+.subblock .sb-body { min-width: 0; }
+
+/* Surface Area table — real tabular layout */
+.sa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  color: var(--fg-primary);
+  font-variant-numeric: tabular-nums;
+}
+.sa-table thead th {
+  text-align: left;
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  font-weight: var(--fw-regular);
+  padding: var(--sp-3) var(--sp-4) var(--sp-3) 0;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.sa-table tbody td {
+  padding: var(--sp-4) var(--sp-4) var(--sp-4) 0;
+  border-bottom: 1px solid var(--rule-default);
+  vertical-align: top;
+  letter-spacing: var(--tracking-mono);
+  line-height: 1.5;
+}
+.sa-table tbody tr:last-child td { border-bottom: 0; }
+.sa-table .cat {
+  color: var(--accent);
+  font-weight: var(--fw-medium);
+  width: 18%;
+  white-space: nowrap;
+}
+.sa-table .prim { width: 42%; }
+.sa-table .since { width: 12%; color: var(--fg-secondary); white-space: nowrap; }
+.sa-table .notes { color: var(--fg-secondary); font-style: italic; font-family: var(--font-serif); font-size: var(--fs-body-s); }
+
+/* Fieldwork map — editorial feature */
+.fw-wrap {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: var(--sp-7);
+  align-items: start;
+}
+.fw-body .prose {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--fs-body-l);
+  max-width: 54ch;
+  color: var(--fg-primary);
+}
+.fw-body .prose + .prose { margin-top: var(--sp-4); }
+
+/* Region map — an actual typographic figure */
+.fw-figure {
+  border: 1px solid var(--rule-default);
+  padding: var(--sp-5);
+  background: var(--bg-elevated);
+}
+.fw-figure .fig-label {
+  font-family: var(--font-mono); font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  color: var(--fg-tertiary);
+  display: flex; justify-content: space-between;
+  margin-bottom: var(--sp-3);
+}
+.fw-figure .fig-label .accent { color: var(--accent); }
+.fw-figure svg { display: block; width: 100%; height: auto; }
+.fw-figure .fig-caption {
+  margin-top: var(--sp-3);
+  font-family: var(--font-serif); font-style: italic;
+  font-size: var(--fs-body-s); color: var(--fg-secondary);
+  line-height: 1.5;
+}
+
+/* Pull-quote style treatment inside duality block */
+.duality-quote {
+  margin-top: var(--sp-5);
+  padding-left: var(--sp-5);
+  border-left: 2px solid var(--accent);
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-style: italic;
+  color: var(--fg-primary);
+  max-width: 48ch;
+  line-height: 1.35;
+}
+.duality-quote .attr {
+  display: block;
+  margin-top: var(--sp-3);
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+}
+
+/* Mobile — sub-blocks stack, table becomes label/value cards */
+@media (max-width: 880px) {
+  .subblock {
+    grid-template-columns: 1fr;
+    gap: var(--sp-3);
+  }
+  .subblock .sb-tag { padding-top: 0; }
+
+  .sa-table, .sa-table thead, .sa-table tbody, .sa-table tr, .sa-table td, .sa-table th {
+    display: block;
+  }
+  .sa-table thead { display: none; }
+  .sa-table tbody tr {
+    border-top: 1px solid var(--rule-default);
+    padding: var(--sp-4) 0;
+  }
+  .sa-table tbody tr:first-child { border-top: 1px solid var(--rule-strong); }
+  .sa-table tbody td { border: 0; padding: 2px 0; width: auto !important; }
+  .sa-table tbody td.cat { font-size: var(--fs-mono-m); }
+  .sa-table tbody td::before {
+    content: attr(data-k) "  ";
+    color: var(--fg-tertiary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-caps);
+    font-size: var(--fs-mono-s);
+    margin-right: var(--sp-2);
+  }
+  .sa-table tbody td.cat::before { display: none; }
+
+  .fw-wrap { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── MASTHEAD ─── -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-left"><a href="index.html">Hasan Ahmed &nbsp;/&nbsp; Field Manual &nbsp;/&nbsp; Vol. 01</a></div>
+    <div class="masthead-center"><span class="sigil">§</span><span id="current-section">02 — About</span></div>
+    <div class="masthead-right">
+      <span class="pulse"></span>
+      <span class="label">Last revised</span>
+      <span id="last-revised">2026-04-19 14:22 ICT</span>
+    </div>
+  </div>
+</header>
+
+<!-- ─── NAV RAIL ─── -->
+<nav class="nav-rail" aria-label="Section index">
+  <a href="index.html"><span class="num">01</span><span class="lbl">Opening</span></a>
+  <a href="About.html" class="active"><span class="num">02</span><span class="lbl">About</span></a>
+  <a href="#"><span class="num">03</span><span class="lbl">Work</span></a>
+  <a href="#"><span class="num">04</span><span class="lbl">Research</span></a>
+  <a href="#"><span class="num">05</span><span class="lbl">Now</span></a>
+  <a href="#"><span class="num">06</span><span class="lbl">Notes</span></a>
+  <a href="#"><span class="num">07</span><span class="lbl">Commits</span></a>
+  <a href="#"><span class="num">08</span><span class="lbl">Education</span></a>
+  <a href="#"><span class="num">09</span><span class="lbl">Colophon</span></a>
+</nav>
+
+<main class="page">
+
+  <!-- ─── § 02 — ABOUT ─── -->
+  <section id="s02" class="section" aria-labelledby="s02-heading">
+
+    <aside class="marginalia reveal">
+      <div class="block">
+        <span class="key">Entry</span>
+        <span class="val">§ 02 — About</span>
+      </div>
+      <div class="block">
+        <span class="key">Subject</span>
+        <span class="val">Hasan Ahmed <em>(b. 1999)</em></span>
+      </div>
+      <div class="block">
+        <span class="key">Filed</span>
+        <span class="val">Dhaka, BD</span>
+      </div>
+      <div class="block">
+        <span class="key">Reading time</span>
+        <span class="val">≈ 3 minutes</span>
+      </div>
+      <div class="block">
+        <span class="key">See also</span>
+        <span class="val">§ 04 Research<br/>§ 08 Education</span>
+      </div>
+    </aside>
+
+    <div class="body">
+
+      <div class="dateline reveal">
+        <span class="hair"></span>
+        <span>Dhaka &nbsp;—&nbsp; <span class="accent">Entry § 02</span> &nbsp;—&nbsp; About</span>
+      </div>
+
+      <div class="section-heading reveal">
+        <div class="tag"><span class="sigil">§</span> 02 — About &nbsp;<span class="hair"></span></div>
+        <h2 id="s02-heading">A short biography of someone who refuses to pick a lane.</h2>
+      </div>
+
+      <!-- § 02.1 — DISCIPLINE -->
+      <div class="subblock reveal">
+        <div class="sb-tag"><span class="sigil">§</span> 02.1<br/>Discipline</div>
+        <div class="sb-body">
+          <p class="prose">
+            By day I am a <strong style="font-weight:var(--fw-semibold)">software engineer</strong> — shipping into a component library used inside Apple, authoring framework-agnostic Web Components, building Node and Laravel services behind dashboards nobody sees, and packaging TypeScript primitives that other teams import and forget. The work is mostly unglamorous and that's the point. Good software is a long series of small, careful decisions made in sequence.
+          </p>
+          <p class="prose">
+            By some nights and weekends I am a <strong style="font-weight:var(--fw-semibold)">published researcher</strong> — a convolutional neural network for plant-disease classification, 55,000 images, 39 classes, 98.7% validation accuracy, and a paper in <em>IJEECS Vol. 28, No. 3</em>. The habits are different. Research asks you to <span class="accent">be wrong slowly and in writing</span>. Engineering asks you to ship by Friday. I find the tension productive.
+          </p>
+
+          <div class="duality-quote">
+            “The discipline of a researcher and the metabolism of a production engineer, in the same person, is rarer than either alone.”
+            <span class="attr">— referee note, paraphrased, 2022</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- § 02.2 — SURFACE AREA -->
+      <div class="subblock reveal">
+        <div class="sb-tag"><span class="sigil">§</span> 02.2<br/>Surface Area</div>
+        <div class="sb-body">
+          <p class="prose" style="margin-bottom: var(--sp-5)">
+            A working inventory of the terrain I actually cover, not a skills cloud. Updated whenever something ships.
+          </p>
+          <table class="sa-table" aria-label="Surface area of work">
+            <thead>
+              <tr>
+                <th scope="col">Category</th>
+                <th scope="col">Primary</th>
+                <th scope="col">Since</th>
+                <th scope="col">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cat" data-k="Cat">Frontend</td>
+                <td class="prim" data-k="Primary">Vue 3 · Nuxt 3/4 · React · Web Components · TypeScript · SCSS · Pinia</td>
+                <td class="since" data-k="Since">2020</td>
+                <td class="notes" data-k="Notes">Component libraries, design systems, framework-agnostic primitives.</td>
+              </tr>
+              <tr>
+                <td class="cat" data-k="Cat">Packages</td>
+                <td class="prim" data-k="Primary">TypeScript · Rollup · StencilJS · Web Components</td>
+                <td class="since" data-k="Since">2023</td>
+                <td class="notes" data-k="Notes">Framework-agnostic primitives; tokens as public API.</td>
+              </tr>
+              <tr>
+                <td class="cat" data-k="Cat">Backend</td>
+                <td class="prim" data-k="Primary">Node · Express · Laravel · Sequelize · Postgres · Mongo</td>
+                <td class="since" data-k="Since">2019</td>
+                <td class="notes" data-k="Notes">Internal APIs, dashboards, payroll and field-service domains.</td>
+              </tr>
+              <tr>
+                <td class="cat" data-k="Cat">Research</td>
+                <td class="prim" data-k="Primary">Python · TensorFlow · Keras · OpenCV · CNNs</td>
+                <td class="since" data-k="Since">2021</td>
+                <td class="notes" data-k="Notes">One published paper; more queued for Denmark, Fall 2026.</td>
+              </tr>
+              <tr>
+                <td class="cat" data-k="Cat">Tooling</td>
+                <td class="prim" data-k="Primary">Claude Code · Vite · pnpm · Git · CI on Vercel, Netlify</td>
+                <td class="since" data-k="Since">2024</td>
+                <td class="notes" data-k="Notes">Shipping fast; treating the agent as a senior pair.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- § 02.3 — FIELDWORK -->
+      <div class="subblock reveal">
+        <div class="sb-tag"><span class="sigil">§</span> 02.3<br/>Fieldwork<br/>2015 — 2019</div>
+        <div class="sb-body">
+
+          <div class="fw-wrap">
+            <div class="fw-body">
+              <p class="prose">
+                <em>Before the code, there were the hills.</em> For roughly four years I worked as a guide through Bandarban, Rangamati, Sylhet, and Sunamganj — long days on uncertain trails, reading maps, learning which river crossings were safe that week.
+              </p>
+              <p class="prose">
+                The connection, in retrospect, isn't poetic — it's <em>procedural</em>. You learn to survey unfamiliar terrain, take honest notes, mark what's stable and what isn't, and hand the document to whoever follows. The job has a different name now.<sup><a href="#fn-2" class="footnote-ref" id="fn-ref-2">²</a></sup>
+              </p>
+            </div>
+
+            <figure class="fw-figure" aria-labelledby="fig-2-1-cap">
+              <div class="fig-label">
+                <span>Fig. 2.1 — Range</span>
+                <span class="accent">BD · 2015–19</span>
+              </div>
+              <svg viewBox="0 0 240 180" role="img" aria-labelledby="fig-2-1-cap">
+                <!-- Abstracted region sketch — hairlines only, no decoration. -->
+                <defs>
+                  <pattern id="grid" width="12" height="12" patternUnits="userSpaceOnUse">
+                    <path d="M 12 0 L 0 0 0 12" fill="none" stroke="rgba(232,225,209,0.06)" stroke-width="0.5"/>
+                  </pattern>
+                </defs>
+                <rect width="240" height="180" fill="url(#grid)"/>
+                <!-- Coastline / region outline (schematic, not geographic truth) -->
+                <path d="M 10 40 Q 60 30 90 55 T 160 65 Q 200 55 230 80 L 225 135 Q 180 150 130 140 T 40 150 Z"
+                      fill="none" stroke="rgba(232,225,209,0.28)" stroke-width="1"/>
+                <!-- Four markers -->
+                <g font-family="JetBrains Mono, monospace" font-size="7" fill="#A8A193" letter-spacing="0.06em">
+                  <circle cx="72" cy="120" r="2.2" fill="#C8391C"/>
+                  <text x="78" y="123">BANDARBAN</text>
+
+                  <circle cx="118" cy="105" r="2.2" fill="#C8391C"/>
+                  <text x="124" y="108">RANGAMATI</text>
+
+                  <circle cx="170" cy="60" r="2.2" fill="#C8391C"/>
+                  <text x="176" y="63">SYLHET</text>
+
+                  <circle cx="140" cy="48" r="2.2" fill="#C8391C"/>
+                  <text x="146" y="51">SUNAMGANJ</text>
+                </g>
+                <!-- Compass -->
+                <g transform="translate(215,30)" font-family="JetBrains Mono, monospace" font-size="7" fill="#6B6459">
+                  <line x1="0" y1="-8" x2="0" y2="8" stroke="rgba(232,225,209,0.4)" stroke-width="0.5"/>
+                  <line x1="-8" y1="0" x2="8" y2="0" stroke="rgba(232,225,209,0.4)" stroke-width="0.5"/>
+                  <text x="-2" y="-10">N</text>
+                </g>
+              </svg>
+              <figcaption class="fig-caption" id="fig-2-1-cap">
+                Four regions, ~210 trips logged. Schematic; not to scale.
+              </figcaption>
+            </figure>
+          </div>
+
+          <p class="footnote" id="fn-2">
+            <span class="ref">²</span> The habit of careful documentation was first formed somewhere between a river crossing in Sunamganj and a trail notebook that got rained on. It turns out to be the same habit a senior engineer uses to write a migration plan.
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-rule" data-end="§ 02 / End" style="grid-column: 1 / -1;"></div>
+
+  </section>
+
+</main>
+
+<script>
+  (function revision() {
+    try {
+      const src = new Date(document.lastModified || Date.now());
+      const utc = src.getTime() + src.getTimezoneOffset() * 60000;
+      const ict = new Date(utc + 6 * 3600 * 1000);
+      const pad = n => String(n).padStart(2, '0');
+      const stamp =
+        ict.getUTCFullYear() + '-' + pad(ict.getUTCMonth()+1) + '-' + pad(ict.getUTCDate()) + ' ' +
+        pad(ict.getUTCHours()) + ':' + pad(ict.getUTCMinutes()) + ' ICT';
+      const el = document.getElementById('last-revised');
+      if (el) el.textContent = stamp;
+    } catch (_) {}
+  })();
+
+  (function reveal() {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = document.querySelectorAll('.reveal');
+    if (reduce) { els.forEach(el => el.classList.add('in')); return; }
+    els.forEach((el, i) => setTimeout(() => el.classList.add('in'), 80 + i * 70));
+  })();
+</script>
+</body>
+</html>

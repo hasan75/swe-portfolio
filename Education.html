@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hasan Ahmed — Field Manual — § 08 Education</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..800;1,8..60,300..700&family=JetBrains+Mono:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_field-manual.css">
+<style>
+/* ─── § 08 — EDUCATION ─── */
+
+/* Transcript header */
+.transcript-head {
+  border: 1px solid var(--rule-strong);
+  background: var(--bg-elevated);
+  padding: var(--sp-5) var(--sp-6);
+  margin-bottom: var(--sp-7);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-5);
+  align-items: end;
+  position: relative;
+  overflow: hidden;
+}
+.transcript-head::before {
+  content: "OFFICIAL TRANSCRIPT · SPECIMEN · FIELD MANUAL VOL. 01";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-14deg);
+  font-family: var(--font-mono);
+  font-size: 72px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(200, 57, 28, 0.08);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+.transcript-head .inst {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 60;
+  font-size: 40px;
+  line-height: 1.1;
+  color: var(--fg-primary);
+  letter-spacing: var(--tracking-tight);
+  font-weight: var(--fw-regular);
+  margin-bottom: var(--sp-2);
+}
+.transcript-head .inst em { font-style: italic; color: var(--accent); }
+.transcript-head .degree {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-secondary);
+  line-height: 1.5;
+}
+.transcript-head .degree .lbl { color: var(--fg-tertiary); text-transform: uppercase; letter-spacing: var(--tracking-caps); font-size: 10px; }
+.transcript-head .seal {
+  width: 96px; height: 96px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: center;
+  padding: var(--sp-3);
+  line-height: 1.3;
+  position: relative;
+  flex-shrink: 0;
+}
+.transcript-head .seal::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px dashed rgba(200, 57, 28, 0.4);
+  border-radius: 50%;
+}
+
+/* Stat grid */
+.edu-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--rule-strong);
+  background: var(--bg-elevated);
+  margin-bottom: var(--sp-7);
+}
+.edu-stats .cell {
+  padding: var(--sp-5);
+  border-right: 1px solid var(--rule-default);
+}
+.edu-stats .cell:last-child { border-right: 0; }
+.edu-stats .lbl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-3);
+}
+.edu-stats .val {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 42;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--fg-primary);
+  letter-spacing: var(--tracking-tight);
+  font-variant-numeric: tabular-nums;
+}
+.edu-stats .val .accent { color: var(--accent); }
+.edu-stats .val .tbd {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--fg-tertiary);
+  font-style: italic;
+  letter-spacing: var(--tracking-mono);
+}
+.edu-stats .unit {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-secondary);
+  margin-top: var(--sp-2);
+}
+
+/* Two-up layout */
+.edu-body {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--sp-7);
+  margin-bottom: var(--sp-8);
+}
+
+.col-head {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  padding-bottom: var(--sp-3);
+  border-bottom: 2px solid var(--rule-strong);
+  margin-bottom: var(--sp-5);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.col-head .t { color: var(--fg-primary); }
+
+/* Honours list */
+.honours {
+  display: grid;
+  gap: var(--sp-4);
+}
+.honour {
+  border: 1px solid var(--rule-default);
+  border-left: 3px solid var(--accent);
+  background: var(--bg-elevated);
+  padding: var(--sp-4) var(--sp-5);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--sp-4);
+  align-items: baseline;
+}
+.honour .medal {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 2px 6px;
+  border: 1px solid var(--accent);
+  white-space: nowrap;
+}
+.honour .title {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 20;
+  font-size: 19px;
+  color: var(--fg-primary);
+  line-height: 1.35;
+  font-weight: var(--fw-regular);
+  letter-spacing: -0.005em;
+}
+.honour .title em { font-style: italic; color: var(--accent); }
+.honour .title .placeholder {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-style: normal;
+  color: var(--fg-tertiary);
+  letter-spacing: var(--tracking-mono);
+  padding: 1px 6px;
+  background: rgba(200, 57, 28, 0.08);
+  border: 1px dashed rgba(200, 57, 28, 0.4);
+  margin: 0 2px;
+}
+.honour .meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  color: var(--fg-secondary);
+  letter-spacing: var(--tracking-mono);
+  line-height: 1.5;
+  margin-top: var(--sp-2);
+}
+.honour .meta .sep { color: var(--fg-tertiary); margin: 0 var(--sp-2); }
+.honour .year {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-tertiary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Coursework card */
+.coursework {
+  border: 1px solid var(--rule-default);
+  background: var(--bg-elevated);
+  padding: var(--sp-5);
+  margin-bottom: var(--sp-5);
+}
+.coursework h4 {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-3);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px dashed var(--rule-default);
+}
+.coursework ul {
+  list-style: none;
+  padding: 0; margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-primary);
+  line-height: 1.8;
+}
+.coursework li {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: var(--sp-3);
+  padding: 2px 0;
+  border-bottom: 1px dashed var(--rule-faint);
+}
+.coursework li:last-child { border-bottom: 0; }
+.coursework li .code { color: var(--accent); }
+.coursework li .grade { color: var(--fg-tertiary); font-variant-numeric: tabular-nums; }
+.coursework li .grade.na {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 12px;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: var(--sp-6);
+  margin-bottom: var(--sp-8);
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 4px; top: 8px; bottom: 8px;
+  width: 1px;
+  background: var(--rule-strong);
+}
+.tl-item {
+  position: relative;
+  padding-bottom: var(--sp-5);
+}
+.tl-item::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--sp-6) + 0px);
+  top: 8px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--bg-page);
+  border: 1.5px solid var(--accent);
+}
+.tl-item.primary::before {
+  background: var(--accent);
+}
+.tl-item .year {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-2);
+}
+.tl-item .year .accent { color: var(--accent); }
+.tl-item .title {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 22;
+  font-size: 20px;
+  color: var(--fg-primary);
+  line-height: 1.35;
+  margin-bottom: 3px;
+  letter-spacing: -0.005em;
+}
+.tl-item .title em { font-style: italic; color: var(--accent); }
+.tl-item .inst {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-secondary);
+  line-height: 1.5;
+}
+
+/* Placeholder note */
+.fill-notice {
+  border: 1px dashed rgba(200, 57, 28, 0.5);
+  background: rgba(200, 57, 28, 0.06);
+  padding: var(--sp-4) var(--sp-5);
+  margin-bottom: var(--sp-7);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-secondary);
+  line-height: 1.6;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sp-4);
+  align-items: start;
+}
+.fill-notice .tag {
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 3px 8px;
+  border: 1px solid var(--accent);
+  white-space: nowrap;
+}
+.fill-notice em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--fg-primary);
+  font-size: 15px;
+}
+
+/* Mobile */
+@media (max-width: 980px) {
+  .transcript-head { grid-template-columns: 1fr; }
+  .transcript-head .seal { margin-top: var(--sp-4); }
+  .transcript-head .inst { font-size: 28px; }
+  .transcript-head::before { font-size: 36px; }
+  .edu-stats { grid-template-columns: 1fr 1fr; }
+  .edu-stats .cell { border-right: 0; border-bottom: 1px solid var(--rule-default); }
+  .edu-stats .cell:nth-child(odd) { border-right: 1px solid var(--rule-default); }
+  .edu-stats .val { font-size: 32px; }
+  .edu-body { grid-template-columns: 1fr; gap: var(--sp-6); }
+  .honour { grid-template-columns: 1fr auto; }
+  .honour .medal { grid-row: 1; }
+  .honour .title { grid-column: 1 / -1; grid-row: 2; }
+  .honour .year { grid-column: 2; grid-row: 1; }
+  .coursework li { grid-template-columns: 56px 1fr auto; font-size: 12px; }
+  .fill-notice { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-left"><a href="index.html">Hasan Ahmed &nbsp;/&nbsp; Field Manual &nbsp;/&nbsp; Vol. 01</a></div>
+    <div class="masthead-center"><span class="sigil">§</span><span>08 — Education</span></div>
+    <div class="masthead-right">
+      <span class="pulse"></span>
+      <span class="label">Last revised</span>
+      <span id="last-revised">—</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-rail" aria-label="Section index">
+  <a href="index.html"><span class="num">01</span><span class="lbl">Opening</span></a>
+  <a href="About.html"><span class="num">02</span><span class="lbl">About</span></a>
+  <a href="Work.html"><span class="num">03</span><span class="lbl">Work</span></a>
+  <a href="Research.html"><span class="num">04</span><span class="lbl">Research</span></a>
+  <a href="Now.html"><span class="num">05</span><span class="lbl">Now</span></a>
+  <a href="Notes.html"><span class="num">06</span><span class="lbl">Notes</span></a>
+  <a href="Commits.html"><span class="num">07</span><span class="lbl">Commits</span></a>
+  <a href="Education.html" class="active"><span class="num">08</span><span class="lbl">Education</span></a>
+  <a href="Colophon.html"><span class="num">09</span><span class="lbl">Colophon</span></a>
+</nav>
+
+<main class="page">
+
+  <section id="s08" class="section" aria-labelledby="s08-heading">
+
+    <aside class="marginalia reveal">
+      <div class="block"><span class="key">Entry</span><span class="val">§ 08 — Education</span></div>
+      <div class="block"><span class="key">Primary</span><span class="val">IUBAT<br/><em>Computer Science &amp; Eng.</em></span></div>
+      <div class="block"><span class="key">Location</span><span class="val">Dhaka, Bangladesh</span></div>
+      <div class="block"><span class="key">Status</span><span class="val"><span style="color:var(--accent)">●</span> Graduated<br/>Honours &amp; awards below.</span></div>
+      <div class="block"><span class="key">See also</span><span class="val">§ 02 About<br/>§ 04 Research</span></div>
+    </aside>
+
+    <div class="body">
+
+      <div class="dateline reveal">
+        <span class="hair"></span>
+        <span>Dhaka &nbsp;—&nbsp; <span class="accent">Entry § 08</span> &nbsp;—&nbsp; School, honours, and where the foundations were poured</span>
+      </div>
+
+      <div class="section-heading reveal">
+        <div class="tag"><span class="sigil">§</span> 08 — Education &nbsp;<span class="hair"></span></div>
+        <h2 id="s08-heading">Four years in CSE at IUBAT. Two general scholarships before that, and a final-year thesis on plant-disease classification.</h2>
+      </div>
+
+      <!-- Transcript header -->
+      <div class="transcript-head reveal">
+        <div>
+          <div class="inst">IUBAT &nbsp;—&nbsp; <em>International University of Business, Agriculture &amp; Technology</em></div>
+          <div class="degree">
+            <span class="lbl">Degree</span> &nbsp; Bachelor of Computer Science &amp; Engineering <br/>
+            <span class="lbl">Enrolled</span> &nbsp; <span style="color:var(--fg-primary)">05 Apr 2018</span> &nbsp; · &nbsp;
+            <span class="lbl">Conferred</span> &nbsp; <span style="color:var(--fg-primary)">01 May 2022</span> &nbsp; · &nbsp;
+            <span class="lbl">Location</span> &nbsp; <span style="color:var(--fg-primary)">Dhaka, Bangladesh</span><br/>
+            <span class="lbl">Website</span> &nbsp; <a href="https://iubat.edu/" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent)">iubat.edu</a>
+          </div>
+        </div>
+        <div class="seal">
+          IUBAT<br/>
+          — · —<br/>
+          Graduate<br/>
+          CSE
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="edu-stats reveal" aria-label="Academic summary">
+        <div class="cell">
+          <div class="lbl">Final CGPA · Bachelor's</div>
+          <div class="val"><span class="accent">3.86</span> <span style="font-size: 20px; color: var(--fg-tertiary); font-family: var(--font-mono); letter-spacing: var(--tracking-mono);">/ 4.00</span></div>
+          <div class="unit">IUBAT &nbsp;·&nbsp; 146 credits completed</div>
+        </div>
+        <div class="cell">
+          <div class="lbl">Higher Secondary · HSC</div>
+          <div class="val"><span class="accent">5.00</span> <span style="font-size: 20px; color: var(--fg-tertiary); font-family: var(--font-mono); letter-spacing: var(--tracking-mono);">/ 5.00</span></div>
+          <div class="unit">2016 &nbsp;·&nbsp; general scholarship</div>
+        </div>
+        <div class="cell">
+          <div class="lbl">Secondary · SSC</div>
+          <div class="val"><span class="accent">5.00</span> <span style="font-size: 20px; color: var(--fg-tertiary); font-family: var(--font-mono); letter-spacing: var(--tracking-mono);">/ 5.00</span></div>
+          <div class="unit">2014 &nbsp;·&nbsp; general scholarship</div>
+        </div>
+        <div class="cell">
+          <div class="lbl">EQF level</div>
+          <div class="val"><span class="accent">EQF 6</span></div>
+          <div class="unit">European Qualifications Framework</div>
+        </div>
+      </div>
+
+      <!-- Honours + coursework -->
+      <div class="edu-body reveal">
+
+        <div>
+          <div class="col-head">
+            <span class="t">Honours &amp; awards</span>
+            <span>Chronological · most recent first</span>
+          </div>
+
+          <div class="honours">
+
+            <div class="honour">
+              <span class="medal">● Thesis</span>
+              <div>
+                <div class="title">
+                  <em>Detection and classification of plant diseases in leaves through machine learning</em> &nbsp;—&nbsp; final-year undergraduate thesis, defended at IUBAT.
+                </div>
+                <div class="meta">
+                  IUBAT &nbsp;·&nbsp; Department of CSE &nbsp;·&nbsp; supervised project
+                </div>
+              </div>
+              <span class="year">2022</span>
+            </div>
+
+            <div class="honour">
+              <span class="medal">◉ CGPA 3.86</span>
+              <div>
+                <div class="title">
+                  Graduated with a final <em>CGPA of 3.86 / 4.00</em> across <strong>146 credits</strong> — sustained academic performance over four years.
+                </div>
+                <div class="meta">
+                  IUBAT &nbsp;·&nbsp; Bachelor of CSE &nbsp;·&nbsp; 2018 – 2022
+                </div>
+              </div>
+              <span class="year">2018 – 22</span>
+            </div>
+
+            <div class="honour">
+              <span class="medal">● Scholarship</span>
+              <div>
+                <div class="title">
+                  <em>General scholarship</em> &nbsp;—&nbsp; awarded on HSC board result: GPA <strong>5.00 / 5.00</strong>.
+                </div>
+                <div class="meta">
+                  Abdul Kadir Mollah City College &nbsp;·&nbsp; Higher Secondary Certificate
+                </div>
+              </div>
+              <span class="year">2016</span>
+            </div>
+
+            <div class="honour">
+              <span class="medal">● Scholarship</span>
+              <div>
+                <div class="title">
+                  <em>General scholarship</em> &nbsp;—&nbsp; awarded on SSC board result: GPA <strong>5.00 / 5.00</strong>.
+                </div>
+                <div class="meta">
+                  Janata Adarsha Bidyapith &nbsp;·&nbsp; Secondary School Certificate
+                </div>
+              </div>
+              <span class="year">2014</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <div class="col-head">
+            <span class="t">Coursework that shows up daily</span>
+          </div>
+
+          <div class="coursework">
+            <h4>Fields of study &nbsp;·&nbsp; IUBAT transcript</h4>
+            <ul style="grid-template-columns: unset;">
+              <li style="grid-template-columns: 1fr;"><span>Programming &nbsp;—&nbsp; C, C++, Java</span></li>
+              <li style="grid-template-columns: 1fr;"><span>Data Structures &amp; Algorithms</span></li>
+              <li style="grid-template-columns: 1fr;"><span>Database Systems</span></li>
+              <li style="grid-template-columns: 1fr;"><span>Operating Systems</span></li>
+              <li style="grid-template-columns: 1fr;"><span>Compiler Design</span></li>
+              <li style="grid-template-columns: 1fr;"><span>Theory of Computation</span></li>
+              <li style="grid-template-columns: 1fr;"><span>Computer Architecture</span></li>
+              <li style="grid-template-columns: 1fr;"><span>Software Engineering</span></li>
+              <li style="grid-template-columns: 1fr;"><span>Computer Networks</span></li>
+            </ul>
+          </div>
+
+          <div class="coursework">
+            <h4>Credential summary</h4>
+            <ul style="grid-template-columns: unset;">
+              <li style="grid-template-columns: 120px 1fr;"><span class="code">Credits</span><span>146 completed</span></li>
+              <li style="grid-template-columns: 120px 1fr;"><span class="code">EQF level</span><span>Level 6 &nbsp;·&nbsp; bachelor's-equivalent</span></li>
+              <li style="grid-template-columns: 120px 1fr;"><span class="code">Final grade</span><span>3.86 / 4.00</span></li>
+              <li style="grid-template-columns: 120px 1fr;"><span class="code">Duration</span><span>05 Apr 2018 – 01 May 2022</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="reveal">
+        <div class="col-head" style="margin-bottom: var(--sp-5)">
+          <span class="t">Timeline &nbsp;—&nbsp; school to software</span>
+        </div>
+
+        <div class="timeline">
+
+          <div class="tl-item primary">
+            <div class="year"><span class="accent">●</span> &nbsp; 01 May 2022</div>
+            <div class="title">Conferred &nbsp;—&nbsp; <em>Bachelor of Computer Science &amp; Engineering</em></div>
+            <div class="inst">IUBAT, Dhaka <span style="color: var(--fg-tertiary); margin: 0 6px;">·</span> Final CGPA 3.86 / 4.00 <span style="color: var(--fg-tertiary); margin: 0 6px;">·</span> 146 credits</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="year">2022</div>
+            <div class="title">Final-year thesis defended</div>
+            <div class="inst">Topic: <em>Detection and classification of plant diseases in leaves through machine learning</em></div>
+          </div>
+
+          <div class="tl-item">
+            <div class="year">05 Apr 2018</div>
+            <div class="title">Enrolled &nbsp;—&nbsp; IUBAT, Bachelor of CSE</div>
+            <div class="inst">International University of Business, Agriculture &amp; Technology <span style="color: var(--fg-tertiary); margin: 0 6px;">·</span> Dhaka</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="year">2016 &nbsp;·&nbsp; <span class="accent">GPA 5.00 / 5.00</span></div>
+            <div class="title">Higher Secondary Certificate &nbsp;—&nbsp; <em>general scholarship</em></div>
+            <div class="inst">Abdul Kadir Mollah City College <span style="color: var(--fg-tertiary); margin: 0 6px;">·</span> Narayanganj, Bangladesh</div>
+          </div>
+
+          <div class="tl-item">
+            <div class="year">2014 &nbsp;·&nbsp; <span class="accent">GPA 5.00 / 5.00</span></div>
+            <div class="title">Secondary School Certificate &nbsp;—&nbsp; <em>general scholarship</em></div>
+            <div class="inst">Janata Adarsha Bidyapith</div>
+          </div>
+
+        </div>
+      </div>
+
+      <p class="footnote reveal" id="fn-8" style="margin-top: var(--sp-7)">
+        <span class="ref">⁷</span> All figures above reflect the official transcript and board certificates. CGPA on a 4.00 scale at IUBAT; board GPAs on a 5.00 scale for SSC / HSC under the Bangladesh National Curriculum &amp; Textbook Board.
+      </p>
+
+    </div>
+
+    <div class="section-rule" data-end="§ 08 / End" style="grid-column: 1 / -1;"></div>
+
+  </section>
+
+</main>
+
+<script>
+  // Last-revised
+  (function rev(){
+    try {
+      const d = new Date(document.lastModified || Date.now());
+      const u = d.getTime() + d.getTimezoneOffset()*60000;
+      const i = new Date(u + 6*3600*1000);
+      const p = n => String(n).padStart(2,'0');
+      const s = i.getUTCFullYear()+'-'+p(i.getUTCMonth()+1)+'-'+p(i.getUTCDate())+' '+p(i.getUTCHours())+':'+p(i.getUTCMinutes())+' ICT';
+      const el = document.getElementById('last-revised');
+      if (el) el.textContent = s;
+    } catch(_) {}
+  })();
+
+  // Reveal
+  (function reveal(){
+    const r = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = document.querySelectorAll('.reveal');
+    if (r) { els.forEach(e => e.classList.add('in')); return; }
+    els.forEach((e,i) => setTimeout(() => e.classList.add('in'), 60 + i*60));
+  })();
+</script>
+</body>
+</html>

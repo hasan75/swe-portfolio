@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hasan Ahmed — Field Manual — § 04 Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..800;1,8..60,300..700&family=JetBrains+Mono:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_field-manual.css">
+<style>
+/* ─── § 04 — RESEARCH ─── */
+
+.paper {
+  padding: var(--sp-8) 0;
+  border-top: 1px solid var(--rule-strong);
+  position: relative;
+}
+.paper:last-of-type { border-bottom: 1px solid var(--rule-strong); }
+
+.paper-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--sp-4);
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-5);
+}
+.paper-head .num { color: var(--accent); }
+.paper-head .rule { height: 1px; background: var(--rule-default); }
+.paper-head .status {
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.paper-head .status.pub { color: var(--fg-primary); }
+.paper-head .status.pub::before { content: "●"; color: var(--accent); margin-right: 4px; font-size: 0.8em; }
+.paper-head .status.draft { color: var(--accent); }
+.paper-head .status.draft::before { content: "○"; margin-right: 4px; font-size: 0.8em; }
+
+.paper-title {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: var(--fw-regular);
+  line-height: 1.08;
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 44;
+  text-wrap: balance;
+  max-width: 26ch;
+  margin-bottom: var(--sp-4);
+}
+
+.paper-authors {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  color: var(--fg-primary);
+  letter-spacing: var(--tracking-mono);
+  margin-bottom: var(--sp-2);
+}
+.paper-authors .me {
+  color: var(--accent);
+  font-weight: var(--fw-medium);
+}
+
+.paper-venue {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-secondary);
+  margin-bottom: var(--sp-7);
+}
+.paper-venue .accent { color: var(--accent); }
+
+.paper-body {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--sp-8);
+  align-items: start;
+}
+
+.abstract {
+  font-family: var(--font-serif);
+  font-size: var(--fs-body-l);
+  line-height: 1.6;
+  color: var(--fg-primary);
+  max-width: 64ch;
+  font-variation-settings: "opsz" 18;
+  text-wrap: pretty;
+}
+.abstract::first-letter {
+  font-weight: var(--fw-semibold);
+  font-size: 3.2em;
+  float: left;
+  line-height: 0.85;
+  padding: 6px 8px 0 0;
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 60;
+}
+.abstract em { font-style: italic; color: var(--fg-secondary); }
+.abstract .accent { color: var(--accent); font-style: italic; }
+.abstract-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-3);
+}
+
+.keywords {
+  margin-top: var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  color: var(--fg-secondary);
+  letter-spacing: var(--tracking-mono);
+  line-height: 1.6;
+}
+.keywords .k {
+  display: inline-block;
+  border: 1px solid var(--rule-default);
+  padding: 2px 8px;
+  margin: 0 4px 4px 0;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  color: var(--fg-secondary);
+}
+
+/* Methodology sidebar */
+.method {
+  border-left: 1px solid var(--rule-default);
+  padding-left: var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+}
+.method h4 {
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  font-weight: var(--fw-regular);
+  margin-bottom: var(--sp-4);
+}
+.method dl { display: grid; gap: var(--sp-4); }
+.method dt {
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-1);
+}
+.method dd {
+  color: var(--fg-primary);
+  letter-spacing: var(--tracking-mono);
+  line-height: 1.45;
+}
+.method dd .accent { color: var(--accent); }
+.method dd .muted { color: var(--fg-secondary); }
+
+/* Figure */
+.fig {
+  grid-column: 1 / -1;
+  margin-top: var(--sp-8);
+  border: 1px solid var(--rule-default);
+  padding: var(--sp-6);
+  background: var(--bg-elevated);
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: var(--sp-6);
+  align-items: start;
+}
+.fig .chart {
+  width: 100%;
+}
+.fig .chart svg { display: block; width: 100%; height: auto; }
+.fig .fig-head {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--sp-4);
+}
+.fig .fig-head .accent { color: var(--accent); }
+.fig .annotations {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--fs-body-s);
+  color: var(--fg-secondary);
+  line-height: 1.5;
+}
+.fig .annotations .callout {
+  display: flex;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+  align-items: baseline;
+}
+.fig .annotations .callout .marker {
+  color: var(--accent);
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  flex: 0 0 auto;
+}
+.fig figcaption {
+  grid-column: 1 / -1;
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--rule-faint);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--fs-body-s);
+  color: var(--fg-secondary);
+}
+
+/* Actions row */
+.paper-actions {
+  margin-top: var(--sp-7);
+  padding-top: var(--sp-4);
+  border-top: 1px dashed var(--rule-default);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+}
+.paper-actions a, .paper-actions button, .paper-actions span.disabled {
+  color: var(--fg-primary);
+  background: transparent;
+  border: 0;
+  font: inherit;
+  letter-spacing: var(--tracking-mono);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  padding: 0 0 2px 0;
+  cursor: pointer;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size var(--dur-deliberate) var(--ease-out-quart);
+}
+.paper-actions a:hover, .paper-actions button:hover { background-size: 100% 1px; }
+.paper-actions a .arr, .paper-actions button .arr { color: var(--accent); transition: transform var(--dur-default) var(--ease-out-expo); }
+.paper-actions a:hover .arr { transform: translateX(3px); }
+.paper-actions span.disabled {
+  color: var(--fg-tertiary);
+  cursor: not-allowed;
+  text-decoration: line-through;
+  text-decoration-color: var(--rule-strong);
+  background: none;
+}
+.paper-actions span.disabled .arr { color: var(--fg-tertiary); }
+
+/* BibTeX fold-out */
+.bibtex {
+  margin-top: var(--sp-5);
+  background: var(--bg-inset);
+  border: 1px solid var(--rule-default);
+  padding: var(--sp-4) var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  color: var(--fg-primary);
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1.55;
+  display: none;
+}
+.bibtex.open { display: block; }
+.bibtex .k { color: var(--accent); }
+
+/* Draft callout — for the second paper */
+.draft-callout {
+  margin-top: var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--bg-inset);
+  border: 1px solid var(--rule-default);
+  border-left: 3px solid var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  color: var(--fg-secondary);
+  letter-spacing: var(--tracking-mono);
+  line-height: 1.6;
+  max-width: 62ch;
+}
+.draft-callout .tag {
+  display: inline-block;
+  color: var(--accent);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  margin-right: var(--sp-3);
+  font-size: var(--fs-mono-s);
+}
+.draft-callout em { font-style: italic; font-family: var(--font-serif); color: var(--fg-primary); font-size: 15px; }
+
+/* IoT system hardware sketch */
+.iot-diagram {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--fg-secondary);
+  letter-spacing: var(--tracking-mono);
+  white-space: pre;
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--bg-inset);
+  border: 1px solid var(--rule-default);
+  overflow-x: auto;
+}
+.iot-diagram .hi { color: var(--accent); }
+.iot-diagram .node { color: var(--fg-primary); }
+
+@media (max-width: 880px) {
+  .paper-head { grid-template-columns: auto 1fr; }
+  .paper-head .rule { display: none; }
+  .paper-head .status { grid-column: 1 / -1; }
+  .paper-title { font-size: 30px; max-width: none; }
+  .paper-body { grid-template-columns: 1fr; gap: var(--sp-5); }
+  .method { border-left: 0; border-top: 1px solid var(--rule-default); padding-left: 0; padding-top: var(--sp-4); }
+  .fig { grid-template-columns: 1fr; padding: var(--sp-4); }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-left"><a href="index.html">Hasan Ahmed &nbsp;/&nbsp; Field Manual &nbsp;/&nbsp; Vol. 01</a></div>
+    <div class="masthead-center"><span class="sigil">§</span><span>04 — Research</span></div>
+    <div class="masthead-right">
+      <span class="pulse"></span>
+      <span class="label">Last revised</span>
+      <span id="last-revised">2026-04-19 14:22 ICT</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-rail" aria-label="Section index">
+  <a href="index.html"><span class="num">01</span><span class="lbl">Opening</span></a>
+  <a href="About.html"><span class="num">02</span><span class="lbl">About</span></a>
+  <a href="Work.html"><span class="num">03</span><span class="lbl">Work</span></a>
+  <a href="Research.html" class="active"><span class="num">04</span><span class="lbl">Research</span></a>
+  <a href="#"><span class="num">05</span><span class="lbl">Now</span></a>
+  <a href="#"><span class="num">06</span><span class="lbl">Notes</span></a>
+  <a href="#"><span class="num">07</span><span class="lbl">Commits</span></a>
+  <a href="#"><span class="num">08</span><span class="lbl">Education</span></a>
+  <a href="#"><span class="num">09</span><span class="lbl">Colophon</span></a>
+</nav>
+
+<main class="page">
+
+  <section id="s04" class="section" aria-labelledby="s04-heading">
+
+    <aside class="marginalia reveal">
+      <div class="block"><span class="key">Entry</span><span class="val">§ 04 — Research</span></div>
+      <div class="block"><span class="key">Count</span><span class="val">2 manuscripts<br/><em>1 published · 1 drafting</em></span></div>
+      <div class="block"><span class="key">Period</span><span class="val">2022 — present</span></div>
+      <div class="block"><span class="key">Domains</span><span class="val">Computer vision<br/>IoT / embedded systems<br/>Agriculture</span></div>
+      <div class="block"><span class="key">See also</span><span class="val">§ 08 Education<br/>§ 02 About</span></div>
+    </aside>
+
+    <div class="body">
+
+      <div class="dateline reveal">
+        <span class="hair"></span>
+        <span>Dhaka &nbsp;—&nbsp; <span class="accent">Entry § 04</span> &nbsp;—&nbsp; Research</span>
+      </div>
+
+      <div class="section-heading reveal">
+        <div class="tag"><span class="sigil">§</span> 04 — Research &nbsp;<span class="hair"></span></div>
+        <h2 id="s04-heading">Two manuscripts. One published, one being written the long way round.</h2>
+      </div>
+
+      <p class="prose reveal" style="max-width: 64ch; margin-bottom: var(--sp-7)">
+        Research is <em>the other half of the desk.</em> One paper is in print. Another is in the drawer, waiting for the right venue and a spare month. Both sit at the intersection of machine perception and agriculture — the subject most engineers I know have never had to think about, and which much of the world cannot avoid.
+      </p>
+
+      <!-- ─── PAPER 04.1 — PLANT DISEASE (published) ─── -->
+      <article class="paper reveal" id="p-04-1">
+        <div class="paper-head">
+          <span class="num">§ 04.1</span>
+          <span class="rule"></span>
+          <span class="status pub">Published · Dec 2022</span>
+        </div>
+
+        <h3 class="paper-title">Detection and classification of plant diseases in leaves through machine learning.</h3>
+
+        <div class="paper-authors">
+          <span class="me">H. Ahmed</span> · M. A. Hossain · I. Hossain · S. S. Akhi · I. J. Lima
+        </div>
+        <div class="paper-venue">
+          <span class="accent">IJEECS</span> · Indonesian Journal of Electrical Engineering and Computer Science · Vol. 28, No. 3 · pp. 1676–1683 · December 2022
+        </div>
+
+        <div class="paper-body">
+          <div class="abstract-wrap">
+            <div class="abstract-label">Abstract</div>
+            <p class="abstract">
+              Plant disease identification at the leaf stage is a well-bounded problem with outsized consequences for smallholder agriculture. We train a convolutional neural network on the <em>PlantVillage</em> dataset — <span class="accent">55,306 images across 39 classes</span> — using a custom architecture in Keras, augmented with standard geometric transforms. The resulting model reaches 98.7% validation accuracy after 40 epochs, with the confusion matrix concentrated along the diagonal and remaining errors clustered around visually proximate classes. We document the full pipeline — preprocessing, augmentation strategy, architecture, and hyperparameters — so that the work is reproducible on a commodity GPU.
+            </p>
+
+            <div class="keywords">
+              <strong style="color:var(--fg-tertiary); letter-spacing:var(--tracking-caps); text-transform:uppercase; font-weight:var(--fw-regular); margin-right: var(--sp-2)">Keywords</strong>
+              <span class="k">CNN</span>
+              <span class="k">Plant Disease</span>
+              <span class="k">PlantVillage</span>
+              <span class="k">Keras · TensorFlow</span>
+              <span class="k">Classification</span>
+              <span class="k">Agriculture</span>
+            </div>
+          </div>
+
+          <aside class="method">
+            <h4>Methodology</h4>
+            <dl>
+              <dt>Model</dt><dd>CNN · custom architecture</dd>
+              <dt>Framework</dt><dd>Keras on TensorFlow</dd>
+              <dt>Dataset</dt><dd>PlantVillage<br/><span class="muted">55,306 images · 39 classes</span></dd>
+              <dt>Augmentation</dt><dd>ImageDataGenerator<br/><span class="muted">rotation, shear, zoom, h-flip</span></dd>
+              <dt>Optimizer</dt><dd>Adam · lr=1e-4</dd>
+              <dt>Epochs</dt><dd>40</dd>
+              <dt>Result</dt><dd><span class="accent">98.7% val. accuracy</span></dd>
+            </dl>
+          </aside>
+
+          <!-- Fig 4.1 — training curve -->
+          <figure class="fig" aria-labelledby="fig-41-cap">
+            <div class="chart" style="grid-column: 1 / -1">
+              <div class="fig-head">
+                <span>Fig. 4.1 — Training curve · accuracy &amp; loss vs. epoch</span>
+                <span class="accent">N = 40 epochs</span>
+              </div>
+              <svg viewBox="0 0 640 260" role="img">
+                <defs>
+                  <pattern id="g41" width="40" height="26" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 26" fill="none" stroke="rgba(232,225,209,0.08)" stroke-width="0.5"/>
+                  </pattern>
+                </defs>
+                <rect width="640" height="260" fill="url(#g41)"/>
+                <!-- axes -->
+                <line x1="40" y1="20" x2="40" y2="230" stroke="rgba(232,225,209,0.35)" stroke-width="1"/>
+                <line x1="40" y1="230" x2="620" y2="230" stroke="rgba(232,225,209,0.35)" stroke-width="1"/>
+                <!-- y labels -->
+                <g font-family="JetBrains Mono, monospace" font-size="9" fill="#6B6459" letter-spacing="0.04em">
+                  <text x="10" y="24">1.00</text>
+                  <text x="10" y="80">0.75</text>
+                  <text x="10" y="136">0.50</text>
+                  <text x="10" y="192">0.25</text>
+                  <text x="10" y="234">0.00</text>
+                  <text x="40" y="250">0</text>
+                  <text x="195" y="250">10</text>
+                  <text x="335" y="250">20</text>
+                  <text x="475" y="250">30</text>
+                  <text x="610" y="250">40</text>
+                </g>
+                <!-- accuracy curve (rising, plateaus near 0.987) -->
+                <path d="M 40 190 Q 90 120 140 85 T 260 45 T 400 30 T 540 27 L 620 26"
+                      fill="none" stroke="#C8391C" stroke-width="1.5"/>
+                <!-- loss curve (falling) -->
+                <path d="M 40 45 Q 110 120 200 160 T 360 200 T 520 218 L 620 222"
+                      fill="none" stroke="#E8E1D1" stroke-width="1" stroke-dasharray="3 3"/>
+                <!-- callouts -->
+                <circle cx="400" cy="30" r="3" fill="#C8391C"/>
+                <text x="408" y="24" font-family="JetBrains Mono, monospace" font-size="10" fill="#C8391C" letter-spacing="0.04em">①</text>
+                <circle cx="260" cy="45" r="3" fill="#C8391C"/>
+                <text x="268" y="40" font-family="JetBrains Mono, monospace" font-size="10" fill="#C8391C" letter-spacing="0.04em">②</text>
+                <!-- legend -->
+                <g font-family="JetBrains Mono, monospace" font-size="9" fill="#A8A193" letter-spacing="0.06em">
+                  <line x1="470" y1="14" x2="490" y2="14" stroke="#C8391C" stroke-width="1.5"/>
+                  <text x="495" y="17">VAL. ACC.</text>
+                  <line x1="560" y1="14" x2="580" y2="14" stroke="#E8E1D1" stroke-width="1" stroke-dasharray="3 3"/>
+                  <text x="585" y="17">LOSS</text>
+                </g>
+              </svg>
+            </div>
+            <div class="annotations">
+              <div class="callout">
+                <span class="marker">①</span>
+                <span>Val. accuracy plateaus at ~epoch 28; further gains require architecture changes, not training.</span>
+              </div>
+              <div class="callout">
+                <span class="marker">②</span>
+                <span>Early drop in loss aligns with rapid accuracy rise; standard for this augmentation regime.</span>
+              </div>
+            </div>
+            <figcaption id="fig-41-cap">Training curves for the final configuration. Horizontal axis: epochs; vertical axis: normalized accuracy and loss.</figcaption>
+          </figure>
+
+          <div class="paper-actions" style="grid-column: 1 / -1">
+            <a href="#" class="ink"><span class="arr">→</span> Read paper (PDF)</a>
+            <a href="#" class="ink"><span class="arr">→</span> DOI · IJEECS</a>
+            <a href="#" class="ink"><span class="arr">→</span> View code on GitHub</a>
+            <button type="button" id="cite-41"><span class="arr">→</span> Cite (BibTeX)</button>
+          </div>
+
+          <pre class="bibtex" id="bib-41" aria-live="polite"><span class="k">@article</span>{ahmed2022plant,
+  <span class="k">title</span>   = {Detection and classification of plant diseases in leaves through machine learning},
+  <span class="k">author</span>  = {Ahmed, Hasan and Hossain, M. A. and Hossain, I. and Akhi, S. S. and Lima, I. J.},
+  <span class="k">journal</span> = {Indonesian Journal of Electrical Engineering and Computer Science},
+  <span class="k">volume</span>  = {28},
+  <span class="k">number</span>  = {3},
+  <span class="k">pages</span>   = {1676--1683},
+  <span class="k">year</span>    = {2022},
+  <span class="k">month</span>   = {dec}
+}</pre>
+        </div>
+      </article>
+
+      <!-- ─── PAPER 04.2 — SOIL QUALITY (in progress) ─── -->
+      <article class="paper reveal" id="p-04-2">
+        <div class="paper-head">
+          <span class="num">§ 04.2</span>
+          <span class="rule"></span>
+          <span class="status draft">Drafting · Unpublished</span>
+        </div>
+
+        <h3 class="paper-title">Design and implementation of a smart soil-quality monitoring system for agricultural fields, using IoT.</h3>
+
+        <div class="paper-authors">
+          <span class="me">H. Ahmed</span> · collaborators to be confirmed at submission
+        </div>
+        <div class="paper-venue">
+          <span class="accent">Manuscript</span> · target venue TBD · Bangladesh, 2022 — drafting
+        </div>
+
+        <div class="draft-callout" aria-label="Draft status">
+          <span class="tag">Status</span>
+          <em>Working system, unpublished manuscript.</em> The hardware is built and the dataset collected; the paper itself is waiting for a month of writing time. Target: submit to an IoT or smart-agriculture conference once the write-up is complete.
+        </div>
+
+        <div class="paper-body">
+          <div class="abstract-wrap">
+            <div class="abstract-label">Abstract</div>
+            <p class="abstract">
+              Soil is the most consequential variable in small-scale cultivation, and the one smallholder farmers have the least instrumentation for. We describe an <em>IoT-based soil-quality measurement and smart-agriculture analysis system</em> that samples soil parameters — <span class="accent">temperature, humidity, moisture, nitrogen, and rainfall</span> — through a cluster of low-cost sensors wired to an Arduino Nano and a Node MCU ESP8266, with data relayed upstream for analysis. The system provides an instant read of soil-element values to support the central decision in cultivation: whether a given parcel is eligible for a given crop this season. A smart monitoring system can produce that read; the instrument array here demonstrates it using a DHT11 sensor, a YL-69 soil-moisture probe, a 5V relay, and a rainfall-humidity sensor. Collected datasets are used to analyse soil fertility, surface crop weaknesses, and recommend which plants suit a given soil type. The contribution is the <em>parameter set</em> chosen for multi-sensor analysis and the practical arrangement that makes it deployable in the field.
+            </p>
+
+            <div class="keywords">
+              <strong style="color:var(--fg-tertiary); letter-spacing:var(--tracking-caps); text-transform:uppercase; font-weight:var(--fw-regular); margin-right: var(--sp-2)">Keywords</strong>
+              <span class="k">Cultivation</span>
+              <span class="k">Soil Quality</span>
+              <span class="k">Temp · Humidity</span>
+              <span class="k">IoT</span>
+              <span class="k">Nitrogen Detection</span>
+            </div>
+          </div>
+
+          <aside class="method">
+            <h4>Apparatus</h4>
+            <dl>
+              <dt>MCU</dt><dd>Arduino Nano<br/>Node MCU ESP8266</dd>
+              <dt>Sensors</dt><dd>DHT11 · temp + humidity<br/>YL-69 · soil moisture<br/>Rainfall / humidity probe<br/>Nitrogen sensor</dd>
+              <dt>Relay</dt><dd>5V relay module</dd>
+              <dt>Measured</dt><dd>Temperature · Humidity<br/>Soil moisture · Nitrogen<br/>Rainfall</dd>
+              <dt>Output</dt><dd>Crop-suitability decision<br/><span class="muted">per-parcel, per-season</span></dd>
+              <dt>Status</dt><dd><span class="accent">Built · collecting data</span></dd>
+            </dl>
+          </aside>
+
+          <!-- IoT topology — ASCII-style node diagram -->
+          <figure class="fig" style="grid-template-columns: 1fr" aria-labelledby="fig-42-cap">
+            <div class="chart">
+              <div class="fig-head">
+                <span>Fig. 4.2 — Sensor topology · field deployment</span>
+                <span class="accent">Arduino + ESP8266</span>
+              </div>
+<pre class="iot-diagram">      <span class="hi">┌──────────────────────────┐</span>
+      <span class="hi">│   FIELD  (per parcel)    │</span>
+      <span class="hi">└──────────────────────────┘</span>
+             │
+   ┌─────────┼─────────────────────┐
+   │         │         │           │
+ <span class="node">[DHT11]</span>  <span class="node">[YL-69]</span>   <span class="node">[N-SENSOR]</span>  <span class="node">[RAIN-HUM]</span>
+ temp+hum  soil       nitrogen    rainfall
+           moisture
+   │         │         │           │
+   └────┬────┴────┬────┴────┬──────┘
+        ▼         ▼         ▼
+       ┌────────────────────┐       ┌──────────────┐
+       │  <span class="hi">Arduino Nano</span>      │──5V──▶│  Relay 5V    │
+       └──────────┬─────────┘       └──────────────┘
+                  │ serial
+                  ▼
+       ┌────────────────────┐
+       │  <span class="hi">Node MCU ESP8266</span>  │──Wi-Fi──▶ cloud / log
+       └────────────────────┘
+                             ▼
+                    <span class="hi">analysis → crop-suitability</span></pre>
+            </div>
+            <figcaption id="fig-42-cap">Field-side sensor cluster reporting to an Arduino Nano, bridged by a Node MCU ESP8266 for upstream logging and analysis. Schematic; wiring detail omitted for clarity.</figcaption>
+          </figure>
+
+          <div class="paper-actions" style="grid-column: 1 / -1">
+            <span class="disabled"><span class="arr">→</span> Read paper (PDF)</span>
+            <span class="disabled"><span class="arr">→</span> DOI</span>
+            <a href="#" class="ink"><span class="arr">→</span> Hardware notes</a>
+            <a href="#" class="ink"><span class="arr">→</span> Request early draft</a>
+          </div>
+        </div>
+      </article>
+
+      <p class="footnote reveal" id="fn-4">
+        <span class="ref">³</span> The through-line between the two papers is narrow enough to be honest: both are attempts to give a farmer a <em>yes / no</em> on something they currently have to guess at. Computer vision for sick leaves; sensor arrays for tired soil. Different instruments, same question.
+      </p>
+
+    </div>
+
+    <div class="section-rule" data-end="§ 04 / End" style="grid-column: 1 / -1;"></div>
+
+  </section>
+
+</main>
+
+<script>
+  (function rev(){
+    try {
+      const d = new Date(document.lastModified || Date.now());
+      const u = d.getTime() + d.getTimezoneOffset()*60000;
+      const i = new Date(u + 6*3600*1000);
+      const p = n => String(n).padStart(2,'0');
+      const s = i.getUTCFullYear()+'-'+p(i.getUTCMonth()+1)+'-'+p(i.getUTCDate())+' '+p(i.getUTCHours())+':'+p(i.getUTCMinutes())+' ICT';
+      const el = document.getElementById('last-revised');
+      if (el) el.textContent = s;
+    } catch(_) {}
+  })();
+
+  (function reveal(){
+    const r = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = document.querySelectorAll('.reveal');
+    if (r) { els.forEach(e => e.classList.add('in')); return; }
+    els.forEach((e,i) => setTimeout(() => e.classList.add('in'), 80 + i*70));
+  })();
+
+  // BibTeX fold-out
+  (function cite(){
+    const btn = document.getElementById('cite-41');
+    const pre = document.getElementById('bib-41');
+    if (!btn || !pre) return;
+    btn.addEventListener('click', () => {
+      pre.classList.toggle('open');
+      if (pre.classList.contains('open')) {
+        try {
+          navigator.clipboard.writeText(pre.innerText);
+          const orig = btn.innerHTML;
+          btn.innerHTML = '<span class="arr">✓</span> Copied ('+pre.innerText.length+' bytes)';
+          setTimeout(() => btn.innerHTML = orig, 1800);
+        } catch(_) {}
+      }
+    });
+  })();
+</script>
+</body>
+</html>

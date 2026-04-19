@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hasan Ahmed — Field Manual — § 07 Commits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..800;1,8..60,300..700&family=JetBrains+Mono:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_field-manual.css">
+<style>
+/* ─── § 07 — COMMITS ─── */
+
+.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--rule-strong); background: var(--bg-elevated); margin-bottom: var(--sp-8); }
+.stat-cell { padding: var(--sp-5); border-right: 1px solid var(--rule-default); font-family: var(--font-mono); }
+.stat-cell:last-child { border-right: 0; }
+.stat-cell .lbl { font-size: var(--fs-mono-s); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-tertiary); margin-bottom: var(--sp-3); }
+.stat-cell .val { font-family: var(--font-serif); font-size: 42px; line-height: 1; color: var(--fg-primary); font-variation-settings: "opsz" 42; font-weight: var(--fw-regular); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.stat-cell .val .accent { color: var(--accent); }
+.stat-cell .unit { font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-secondary); margin-top: var(--sp-2); }
+.stat-cell .val.loading { color: var(--fg-tertiary); font-size: 24px; font-style: italic; font-family: var(--font-serif); }
+
+/* Heatmap */
+.heatmap-wrap { border: 1px solid var(--rule-strong); background: var(--bg-elevated); padding: var(--sp-5); margin-bottom: var(--sp-8); }
+.heatmap-head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: var(--sp-3); border-bottom: 1px solid var(--rule-default); margin-bottom: var(--sp-4); font-family: var(--font-mono); font-size: var(--fs-mono-s); letter-spacing: var(--tracking-caps); text-transform: uppercase; }
+.heatmap-head .t { color: var(--fg-primary); }
+.heatmap-head .sub { color: var(--fg-tertiary); }
+.heatmap-head .sub .n { color: var(--accent); font-variant-numeric: tabular-nums; }
+.heat-months { display: flex; gap: 3px; margin-left: 20px; font-size: 10px; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-tertiary); }
+.heat-grid { display: grid; grid-template-columns: 20px 1fr; gap: 6px; align-items: start; }
+.day-labels { display: grid; grid-template-rows: repeat(7, 11px); row-gap: 3px; font-size: 9px; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-tertiary); line-height: 11px; }
+.cells { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 11px); gap: 3px; }
+.cell { width: 11px; height: 11px; background: rgba(232,225,209,0.06); cursor: pointer; transition: transform var(--dur-quick) var(--ease-out-quart); }
+.cell:hover { transform: scale(1.35); outline: 1px solid var(--accent); }
+.cell.l0 { background: rgba(232,225,209,0.05); }
+.cell.l1 { background: rgba(200,57,28,0.22); }
+.cell.l2 { background: rgba(200,57,28,0.45); }
+.cell.l3 { background: rgba(200,57,28,0.70); }
+.cell.l4 { background: var(--accent); }
+.heatmap-legend { display: flex; justify-content: flex-end; align-items: center; gap: var(--sp-2); margin-top: var(--sp-4); font-family: var(--font-mono); font-size: 10px; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-tertiary); }
+.heatmap-legend .swatch { width: 11px; height: 11px; display: inline-block; }
+.hover-readout { font-family: var(--font-mono); font-size: var(--fs-mono-m); color: var(--fg-secondary); letter-spacing: var(--tracking-mono); padding-top: var(--sp-3); border-top: 1px dashed var(--rule-default); margin-top: var(--sp-3); min-height: 22px; }
+.hover-readout .accent { color: var(--accent); }
+.hover-readout em { font-family: var(--font-serif); font-style: italic; color: var(--fg-primary); font-size: 15px; }
+
+.two-col { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--sp-7); margin-bottom: var(--sp-8); }
+
+.col-head { font-family: var(--font-mono); font-size: var(--fs-mono-s); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-tertiary); padding-bottom: var(--sp-3); border-bottom: 2px solid var(--rule-strong); margin-bottom: var(--sp-4); display: flex; justify-content: space-between; align-items: baseline; }
+.col-head .t { color: var(--fg-primary); }
+.col-head .n { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+.gitlog { font-family: var(--font-mono); font-size: 13px; line-height: 1.55; letter-spacing: var(--tracking-mono); min-height: 200px; }
+.commit { padding: var(--sp-3) 0; border-bottom: 1px dashed var(--rule-faint); display: grid; grid-template-columns: 72px 1fr auto; gap: var(--sp-4); align-items: baseline; }
+.commit:last-child { border-bottom: 0; }
+.commit a.sha { color: var(--accent); font-variant-numeric: tabular-nums; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color var(--dur-default); }
+.commit a.sha:hover { border-color: var(--accent); }
+.commit .msg { color: var(--fg-primary); text-wrap: pretty; overflow: hidden; text-overflow: ellipsis; }
+.commit .ts { color: var(--fg-tertiary); font-size: 11px; letter-spacing: var(--tracking-caps); text-transform: uppercase; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.commit .repo-pill { grid-column: 2 / 3; font-size: 10px; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-tertiary); margin-top: 4px; display: flex; gap: var(--sp-2); align-items: baseline; }
+.commit .repo-pill a { color: var(--fg-secondary); text-decoration: none; border: 1px solid var(--rule-default); padding: 1px 5px; transition: all var(--dur-default); }
+.commit .repo-pill a:hover { color: var(--accent); border-color: var(--accent); }
+
+.loader { font-family: var(--font-serif); font-style: italic; color: var(--fg-tertiary); padding: var(--sp-5) 0; font-size: 15px; }
+.loader .dots::after { content: ""; animation: dots 1.2s infinite; }
+@keyframes dots { 0% { content: ""; } 33% { content: "."; } 66% { content: ".."; } 100% { content: "..."; } }
+.err { font-family: var(--font-mono); font-size: var(--fs-mono-m); color: var(--accent); padding: var(--sp-4) 0; }
+.err em { font-family: var(--font-serif); font-style: italic; color: var(--fg-secondary); }
+
+.repo-bar { display: grid; grid-template-columns: 160px 1fr 60px; gap: var(--sp-3); align-items: center; padding: var(--sp-3) 0; border-bottom: 1px dashed var(--rule-faint); font-family: var(--font-mono); font-size: var(--fs-mono-m); }
+.repo-bar:last-child { border-bottom: 0; }
+.repo-bar .name { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.repo-bar .name a { color: var(--fg-primary); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color var(--dur-default); letter-spacing: var(--tracking-mono); }
+.repo-bar .name a:hover { border-color: var(--accent); color: var(--accent); }
+.repo-bar .bar { height: 10px; background: rgba(232,225,209,0.04); position: relative; overflow: hidden; }
+.repo-bar .bar .fill { position: absolute; inset: 0; width: 0%; background: var(--accent); transition: width 1200ms var(--ease-out-expo); }
+.repo-bar .count { color: var(--fg-secondary); text-align: right; font-variant-numeric: tabular-nums; letter-spacing: var(--tracking-mono); }
+.repo-bar .count .accent { color: var(--accent); }
+
+.private-tile { margin-top: var(--sp-4); padding: var(--sp-5); border: 1px solid var(--rule-default); border-left: 3px solid var(--accent); background: var(--bg-inset); font-family: var(--font-serif); font-size: 15px; line-height: 1.6; color: var(--fg-secondary); }
+.private-tile .tag { font-family: var(--font-mono); font-size: var(--fs-mono-s); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--accent); display: block; margin-bottom: var(--sp-3); }
+.private-tile em { font-style: italic; color: var(--fg-primary); }
+.private-tile strong { font-weight: var(--fw-semibold); color: var(--fg-primary); }
+.private-tile .clients { font-family: var(--font-mono); font-size: var(--fs-mono-m); color: var(--fg-primary); letter-spacing: var(--tracking-mono); margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px dashed var(--rule-default); }
+.private-tile .clients .c { color: var(--accent); }
+
+.profile-card { display: grid; grid-template-columns: auto 1fr auto; gap: var(--sp-5); align-items: center; padding: var(--sp-4) var(--sp-5); border: 1px solid var(--rule-default); background: var(--bg-elevated); margin-bottom: var(--sp-6); }
+.profile-card .avatar { width: 56px; height: 56px; border: 1px solid var(--rule-default); background: var(--bg-inset); object-fit: cover; }
+.profile-card .meta { font-family: var(--font-mono); font-size: var(--fs-mono-m); color: var(--fg-secondary); letter-spacing: var(--tracking-mono); line-height: 1.6; }
+.profile-card .meta .name { color: var(--fg-primary); font-size: 15px; }
+.profile-card .meta .handle { color: var(--fg-tertiary); }
+.profile-card .meta .handle a { color: var(--fg-secondary); text-decoration: none; border-bottom: 1px solid transparent; }
+.profile-card .meta .handle a:hover { color: var(--accent); border-color: var(--accent); }
+.profile-card .stats { font-family: var(--font-mono); font-size: var(--fs-mono-s); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--fg-tertiary); text-align: right; line-height: 1.6; }
+.profile-card .stats .n { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 980px) {
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .stat-cell { border-right: 0; border-bottom: 1px solid var(--rule-default); }
+  .stat-cell:nth-child(odd) { border-right: 1px solid var(--rule-default); }
+  .two-col { grid-template-columns: 1fr; gap: var(--sp-6); }
+  .heat-grid { grid-template-columns: 1fr; }
+  .day-labels { display: none; }
+  .stat-cell .val { font-size: 32px; }
+  .commit { grid-template-columns: 60px 1fr; }
+  .commit .ts { grid-column: 1 / -1; margin-top: 2px; }
+  .repo-bar { grid-template-columns: 1fr; gap: 4px; }
+  .profile-card { grid-template-columns: auto 1fr; }
+  .profile-card .stats { grid-column: 1 / -1; text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-left"><a href="index.html">Hasan Ahmed &nbsp;/&nbsp; Field Manual &nbsp;/&nbsp; Vol. 01</a></div>
+    <div class="masthead-center"><span class="sigil">§</span><span>07 — Commits</span></div>
+    <div class="masthead-right">
+      <span class="pulse"></span>
+      <span class="label">Last revised</span>
+      <span id="last-revised">—</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-rail" aria-label="Section index">
+  <a href="index.html"><span class="num">01</span><span class="lbl">Opening</span></a>
+  <a href="About.html"><span class="num">02</span><span class="lbl">About</span></a>
+  <a href="Work.html"><span class="num">03</span><span class="lbl">Work</span></a>
+  <a href="Research.html"><span class="num">04</span><span class="lbl">Research</span></a>
+  <a href="Now.html"><span class="num">05</span><span class="lbl">Now</span></a>
+  <a href="Notes.html"><span class="num">06</span><span class="lbl">Notes</span></a>
+  <a href="Commits.html" class="active"><span class="num">07</span><span class="lbl">Commits</span></a>
+  <a href="#"><span class="num">08</span><span class="lbl">Education</span></a>
+  <a href="#"><span class="num">09</span><span class="lbl">Colophon</span></a>
+</nav>
+
+<main class="page">
+
+  <section id="s07" class="section" aria-labelledby="s07-heading">
+
+    <aside class="marginalia reveal">
+      <div class="block"><span class="key">Entry</span><span class="val">§ 07 — Commits</span></div>
+      <div class="block"><span class="key">Source</span><span class="val">Live from<br/><em>github.com/hasan75</em></span></div>
+      <div class="block"><span class="key">Window</span><span class="val">Last 365 days</span></div>
+      <div class="block"><span class="key">Visibility</span><span class="val"><span style="color:var(--accent)">●</span> Public GitHub only<br/>Private client work summarised below.</span></div>
+      <div class="block"><span class="key">See also</span><span class="val">§ 03 Work<br/>§ 05 Now</span></div>
+    </aside>
+
+    <div class="body">
+
+      <div class="dateline reveal">
+        <span class="hair"></span>
+        <span>Dhaka &nbsp;—&nbsp; <span class="accent">Entry § 07</span> &nbsp;—&nbsp; Public activity · pulled live from GitHub</span>
+      </div>
+
+      <div class="section-heading reveal">
+        <div class="tag"><span class="sigil">§</span> 07 — Commits &nbsp;<span class="hair"></span></div>
+        <h2 id="s07-heading">Public GitHub activity, fetched live. Private client work summarised, not shown.</h2>
+      </div>
+
+      <p class="prose reveal" style="max-width:64ch; margin-bottom:var(--sp-6)">
+        Everything below this paragraph is pulled from <em>github.com/hasan75</em> when the page loads. Nothing is hardcoded. The public profile does not represent most of the hours I work — most of my time is on <em>private repositories</em> at Apple and AccTech, and those will never show here. A separate tile below names them so the gap is honest, not hidden.
+      </p>
+
+      <!-- Profile card -->
+      <div class="profile-card reveal" id="profile-card">
+        <div class="avatar" id="gh-avatar" style="background: var(--bg-inset)"></div>
+        <div class="meta">
+          <div class="name" id="gh-name">Loading profile…</div>
+          <div class="handle">@<a href="https://github.com/hasan75" target="_blank" rel="noopener">hasan75</a> &nbsp;·&nbsp; <span id="gh-bio">—</span></div>
+        </div>
+        <div class="stats">
+          <div><span class="n" id="gh-repos">—</span> &nbsp; public repos</div>
+          <div><span class="n" id="gh-followers">—</span> &nbsp; followers</div>
+        </div>
+      </div>
+
+      <!-- Stat row -->
+      <div class="stat-row reveal" aria-label="Activity summary">
+        <div class="stat-cell">
+          <div class="lbl">Public commits · 365d</div>
+          <div class="val loading" id="stat-commits">fetching<span class="dots"></span></div>
+          <div class="unit" id="stat-commits-unit">from contribution graph</div>
+        </div>
+        <div class="stat-cell">
+          <div class="lbl">Longest streak</div>
+          <div class="val loading" id="stat-streak">fetching<span class="dots"></span></div>
+          <div class="unit">consecutive days · public</div>
+        </div>
+        <div class="stat-cell">
+          <div class="lbl">Busiest day</div>
+          <div class="val loading" id="stat-busy">fetching<span class="dots"></span></div>
+          <div class="unit" id="stat-busy-unit">commits on one day</div>
+        </div>
+        <div class="stat-cell">
+          <div class="lbl">Public repos</div>
+          <div class="val loading" id="stat-repos">fetching<span class="dots"></span></div>
+          <div class="unit">visible on GitHub</div>
+        </div>
+      </div>
+
+      <!-- Heatmap -->
+      <div class="heatmap-wrap reveal" aria-label="Contribution heatmap">
+        <div class="heatmap-head">
+          <span class="t">Contribution heatmap &nbsp;—&nbsp; public, last 365 days</span>
+          <span class="sub">Source <span class="n">github.com/hasan75</span></span>
+        </div>
+
+        <div class="heat-months" id="heat-months" aria-hidden="true"></div>
+
+        <div class="heat-grid">
+          <div class="day-labels">
+            <span>Mon</span><span></span><span>Wed</span><span></span><span>Fri</span><span></span><span>Sun</span>
+          </div>
+          <div class="cells" id="cells" role="img" aria-label="GitHub-style activity heatmap">
+            <div class="loader" style="grid-column: 1 / -1">Fetching contribution graph<span class="dots"></span></div>
+          </div>
+        </div>
+
+        <div class="heatmap-legend" aria-hidden="true">
+          <span>Less</span>
+          <span class="swatch cell l0"></span>
+          <span class="swatch cell l1"></span>
+          <span class="swatch cell l2"></span>
+          <span class="swatch cell l3"></span>
+          <span class="swatch cell l4"></span>
+          <span>More</span>
+        </div>
+
+        <div class="hover-readout" id="readout">
+          <em>Hover a cell</em> — readout appears here.
+        </div>
+      </div>
+
+      <!-- Two-column: live commits + repos -->
+      <div class="two-col reveal">
+        <div>
+          <div class="col-head">
+            <span class="t">Recent public commits</span>
+            <span><span class="n" id="commit-count">—</span> shown</span>
+          </div>
+          <div class="gitlog" id="commit-log">
+            <div class="loader">Fetching recent commits from public repos<span class="dots"></span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="col-head">
+            <span class="t">Public repos · by recent activity</span>
+            <span><span class="n" id="repo-count">—</span> shown</span>
+          </div>
+          <div class="repo-list" id="repo-list">
+            <div class="loader">Fetching repositories<span class="dots"></span></div>
+          </div>
+
+          <div class="private-tile">
+            <span class="tag">What's not on this page</span>
+            <em>Most of my weekly commits live behind NDAs and never reach this profile.</em>
+            Full-time contract work on internal Nuxt 3 / Nuxt 4 applications, component libraries, payroll systems, and embeddable widgets. <strong>The public graph under-represents the job</strong> — details in <a href="Work.html" style="color:var(--accent); text-decoration:none; border-bottom: 1px solid var(--accent)">§ 03 Work</a>.
+            <div class="clients">
+              <span style="color:var(--fg-tertiary); letter-spacing:var(--tracking-caps); text-transform:uppercase; font-size:10px">Clients (private)</span><br/>
+              <span class="c">Apple</span> &nbsp;·&nbsp; <span class="c">AccTech LLC</span> &nbsp;·&nbsp; Softzino Technologies
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="footnote reveal" id="fn-7" style="margin-top: var(--sp-7)">
+        <span class="ref">⁶</span> Data is pulled from GitHub's public REST API and contribution graph at page load. Cached in your browser for 30 minutes to respect rate limits. Anything I don't know, I don't display.
+      </p>
+
+    </div>
+
+    <div class="section-rule" data-end="§ 07 / End" style="grid-column: 1 / -1;"></div>
+
+  </section>
+
+</main>
+
+<script>
+  // ===========================================================
+  //  § 07 — Commits · live fetch from github.com/hasan75
+  // ===========================================================
+  const USER = 'hasan75';
+  const CACHE_KEY = 'fm.commits.v1.' + USER;
+  const CACHE_TTL_MS = 30 * 60 * 1000; // 30 min
+
+  // Last-revised
+  (function rev(){
+    try {
+      const d = new Date(document.lastModified || Date.now());
+      const u = d.getTime() + d.getTimezoneOffset()*60000;
+      const i = new Date(u + 6*3600*1000);
+      const p = n => String(n).padStart(2,'0');
+      const s = i.getUTCFullYear()+'-'+p(i.getUTCMonth()+1)+'-'+p(i.getUTCDate())+' '+p(i.getUTCHours())+':'+p(i.getUTCMinutes())+' ICT';
+      const el = document.getElementById('last-revised');
+      if (el) el.textContent = s;
+    } catch(_) {}
+  })();
+
+  // Reveal
+  (function reveal(){
+    const r = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = document.querySelectorAll('.reveal');
+    if (r) { els.forEach(e => e.classList.add('in')); return; }
+    els.forEach((e,i) => setTimeout(() => e.classList.add('in'), 60 + i*60));
+  })();
+
+  // ----- Cache helpers
+  function readCache() {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const obj = JSON.parse(raw);
+      if (Date.now() - obj.t > CACHE_TTL_MS) return null;
+      return obj.d;
+    } catch(_) { return null; }
+  }
+  function writeCache(d) {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ t: Date.now(), d })); } catch(_) {}
+  }
+
+  // ----- Fetch helpers
+  async function fetchJSON(url) {
+    const r = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } });
+    if (!r.ok) throw new Error('HTTP ' + r.status + ' · ' + url);
+    return r.json();
+  }
+
+  // Fetch the GitHub contribution SVG via a public proxy (CORS-safe),
+  // fall back to mocked "no data" state if unavailable.
+  async function fetchContributions(user) {
+    const sources = [
+      `https://github-contributions-api.jogruber.de/v4/${user}?y=last`,
+    ];
+    for (const u of sources) {
+      try {
+        const r = await fetch(u);
+        if (!r.ok) continue;
+        const j = await r.json();
+        if (j && Array.isArray(j.contributions)) return j;
+      } catch(_) {}
+    }
+    return null;
+  }
+
+  // ----- Render: profile
+  function renderProfile(p) {
+    document.getElementById('gh-name').textContent = p.name || p.login;
+    document.getElementById('gh-bio').textContent = p.bio || 'Software engineer · Dhaka';
+    document.getElementById('gh-repos').textContent = p.public_repos;
+    document.getElementById('gh-followers').textContent = p.followers;
+    const av = document.getElementById('gh-avatar');
+    if (p.avatar_url) {
+      const img = document.createElement('img');
+      img.src = p.avatar_url;
+      img.alt = p.login;
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+      av.innerHTML = '';
+      av.appendChild(img);
+    }
+  }
+
+  // ----- Render: heatmap from contributions API
+  function renderHeatmap(contribData) {
+    const cells = document.getElementById('cells');
+    const monthRow = document.getElementById('heat-months');
+    const readout = document.getElementById('readout');
+    cells.innerHTML = '';
+
+    if (!contribData || !contribData.contributions) {
+      cells.innerHTML = '<div class="err" style="grid-column: 1 / -1">Could not fetch contribution graph. <em>Check github.com/hasan75 directly.</em></div>';
+      return { total: 0, max: 0, streak: 0, busyDay: null };
+    }
+
+    // Contributions come back as an array of { date, count }
+    // Normalize to last 53 weeks ending today (Sunday-week alignment, which is GitHub's layout)
+    const all = contribData.contributions.slice(); // already chronological oldest→newest
+    const byDate = new Map(all.map(c => [c.date, c.count]));
+
+    const WEEKS = 53;
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    // Find the Sunday on or before today
+    const end = new Date(today);
+    while (end.getDay() !== 6) end.setDate(end.getDate() + 1); // advance to Saturday (GitHub weeks end Sat)
+    const start = new Date(end);
+    start.setDate(start.getDate() - (WEEKS * 7 - 1));
+    // Align start to Sunday
+    while (start.getDay() !== 0) start.setDate(start.getDate() - 1);
+
+    // Compute max for scaling
+    let max = 0;
+    for (let i = 0; i < WEEKS * 7; i++) {
+      const d = new Date(start); d.setDate(d.getDate() + i);
+      const k = d.toISOString().slice(0,10);
+      const c = byDate.get(k) || 0;
+      if (c > max) max = c;
+    }
+
+    function levelFor(n) {
+      if (!n) return 0;
+      const r = n / Math.max(1, max);
+      if (r < 0.25) return 1;
+      if (r < 0.5) return 2;
+      if (r < 0.75) return 3;
+      return 4;
+    }
+
+    // Month labels — one per ~4 weeks
+    const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    let monthHtml = '';
+    let lastMonth = -1;
+    for (let w = 0; w < WEEKS; w += 4) {
+      const d = new Date(start); d.setDate(d.getDate() + w * 7);
+      const m = d.getMonth();
+      monthHtml += `<span style="width: calc(4 * 11px + 3 * 3px + 3px)">${m !== lastMonth ? MONTHS[m] : ''}</span>`;
+      lastMonth = m;
+    }
+    monthRow.innerHTML = monthHtml;
+
+    // Build cells column-major (GitHub layout: columns = weeks, rows = Sun..Sat)
+    const DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    const frag = document.createDocumentFragment();
+    let total = 0, streak = 0, curStreak = 0, busyDay = { date: null, count: 0 };
+
+    // Iterate chronologically across the grid: week then day
+    for (let w = 0; w < WEEKS; w++) {
+      for (let d = 0; d < 7; d++) {
+        const dt = new Date(start);
+        dt.setDate(dt.getDate() + w * 7 + d);
+        const k = dt.toISOString().slice(0,10);
+        const n = byDate.get(k) || 0;
+
+        if (dt > today) {
+          const el = document.createElement('div');
+          el.className = 'cell l0';
+          el.style.visibility = 'hidden';
+          frag.appendChild(el);
+          continue;
+        }
+
+        total += n;
+        if (n > 0) { curStreak++; if (curStreak > streak) streak = curStreak; }
+        else { curStreak = 0; }
+        if (n > busyDay.count) busyDay = { date: k, count: n };
+
+        const el = document.createElement('div');
+        el.className = 'cell l' + levelFor(n);
+        el.dataset.date = k;
+        el.dataset.day = DAYS[dt.getDay()];
+        el.dataset.commits = n;
+        frag.appendChild(el);
+      }
+    }
+    cells.appendChild(frag);
+
+    // Hover readout
+    cells.addEventListener('mouseover', e => {
+      const c = e.target.closest('.cell');
+      if (!c || !c.dataset.date) return;
+      const n = c.dataset.commits;
+      const d = c.dataset.date;
+      const day = c.dataset.day;
+      readout.innerHTML = `<em>${day}, ${d}</em> &nbsp;—&nbsp; <span class="accent">${n}</span> contributions &nbsp;·&nbsp; <span style="color:var(--fg-tertiary)">${n == 0 ? 'quiet' : n < 3 ? 'light' : n < 8 ? 'steady' : 'heavy'}</span>`;
+    });
+    cells.addEventListener('mouseleave', () => {
+      readout.innerHTML = '<em>Hover a cell</em> — readout appears here.';
+    });
+
+    return { total, max, streak, busyDay };
+  }
+
+  // ----- Render: stats
+  function renderStats(summary) {
+    const cEl = document.getElementById('stat-commits');
+    const sEl = document.getElementById('stat-streak');
+    const bEl = document.getElementById('stat-busy');
+    const rEl = document.getElementById('stat-repos');
+    const bUnit = document.getElementById('stat-busy-unit');
+
+    cEl.classList.remove('loading');
+    sEl.classList.remove('loading');
+    bEl.classList.remove('loading');
+    rEl.classList.remove('loading');
+
+    cEl.textContent = summary.total.toLocaleString();
+    sEl.innerHTML = `<span class="accent">${summary.streak}</span>`;
+    bEl.textContent = summary.busyDay?.count || 0;
+    if (summary.busyDay?.date) bUnit.textContent = summary.busyDay.date + ' · one day';
+    rEl.textContent = summary.publicRepos;
+  }
+
+  // ----- Render: commit log from events
+  function renderCommits(events) {
+    const el = document.getElementById('commit-log');
+    const pushEvents = events.filter(e => e.type === 'PushEvent');
+    // Flatten commits, newest first
+    const commits = [];
+    for (const ev of pushEvents) {
+      for (const c of (ev.payload?.commits || []).slice().reverse()) {
+        commits.push({
+          sha: c.sha.slice(0, 7),
+          msg: c.message.split('\n')[0],
+          repo: ev.repo.name,
+          ts: ev.created_at,
+          url: `https://github.com/${ev.repo.name}/commit/${c.sha}`,
+          repoUrl: `https://github.com/${ev.repo.name}`,
+        });
+      }
+    }
+    const limit = 14;
+    const shown = commits.slice(0, limit);
+
+    if (shown.length === 0) {
+      el.innerHTML = '<div class="err"><em>No recent public push events found.</em> Activity may live in private repos — see the tile on the right.</div>';
+      document.getElementById('commit-count').textContent = '0';
+      return;
+    }
+
+    document.getElementById('commit-count').textContent = shown.length;
+
+    el.innerHTML = shown.map(c => {
+      const d = new Date(c.ts);
+      const ts = d.toISOString().slice(0,16).replace('T', ' · ');
+      return `
+        <div class="commit">
+          <a class="sha" href="${c.url}" target="_blank" rel="noopener">${c.sha}</a>
+          <span class="msg">${escapeHtml(c.msg)}</span>
+          <span class="ts">${ts}</span>
+          <span class="repo-pill"><a href="${c.repoUrl}" target="_blank" rel="noopener">${c.repo}</a></span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ----- Render: repos
+  function renderRepos(repos) {
+    const el = document.getElementById('repo-list');
+    const active = repos
+      .filter(r => !r.fork && !r.archived)
+      .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))
+      .slice(0, 10);
+
+    if (active.length === 0) {
+      el.innerHTML = '<div class="err"><em>No active public repos returned.</em></div>';
+      return;
+    }
+
+    document.getElementById('repo-count').textContent = active.length;
+
+    const maxSize = Math.max(...active.map(r => r.size || 1));
+    el.innerHTML = active.map(r => {
+      const pct = Math.max(4, Math.round(((r.size || 1) / maxSize) * 100));
+      const accent = (r === active[0]);
+      return `
+        <div class="repo-bar">
+          <span class="name"><a href="${r.html_url}" target="_blank" rel="noopener">${escapeHtml(r.name)}</a></span>
+          <span class="bar"><span class="fill" style="width:${pct}%; ${accent ? '' : 'background:var(--accent-quiet)'}"></span></span>
+          <span class="count">${accent ? '<span class="accent">' + (r.stargazers_count || 0) + '</span>' : (r.stargazers_count || 0)} <span style="color:var(--fg-tertiary); font-size: 9px; letter-spacing: var(--tracking-caps)">★</span></span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  // ----- Main
+  (async function main(){
+    // Try cache first
+    let cached = readCache();
+    if (cached) {
+      renderProfile(cached.profile);
+      renderCommits(cached.events);
+      renderRepos(cached.repos);
+      const summary = renderHeatmap(cached.contrib);
+      renderStats({ ...summary, publicRepos: cached.profile.public_repos });
+      return;
+    }
+
+    try {
+      const [profile, events, repos, contrib] = await Promise.all([
+        fetchJSON(`https://api.github.com/users/${USER}`),
+        fetchJSON(`https://api.github.com/users/${USER}/events/public?per_page=100`),
+        fetchJSON(`https://api.github.com/users/${USER}/repos?per_page=100&sort=pushed`),
+        fetchContributions(USER),
+      ]);
+
+      renderProfile(profile);
+      renderCommits(events);
+      renderRepos(repos);
+      const summary = renderHeatmap(contrib);
+      renderStats({ ...summary, publicRepos: profile.public_repos });
+
+      writeCache({ profile, events, repos, contrib });
+    } catch (err) {
+      console.error(err);
+      document.getElementById('commit-log').innerHTML = `<div class="err">Could not reach GitHub. <em>${escapeHtml(err.message)}</em></div>`;
+      document.getElementById('repo-list').innerHTML = `<div class="err"><em>No data — GitHub API unreachable.</em></div>`;
+      document.getElementById('cells').innerHTML = `<div class="err" style="grid-column: 1 / -1"><em>Heatmap unavailable.</em></div>`;
+      ['stat-commits','stat-streak','stat-busy','stat-repos'].forEach(id => {
+        const el = document.getElementById(id);
+        el.classList.remove('loading');
+        el.textContent = '—';
+      });
+    }
+  })();
+</script>
+</body>
+</html>

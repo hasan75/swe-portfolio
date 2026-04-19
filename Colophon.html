@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hasan Ahmed — Field Manual — § 09 Colophon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..800;1,8..60,300..700&family=JetBrains+Mono:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_field-manual.css">
+<style>
+/* ─── § 09 — COLOPHON ─── */
+
+.colophon-lead {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 48;
+  font-size: 32px;
+  line-height: 1.35;
+  color: var(--fg-primary);
+  max-width: 52ch;
+  margin-bottom: var(--sp-7);
+  font-weight: var(--fw-regular);
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+.colophon-lead em { font-style: italic; color: var(--accent); }
+
+/* Specimen grid — typography */
+.specimen-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule-default);
+  border: 1px solid var(--rule-strong);
+  margin-bottom: var(--sp-8);
+}
+.specimen {
+  background: var(--bg-elevated);
+  padding: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+}
+.specimen .tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px dashed var(--rule-default);
+}
+.specimen .tag .role { color: var(--accent); }
+.specimen .sample-big {
+  font-size: 88px;
+  line-height: 0.95;
+  color: var(--fg-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--sp-4);
+  font-variation-settings: "opsz" 88;
+}
+.specimen .sample-serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+.specimen .sample-serif.italic {
+  font-style: italic;
+  font-family: var(--font-serif);
+  color: var(--accent);
+}
+.specimen .sample-mono {
+  font-family: var(--font-mono);
+  font-size: 52px;
+  letter-spacing: 0;
+}
+.specimen .meta {
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  color: var(--fg-secondary);
+  letter-spacing: var(--tracking-mono);
+  line-height: 1.7;
+  padding-top: var(--sp-4);
+  border-top: 1px dashed var(--rule-default);
+}
+.specimen .meta .k { color: var(--fg-tertiary); text-transform: uppercase; font-size: 10px; letter-spacing: var(--tracking-caps); }
+
+/* Color plates */
+.plates {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border: 1px solid var(--rule-strong);
+  margin-bottom: var(--sp-8);
+  background: var(--rule-default);
+  gap: 1px;
+}
+.plate {
+  padding: var(--sp-5);
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+.plate .swatch {
+  width: 48px; height: 48px;
+  border: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: var(--sp-4);
+}
+.plate .name {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--fg-primary);
+  line-height: 1.3;
+  margin-bottom: var(--sp-3);
+  font-variation-settings: "opsz" 16;
+}
+.plate .hex {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-secondary);
+  text-transform: lowercase;
+  line-height: 1.6;
+}
+.plate .hex .k { color: var(--fg-tertiary); text-transform: uppercase; letter-spacing: var(--tracking-caps); font-size: 9px; margin-right: 4px; }
+
+/* Principles list */
+.principles {
+  display: grid;
+  gap: 1px;
+  background: var(--rule-default);
+  border: 1px solid var(--rule-strong);
+  margin-bottom: var(--sp-8);
+}
+.principle {
+  background: var(--bg-elevated);
+  padding: var(--sp-5) var(--sp-6);
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: var(--sp-5);
+  align-items: baseline;
+}
+.principle .num {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-mono);
+  line-height: 1;
+}
+.principle h3 {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 24;
+  font-size: 24px;
+  color: var(--fg-primary);
+  line-height: 1.25;
+  margin-bottom: var(--sp-3);
+  font-weight: var(--fw-regular);
+  letter-spacing: -0.01em;
+}
+.principle h3 em { font-style: italic; color: var(--accent); }
+.principle p {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--fg-secondary);
+  line-height: 1.6;
+  max-width: 64ch;
+  text-wrap: pretty;
+}
+
+/* Build ledger */
+.ledger {
+  border: 1px solid var(--rule-strong);
+  background: var(--bg-elevated);
+  margin-bottom: var(--sp-8);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  letter-spacing: var(--tracking-mono);
+}
+.ledger-head {
+  display: grid;
+  grid-template-columns: 140px 1fr 120px;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-5);
+  border-bottom: 2px solid var(--rule-strong);
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  background: var(--bg-inset);
+}
+.ledger-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 120px;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-5);
+  border-bottom: 1px dashed var(--rule-faint);
+  align-items: baseline;
+}
+.ledger-row:last-child { border-bottom: 0; }
+.ledger-row .layer { color: var(--accent); }
+.ledger-row .tool { color: var(--fg-primary); }
+.ledger-row .tool em { font-style: italic; color: var(--fg-secondary); font-family: var(--font-serif); font-size: 14px; }
+.ledger-row .ver { color: var(--fg-tertiary); font-variant-numeric: tabular-nums; text-align: right; }
+
+/* Index / section grid */
+.index-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule-default);
+  border: 1px solid var(--rule-strong);
+  margin-bottom: var(--sp-8);
+}
+.index-card {
+  background: var(--bg-elevated);
+  padding: var(--sp-5);
+  text-decoration: none;
+  display: block;
+  min-height: 140px;
+  transition: background var(--dur-default);
+  color: inherit;
+  position: relative;
+}
+.index-card:hover {
+  background: var(--bg-inset);
+}
+.index-card .num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-caps);
+  color: var(--accent);
+  display: block;
+  margin-bottom: var(--sp-2);
+}
+.index-card .t {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 24;
+  font-size: 22px;
+  color: var(--fg-primary);
+  line-height: 1.25;
+  margin-bottom: var(--sp-3);
+  letter-spacing: -0.005em;
+}
+.index-card .t em { font-style: italic; color: var(--accent); }
+.index-card .desc {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-tertiary);
+  line-height: 1.6;
+}
+.index-card .arrow {
+  position: absolute;
+  right: var(--sp-4);
+  bottom: var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--fg-tertiary);
+  transition: color var(--dur-default), transform var(--dur-default);
+}
+.index-card:hover .arrow {
+  color: var(--accent);
+  transform: translateX(4px);
+}
+
+/* Contact block */
+.contact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule-default);
+  border: 1px solid var(--rule-strong);
+  margin-bottom: var(--sp-7);
+}
+.contact-cell {
+  background: var(--bg-elevated);
+  padding: var(--sp-6);
+}
+.contact-cell .k {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-3);
+}
+.contact-cell .v {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 28;
+  font-size: 26px;
+  color: var(--fg-primary);
+  line-height: 1.3;
+  margin-bottom: var(--sp-3);
+  letter-spacing: -0.005em;
+}
+.contact-cell .v a { color: var(--fg-primary); text-decoration: none; border-bottom: 1px solid var(--rule-default); transition: border-color var(--dur-default), color var(--dur-default); }
+.contact-cell .v a:hover { color: var(--accent); border-color: var(--accent); }
+.contact-cell .hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-secondary);
+  line-height: 1.6;
+}
+
+/* Big sign-off */
+.signoff {
+  border-top: 2px solid var(--rule-strong);
+  border-bottom: 2px solid var(--rule-strong);
+  padding: var(--sp-8) 0;
+  margin: var(--sp-8) 0 var(--sp-7);
+  text-align: center;
+  position: relative;
+}
+.signoff::before, .signoff::after {
+  content: "";
+  position: absolute; left: 0; right: 0;
+  height: 1px;
+  background: var(--rule-default);
+}
+.signoff::before { top: 6px; }
+.signoff::after { bottom: 6px; }
+.signoff .mono-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-4);
+}
+.signoff .mark {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 96;
+  font-size: 72px;
+  line-height: 1;
+  color: var(--fg-primary);
+  font-style: italic;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--sp-4);
+}
+.signoff .mark em { color: var(--accent); }
+.signoff .date {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-secondary);
+}
+.signoff .date .accent { color: var(--accent); }
+
+.end-slug {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  text-align: center;
+  padding: var(--sp-4) 0;
+}
+.end-slug .diamond { color: var(--accent); margin: 0 var(--sp-3); }
+
+@media (max-width: 980px) {
+  .colophon-lead { font-size: 22px; }
+  .specimen-grid { grid-template-columns: 1fr; }
+  .specimen .sample-big { font-size: 56px; }
+  .specimen .sample-mono { font-size: 36px; }
+  .plates { grid-template-columns: 1fr 1fr; }
+  .principle { grid-template-columns: 1fr; gap: var(--sp-3); }
+  .principle .num { font-size: 20px; }
+  .principle h3 { font-size: 20px; }
+  .ledger-head, .ledger-row { grid-template-columns: 1fr; gap: 4px; }
+  .ledger-row .ver { text-align: left; }
+  .index-grid { grid-template-columns: 1fr; }
+  .contact { grid-template-columns: 1fr; }
+  .signoff .mark { font-size: 44px; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-left"><a href="index.html">Hasan Ahmed &nbsp;/&nbsp; Field Manual &nbsp;/&nbsp; Vol. 01</a></div>
+    <div class="masthead-center"><span class="sigil">§</span><span>09 — Colophon</span></div>
+    <div class="masthead-right">
+      <span class="pulse"></span>
+      <span class="label">Last revised</span>
+      <span id="last-revised">—</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-rail" aria-label="Section index">
+  <a href="index.html"><span class="num">01</span><span class="lbl">Opening</span></a>
+  <a href="About.html"><span class="num">02</span><span class="lbl">About</span></a>
+  <a href="Work.html"><span class="num">03</span><span class="lbl">Work</span></a>
+  <a href="Research.html"><span class="num">04</span><span class="lbl">Research</span></a>
+  <a href="Now.html"><span class="num">05</span><span class="lbl">Now</span></a>
+  <a href="Notes.html"><span class="num">06</span><span class="lbl">Notes</span></a>
+  <a href="Commits.html"><span class="num">07</span><span class="lbl">Commits</span></a>
+  <a href="Education.html"><span class="num">08</span><span class="lbl">Education</span></a>
+  <a href="Colophon.html" class="active"><span class="num">09</span><span class="lbl">Colophon</span></a>
+</nav>
+
+<main class="page">
+
+  <section id="s09" class="section" aria-labelledby="s09-heading">
+
+    <aside class="marginalia reveal">
+      <div class="block"><span class="key">Entry</span><span class="val">§ 09 — Colophon</span></div>
+      <div class="block"><span class="key">Purpose</span><span class="val">How this manual was set. &amp; how to reach me.</span></div>
+      <div class="block"><span class="key">Set in</span><span class="val">Source Serif 4<br/>JetBrains Mono</span></div>
+      <div class="block"><span class="key">Built with</span><span class="val">HTML · CSS<br/>No framework</span></div>
+      <div class="block"><span class="key">See also</span><span class="val">All prior sections</span></div>
+    </aside>
+
+    <div class="body">
+
+      <div class="dateline reveal">
+        <span class="hair"></span>
+        <span>Dhaka &nbsp;—&nbsp; <span class="accent">Entry § 09</span> &nbsp;—&nbsp; How the manual was set, and where to find me after you close it</span>
+      </div>
+
+      <div class="section-heading reveal">
+        <div class="tag"><span class="sigil">§</span> 09 — Colophon &nbsp;<span class="hair"></span></div>
+        <h2 id="s09-heading">On the typography, the palette, the principles, and the single email address at the bottom.</h2>
+      </div>
+
+      <p class="colophon-lead reveal">
+        This manual was set as a deliberate counter-statement to the typical "portfolio website." No hero gradient, no autoplay video, no <em>availability orb</em>. A reader's tool, not a showreel.
+      </p>
+
+      <!-- Typography specimens -->
+      <div class="specimen-grid reveal" aria-label="Typography specimens">
+        <div class="specimen">
+          <div class="tag"><span>Source Serif 4</span><span class="role">Body · headings</span></div>
+          <div class="sample-big sample-serif">Aa</div>
+          <div class="sample-big sample-serif italic" style="font-size: 56px; margin-bottom: var(--sp-5);">Italics for emphasis</div>
+          <div class="meta">
+            <span class="k">Designer</span> Frank Grießhammer · Adobe Originals<br/>
+            <span class="k">Uses</span> Running prose, section headings, transcript<br/>
+            <span class="k">Optical</span> <code>font-variation-settings: "opsz" 8–60</code>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <div class="tag"><span>JetBrains Mono</span><span class="role">Labels · code · data</span></div>
+          <div class="sample-big sample-mono">01/09</div>
+          <div class="sample-big sample-mono" style="font-size: 24px; margin-bottom: var(--sp-5); color: var(--fg-secondary);">
+            const manual = <span style="color: var(--accent)">"field"</span>;
+          </div>
+          <div class="meta">
+            <span class="k">Designer</span> Philipp Nurullin · JetBrains<br/>
+            <span class="k">Uses</span> Marginalia, metadata, section numbers, code<br/>
+            <span class="k">Tracking</span> <code>letter-spacing: 0.02em / 0.12em caps</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color plates -->
+      <div class="section-heading reveal" style="margin-top: var(--sp-8); margin-bottom: var(--sp-5);">
+        <div class="tag"><span class="sigil">§</span> 09.1 &nbsp;—&nbsp; Palette &nbsp;<span class="hair"></span></div>
+      </div>
+
+      <div class="plates reveal" aria-label="Color plates">
+        <div class="plate" style="background: #151310">
+          <div class="swatch" style="background: #151310"></div>
+          <div>
+            <div class="name">Page ground</div>
+            <div class="hex"><span class="k">Hex</span> #151310<br/><span class="k">Role</span> base background</div>
+          </div>
+        </div>
+        <div class="plate" style="background: #1C1A16">
+          <div class="swatch" style="background: #1C1A16"></div>
+          <div>
+            <div class="name">Elevated</div>
+            <div class="hex"><span class="k">Hex</span> #1C1A16<br/><span class="k">Role</span> cards, tiles, ledger</div>
+          </div>
+        </div>
+        <div class="plate" style="background: #E8E1D1; color: #151310">
+          <div class="swatch" style="background: #E8E1D1; border-color: rgba(21,19,16,0.2)"></div>
+          <div>
+            <div class="name" style="color: #151310">Primary ink</div>
+            <div class="hex" style="color: rgba(21,19,16,0.7)"><span class="k" style="color: rgba(21,19,16,0.5)">Hex</span> #E8E1D1<br/><span class="k" style="color: rgba(21,19,16,0.5)">Role</span> body text, headings</div>
+          </div>
+        </div>
+        <div class="plate" style="background: #C8391C">
+          <div class="swatch" style="background: #C8391C; border-color: rgba(255,255,255,0.2)"></div>
+          <div>
+            <div class="name" style="color: #F5EEDE">Accent — stamp red</div>
+            <div class="hex" style="color: rgba(245,238,222,0.85)"><span class="k" style="color: rgba(245,238,222,0.7)">Hex</span> #C8391C<br/><span class="k" style="color: rgba(245,238,222,0.7)">Role</span> emphasis, links, status</div>
+          </div>
+        </div>
+        <div class="plate" style="background: #100E0C">
+          <div class="swatch" style="background: #100E0C"></div>
+          <div>
+            <div class="name">Inset</div>
+            <div class="hex"><span class="k">Hex</span> #100E0C<br/><span class="k">Role</span> sunken panels, captions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Principles -->
+      <div class="section-heading reveal" style="margin-top: var(--sp-8); margin-bottom: var(--sp-5);">
+        <div class="tag"><span class="sigil">§</span> 09.2 &nbsp;—&nbsp; Principles that shaped this &nbsp;<span class="hair"></span></div>
+      </div>
+
+      <div class="principles reveal">
+
+        <div class="principle">
+          <span class="num">01</span>
+          <div>
+            <h3>A portfolio is a <em>document</em>, not a landing page.</h3>
+            <p>The manual format — paged sections, margin notes, a dateline on every entry — is a commitment. It asks to be read, not skimmed. That constraint rules out hero videos, autoplaying animation, and anything that blinks.</p>
+          </div>
+        </div>
+
+        <div class="principle">
+          <span class="num">02</span>
+          <div>
+            <h3>Type does the heavy lifting. <em>Not</em> colour or motion.</h3>
+            <p>One serif for reading, one mono for data. Two weights each, one accent colour. Hierarchy comes from size, italics, and rule weight — the same tools a typesetter had a century ago.</p>
+          </div>
+        </div>
+
+        <div class="principle">
+          <span class="num">03</span>
+          <div>
+            <h3>If I don't know it, I <em>don't display it</em>.</h3>
+            <p>Every metric on every page is either live-fetched or explicitly marked as a placeholder waiting for real data. Fake counters and rounded-off stat-slop would undermine the whole document.</p>
+          </div>
+        </div>
+
+        <div class="principle">
+          <span class="num">04</span>
+          <div>
+            <h3>Private work gets named, <em>not shown</em>.</h3>
+            <p>The bulk of my hours go to Apple and AccTech under NDA. The manual summarises what I worked on and for whom, without publishing screenshots, internal architecture, or client code. Honest gap over fabricated filler.</p>
+          </div>
+        </div>
+
+        <div class="principle">
+          <span class="num">05</span>
+          <div>
+            <h3>Readable on a phone in a taxi at midnight.</h3>
+            <p>Everything reflows to a single column, nav rail collapses to a strip, type scales down but never slips under a comfortable reading size. The manual should work as well on a 390-pixel screen as on a 27-inch monitor.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Build ledger -->
+      <div class="section-heading reveal" style="margin-top: var(--sp-8); margin-bottom: var(--sp-5);">
+        <div class="tag"><span class="sigil">§</span> 09.3 &nbsp;—&nbsp; Build ledger &nbsp;<span class="hair"></span></div>
+      </div>
+
+      <div class="ledger reveal">
+        <div class="ledger-head">
+          <span>Layer</span>
+          <span>Tool / decision</span>
+          <span>Version</span>
+        </div>
+        <div class="ledger-row">
+          <span class="layer">Markup</span>
+          <span class="tool">HTML5 · semantic sections, <em>no framework</em></span>
+          <span class="ver">—</span>
+        </div>
+        <div class="ledger-row">
+          <span class="layer">Styles</span>
+          <span class="tool">CSS custom properties · grid · container queries <em>where useful</em></span>
+          <span class="ver">native</span>
+        </div>
+        <div class="ledger-row">
+          <span class="layer">Scripts</span>
+          <span class="tool">Vanilla JS only. Reveal on load, GitHub fetch, localStorage cache.</span>
+          <span class="ver">—</span>
+        </div>
+        <div class="ledger-row">
+          <span class="layer">Serif</span>
+          <span class="tool">Source Serif 4 Variable · optical sizes 8–60</span>
+          <span class="ver">v4.005</span>
+        </div>
+        <div class="ledger-row">
+          <span class="layer">Mono</span>
+          <span class="tool">JetBrains Mono Variable · weights 300–700</span>
+          <span class="ver">v2.304</span>
+        </div>
+        <div class="ledger-row">
+          <span class="layer">Delivery</span>
+          <span class="tool">Google Fonts · preconnect + display=swap</span>
+          <span class="ver">—</span>
+        </div>
+        <div class="ledger-row">
+          <span class="layer">Data · § 07</span>
+          <span class="tool">GitHub REST API + public contribution graph · cached 30 min</span>
+          <span class="ver">live</span>
+        </div>
+        <div class="ledger-row">
+          <span class="layer">Accessibility</span>
+          <span class="tool">Reduced-motion respected · contrast ≥ AA · nav-rail keyboard-reachable</span>
+          <span class="ver">—</span>
+        </div>
+        <div class="ledger-row">
+          <span class="layer">Hosting</span>
+          <span class="tool">Static HTML · runs anywhere a file server does</span>
+          <span class="ver">—</span>
+        </div>
+      </div>
+
+      <!-- Section index -->
+      <div class="section-heading reveal" style="margin-top: var(--sp-8); margin-bottom: var(--sp-5);">
+        <div class="tag"><span class="sigil">§</span> 09.4 &nbsp;—&nbsp; Full index &nbsp;<span class="hair"></span></div>
+      </div>
+
+      <div class="index-grid reveal">
+        <a class="index-card" href="index.html">
+          <span class="num">§ 01 &nbsp;—&nbsp; Opening</span>
+          <div class="t">The <em>cover page</em></div>
+          <div class="desc">Name, role, location, the one-line thesis of the whole document.</div>
+          <span class="arrow">→</span>
+        </a>
+        <a class="index-card" href="About.html">
+          <span class="num">§ 02 &nbsp;—&nbsp; About</span>
+          <div class="t">Who I am, in <em>long form</em></div>
+          <div class="desc">Six years of software, what I'm good at, what I'm not, what I won't do.</div>
+          <span class="arrow">→</span>
+        </a>
+        <a class="index-card" href="Work.html">
+          <span class="num">§ 03 &nbsp;—&nbsp; Work</span>
+          <div class="t">Engagements &amp; <em>projects</em></div>
+          <div class="desc">Apple, AccTech, Softzino. What shipped, in what role, and why.</div>
+          <span class="arrow">→</span>
+        </a>
+        <a class="index-card" href="Research.html">
+          <span class="num">§ 04 &nbsp;—&nbsp; Research</span>
+          <div class="t">Notes on the <em>stack</em></div>
+          <div class="desc">The deeper technical pieces — Nuxt internals, data fetching, SSR tradeoffs.</div>
+          <span class="arrow">→</span>
+        </a>
+        <a class="index-card" href="Now.html">
+          <span class="num">§ 05 &nbsp;—&nbsp; Now</span>
+          <div class="t">This <em>week</em></div>
+          <div class="desc">What I'm actively working on, reading, and thinking about. Dated.</div>
+          <span class="arrow">→</span>
+        </a>
+        <a class="index-card" href="Notes.html">
+          <span class="num">§ 06 &nbsp;—&nbsp; Notes</span>
+          <div class="t">Long-form <em>field notes</em></div>
+          <div class="desc">Essays and technical writeups with their own datelines.</div>
+          <span class="arrow">→</span>
+        </a>
+        <a class="index-card" href="Commits.html">
+          <span class="num">§ 07 &nbsp;—&nbsp; Commits</span>
+          <div class="t">Public <em>activity</em></div>
+          <div class="desc">Live from github.com/hasan75. Private work summarised, not shown.</div>
+          <span class="arrow">→</span>
+        </a>
+        <a class="index-card" href="Education.html">
+          <span class="num">§ 08 &nbsp;—&nbsp; Education</span>
+          <div class="t">School &amp; <em>honours</em></div>
+          <div class="desc">BRAC CSE, scholarships, dean's list, thesis, foundational coursework.</div>
+          <span class="arrow">→</span>
+        </a>
+        <a class="index-card" href="Colophon.html" style="background: var(--bg-inset)">
+          <span class="num">§ 09 &nbsp;—&nbsp; Colophon</span>
+          <div class="t">This <em>page</em></div>
+          <div class="desc">Typography, palette, principles, build ledger, contact.</div>
+          <span class="arrow">↳</span>
+        </a>
+      </div>
+
+      <!-- Contact -->
+      <div class="section-heading reveal" style="margin-top: var(--sp-8); margin-bottom: var(--sp-5);">
+        <div class="tag"><span class="sigil">§</span> 09.5 &nbsp;—&nbsp; Correspondence &nbsp;<span class="hair"></span></div>
+      </div>
+
+      <div class="contact reveal">
+        <div class="contact-cell">
+          <div class="k">Email · preferred channel</div>
+          <div class="v"><a href="mailto:hasan@example.com">hasan@example.com</a></div>
+          <div class="hint">Best for project enquiries, contract work, and anything that deserves more than 280 characters. I answer within two working days.</div>
+        </div>
+        <div class="contact-cell">
+          <div class="k">Code &amp; writing · public</div>
+          <div class="v">
+            <a href="https://github.com/hasan75" target="_blank" rel="noopener">github.com/hasan75</a>
+          </div>
+          <div class="hint">Public repos, open-source experiments, the occasional gist. Private client work stays under NDA.</div>
+        </div>
+      </div>
+
+      <p class="prose reveal" style="max-width: 60ch; margin-bottom: var(--sp-7); font-family: var(--font-serif); font-size: 16px; color: var(--fg-secondary); line-height: 1.7;">
+        No contact form. No Calendly. No chat widget. If it's worth saying, it's worth an email — and every reply is from me, not an assistant. The tradeoff is that I'm a little slower to respond; the upside is you always reach an actual person.
+      </p>
+
+      <!-- Sign-off -->
+      <div class="signoff reveal">
+        <div class="mono-tag">— End of Vol. 01 —</div>
+        <div class="mark"><em>Hasan</em> Ahmed</div>
+        <div class="date">
+          Field Manual &nbsp;·&nbsp; Vol. 01 &nbsp;·&nbsp; <span class="accent">Edition 1</span> &nbsp;·&nbsp; Dhaka, Bangladesh
+        </div>
+      </div>
+
+      <div class="end-slug">
+        § 01 <span class="diamond">◆</span> § 02 <span class="diamond">◆</span> § 03 <span class="diamond">◆</span> § 04 <span class="diamond">◆</span> § 05 <span class="diamond">◆</span> § 06 <span class="diamond">◆</span> § 07 <span class="diamond">◆</span> § 08 <span class="diamond">◆</span> § 09 <span class="diamond">✦</span> Fin.
+      </div>
+
+    </div>
+
+    <div class="section-rule" data-end="§ 09 / End of manual" style="grid-column: 1 / -1;"></div>
+
+  </section>
+
+</main>
+
+<script>
+  // Last-revised
+  (function rev(){
+    try {
+      const d = new Date(document.lastModified || Date.now());
+      const u = d.getTime() + d.getTimezoneOffset()*60000;
+      const i = new Date(u + 6*3600*1000);
+      const p = n => String(n).padStart(2,'0');
+      const s = i.getUTCFullYear()+'-'+p(i.getUTCMonth()+1)+'-'+p(i.getUTCDate())+' '+p(i.getUTCHours())+':'+p(i.getUTCMinutes())+' ICT';
+      const el = document.getElementById('last-revised');
+      if (el) el.textContent = s;
+    } catch(_) {}
+  })();
+
+  // Reveal
+  (function reveal(){
+    const r = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = document.querySelectorAll('.reveal');
+    if (r) { els.forEach(e => e.classList.add('in')); return; }
+    els.forEach((e,i) => setTimeout(() => e.classList.add('in'), 60 + i*60));
+  })();
+</script>
+</body>
+</html>

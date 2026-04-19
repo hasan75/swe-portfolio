@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hasan Ahmed — Field Manual — § 05 Now</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..800;1,8..60,300..700&family=JetBrains+Mono:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_field-manual.css">
+<style>
+/* ─── § 05 — NOW ─── */
+
+/* Clock strip */
+.clock-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+  margin-bottom: var(--sp-8);
+  background: var(--bg-inset);
+  font-family: var(--font-mono);
+}
+.clock {
+  padding: var(--sp-4) var(--sp-5);
+  border-right: 1px dashed var(--rule-default);
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 4px;
+}
+.clock:last-child { border-right: 0; }
+.clock.local { background: var(--bg-elevated); position: relative; }
+.clock.local::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px; background: var(--accent);
+}
+.clock .city {
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.clock.local .city { color: var(--accent); }
+.clock .city .tz { color: var(--fg-tertiary); font-size: 10px; }
+.clock .time {
+  font-size: 28px;
+  font-weight: var(--fw-regular);
+  color: var(--fg-primary);
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+}
+.clock .time .sec { color: var(--fg-tertiary); font-size: 16px; }
+.clock .time .meridiem { color: var(--fg-secondary); font-size: 11px; letter-spacing: var(--tracking-caps); }
+.clock .date {
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-secondary);
+}
+
+/* Status panel */
+.status-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border: 1px solid var(--rule-strong);
+  margin-bottom: var(--sp-8);
+  background: var(--bg-elevated);
+}
+.status-cell {
+  padding: var(--sp-5);
+  border-right: 1px solid var(--rule-default);
+  font-family: var(--font-mono);
+}
+.status-cell:last-child { border-right: 0; }
+.status-cell .label {
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-3);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.status-cell .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+.status-cell .dot.amber { background: #D9A441; animation: none; }
+.status-cell .value {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1.35;
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 20;
+  text-wrap: balance;
+  margin-bottom: var(--sp-3);
+}
+.status-cell .value .accent { color: var(--accent); }
+.status-cell .hint {
+  font-size: var(--fs-mono-s);
+  color: var(--fg-secondary);
+  letter-spacing: var(--tracking-mono);
+  line-height: 1.6;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+/* Now entries */
+.now-block {
+  padding: var(--sp-7) 0;
+  border-top: 1px solid var(--rule-strong);
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: var(--sp-7);
+  align-items: start;
+}
+.now-block:last-of-type { border-bottom: 1px solid var(--rule-strong); }
+
+.now-block .block-tag {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+}
+.now-block .block-tag .num { color: var(--accent); display: block; margin-bottom: 4px; font-size: 12px; }
+
+.now-block h3 {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: var(--fw-regular);
+  line-height: 1.2;
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 26;
+  margin-bottom: var(--sp-4);
+  text-wrap: balance;
+  max-width: 30ch;
+}
+.now-block h3 em { font-style: italic; color: var(--fg-secondary); }
+
+.now-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--sp-5);
+}
+.now-items li {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  gap: var(--sp-4);
+  align-items: baseline;
+  padding-bottom: var(--sp-4);
+  border-bottom: 1px dashed var(--rule-faint);
+}
+.now-items li:last-child { border-bottom: 0; padding-bottom: 0; }
+.now-items .idx {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  color: var(--accent);
+  letter-spacing: var(--tracking-caps);
+  font-variant-numeric: tabular-nums;
+}
+.now-items .txt {
+  font-family: var(--font-serif);
+  font-size: var(--fs-body-l);
+  line-height: 1.55;
+  color: var(--fg-primary);
+  font-variation-settings: "opsz" 18;
+  text-wrap: pretty;
+}
+.now-items .txt strong { font-weight: var(--fw-semibold); color: var(--fg-primary); }
+.now-items .txt em { font-style: italic; color: var(--fg-secondary); }
+.now-items .txt .accent { color: var(--accent); font-style: italic; }
+.now-items .tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  border: 1px solid var(--rule-default);
+  padding: 2px 6px;
+  white-space: nowrap;
+  align-self: center;
+}
+
+/* Reading list — book treatment */
+.books {
+  display: grid;
+  gap: var(--sp-5);
+}
+.book {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: var(--sp-4);
+  align-items: baseline;
+  padding: var(--sp-4) 0;
+  border-bottom: 1px dashed var(--rule-faint);
+}
+.book:last-child { border-bottom: 0; }
+.book .num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  color: var(--accent);
+  letter-spacing: var(--tracking-caps);
+  font-variant-numeric: tabular-nums;
+}
+.book .meta {
+  font-family: var(--font-serif);
+}
+.book .title {
+  display: block;
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--fg-primary);
+  font-style: italic;
+  font-variation-settings: "opsz" 20;
+  margin-bottom: 2px;
+}
+.book .author {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  color: var(--fg-secondary);
+  letter-spacing: var(--tracking-mono);
+}
+.book .status {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  align-self: center;
+  white-space: nowrap;
+}
+.book .status.reading { color: var(--accent); }
+
+/* Toolkit row */
+.toolkit {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-4);
+  margin-top: var(--sp-2);
+}
+.tool {
+  padding: var(--sp-4);
+  border: 1px solid var(--rule-default);
+  background: var(--bg-inset);
+  font-family: var(--font-mono);
+}
+.tool .k {
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+  margin-bottom: var(--sp-2);
+}
+.tool .v {
+  font-size: var(--fs-body-m);
+  color: var(--fg-primary);
+  letter-spacing: var(--tracking-mono);
+  font-weight: var(--fw-medium);
+  margin-bottom: 2px;
+}
+.tool .why {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--fg-secondary);
+  line-height: 1.45;
+}
+
+/* Revision note at bottom */
+.revision-note {
+  margin-top: var(--sp-7);
+  padding: var(--sp-4) var(--sp-5);
+  border: 1px dashed var(--rule-default);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-m);
+  color: var(--fg-secondary);
+  letter-spacing: var(--tracking-mono);
+  line-height: 1.6;
+  display: flex;
+  gap: var(--sp-4);
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.revision-note .tag {
+  color: var(--accent);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  font-size: var(--fs-mono-s);
+}
+.revision-note em { font-family: var(--font-serif); font-style: italic; color: var(--fg-primary); font-size: 15px; }
+
+@media (max-width: 880px) {
+  .clock-strip { grid-template-columns: repeat(2, 1fr); }
+  .clock:nth-child(2) { border-right: 0; }
+  .status-panel { grid-template-columns: 1fr; }
+  .status-cell { border-right: 0; border-bottom: 1px solid var(--rule-default); }
+  .status-cell:last-child { border-bottom: 0; }
+  .now-block { grid-template-columns: 1fr; gap: var(--sp-4); }
+  .now-block .block-tag { display: flex; gap: var(--sp-3); align-items: baseline; }
+  .now-block .block-tag .num { display: inline; margin-bottom: 0; }
+  .toolkit { grid-template-columns: 1fr 1fr; }
+  .now-items li { grid-template-columns: 20px 1fr; }
+  .now-items .tag { grid-column: 1 / -1; justify-self: start; margin-top: var(--sp-2); }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-left"><a href="index.html">Hasan Ahmed &nbsp;/&nbsp; Field Manual &nbsp;/&nbsp; Vol. 01</a></div>
+    <div class="masthead-center"><span class="sigil">§</span><span>05 — Now</span></div>
+    <div class="masthead-right">
+      <span class="pulse"></span>
+      <span class="label">Last revised</span>
+      <span id="last-revised">2026-04-19 14:22 ICT</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-rail" aria-label="Section index">
+  <a href="index.html"><span class="num">01</span><span class="lbl">Opening</span></a>
+  <a href="About.html"><span class="num">02</span><span class="lbl">About</span></a>
+  <a href="Work.html"><span class="num">03</span><span class="lbl">Work</span></a>
+  <a href="Research.html"><span class="num">04</span><span class="lbl">Research</span></a>
+  <a href="Now.html" class="active"><span class="num">05</span><span class="lbl">Now</span></a>
+  <a href="#"><span class="num">06</span><span class="lbl">Notes</span></a>
+  <a href="#"><span class="num">07</span><span class="lbl">Commits</span></a>
+  <a href="#"><span class="num">08</span><span class="lbl">Education</span></a>
+  <a href="#"><span class="num">09</span><span class="lbl">Colophon</span></a>
+</nav>
+
+<main class="page">
+
+  <section id="s05" class="section" aria-labelledby="s05-heading">
+
+    <aside class="marginalia reveal">
+      <div class="block"><span class="key">Entry</span><span class="val">§ 05 — Now</span></div>
+      <div class="block"><span class="key">Snapshot</span><span class="val">April 2026</span></div>
+      <div class="block"><span class="key">Work</span><span class="val"><span style="color:var(--accent)">●</span> Selective only<br/><em>Interesting work, not all work.</em></span></div>
+      <div class="block"><span class="key">Base</span><span class="val">Dhaka, Bangladesh<br/>(UTC+06:00)</span></div>
+      <div class="block"><span class="key">Format</span><span class="val">After Sivers' /now.<br/>Refreshed quarterly.</span></div>
+    </aside>
+
+    <div class="body">
+
+      <div class="dateline reveal">
+        <span class="hair"></span>
+        <span>Dhaka &nbsp;—&nbsp; <span class="accent">Entry § 05</span> &nbsp;—&nbsp; A snapshot of the current quarter</span>
+      </div>
+
+      <div class="section-heading reveal">
+        <div class="tag"><span class="sigil">§</span> 05 — Now &nbsp;<span class="hair"></span></div>
+        <h2 id="s05-heading">What I'm working on this quarter. Revised every few months.</h2>
+      </div>
+
+      <!-- Clock strip -->
+      <div class="clock-strip reveal" aria-label="World clocks">
+        <div class="clock local">
+          <div class="city"><span>Dhaka</span><span class="tz">UTC+06</span></div>
+          <div class="time" id="clk-dhk"><span class="h">—</span><span class="sec">—</span></div>
+          <div class="date" id="date-dhk">—</div>
+        </div>
+        <div class="clock">
+          <div class="city"><span>London</span><span class="tz">UTC+01</span></div>
+          <div class="time" id="clk-lon"><span class="h">—</span><span class="sec">—</span></div>
+          <div class="date" id="date-lon">—</div>
+        </div>
+        <div class="clock">
+          <div class="city"><span>New York</span><span class="tz">UTC−04</span></div>
+          <div class="time" id="clk-nyc"><span class="h">—</span><span class="sec">—</span></div>
+          <div class="date" id="date-nyc">—</div>
+        </div>
+        <div class="clock">
+          <div class="city"><span>Cupertino</span><span class="tz">UTC−07</span></div>
+          <div class="time" id="clk-sfo"><span class="h">—</span><span class="sec">—</span></div>
+          <div class="date" id="date-sfo">—</div>
+        </div>
+      </div>
+
+      <!-- Status panel -->
+      <div class="status-panel reveal" aria-label="Current status">
+        <div class="status-cell">
+          <div class="label"><span class="dot"></span>Availability</div>
+          <div class="value">Open to <span class="accent">selective</span> work.</div>
+          <div class="hint">Taking on contracts where the problem is interesting and the stack is already sharp. Not available for staffing or generalist roles.</div>
+        </div>
+        <div class="status-cell">
+          <div class="label"><span class="dot amber"></span>Current engagement</div>
+          <div class="value">Apple, via Softzino — 18+ months, active.</div>
+          <div class="hint">Full-time allocation on DMS, component library, and AI chat widget. New work begins on overlap, not displacement.</div>
+        </div>
+        <div class="status-cell">
+          <div class="label"><span class="dot"></span>Response time</div>
+          <div class="value">Usually <span class="accent">within 24h</span>, ICT hours.</div>
+          <div class="hint">Email is the reliable channel. I don't live on Slack, Discord, or LinkedIn DMs.</div>
+        </div>
+      </div>
+
+      <!-- WORKING ON -->
+      <section class="now-block reveal" aria-labelledby="h-focus">
+        <div class="block-tag"><span class="num">§ 05.1</span><span>Focus</span></div>
+        <div>
+          <h3 id="h-focus">Four threads open at once, each for a different reason.</h3>
+          <p class="prose" style="max-width:60ch; color:var(--fg-secondary); margin-bottom:var(--sp-5)">
+            What I'm actually <em>spending hours on.</em> If something isn't on this list, I'm not working on it — regardless of what an older page might say.
+          </p>
+          <ol class="now-items">
+            <li>
+              <span class="idx">01</span>
+              <span class="txt">
+                <strong>Starting out with Go.</strong> Working through the official Tour and writing throwaway scripts to get a feel for goroutines, interfaces, and the tooling. Next step: a small CLI — probably a log parser or a file organiser — to have something to <em>point at</em>. The reason is concrete: I want a language with a single-binary deployment story and no runtime to ship alongside.
+              </span>
+              <span class="tag">Learning</span>
+            </li>
+            <li>
+              <span class="idx">02</span>
+              <span class="txt">
+                <strong>AI Chat SDK — streaming + adapters.</strong> Framework-agnostic chat widget on StencilJS and Web Components. Currently wiring up streaming responses (<em>SSE + chunked decoding</em>) and a pluggable adapter layer so the same widget drops into Vue, React, or plain HTML hosts <span class="accent">without a rewrite.</span>
+              </span>
+              <span class="tag">Build</span>
+            </li>
+            <li>
+              <span class="idx">03</span>
+              <span class="txt">
+                <strong>Nuxt 3 → Nuxt 4 migration at Apple.</strong> Large Vue 3 / Nuxt 3 component library moving to Nuxt 4. Working through the compatibility layer, untangling auto-import edge cases, and rethinking lazy-loading boundaries so individual components <em>tree-shake cleanly</em> when the library is consumed as a package.
+              </span>
+              <span class="tag">Contract</span>
+            </li>
+            <li>
+              <span class="idx">04</span>
+              <span class="txt">
+                <strong>Backend fundamentals, deeper.</strong> Postgres schema design and query performance, and rebuilding a slice of a payroll service in Express + Sequelize to pressure-test my own patterns against what production actually demanded. Laravel on the side for contrast — <em>different dialect, same argument.</em>
+              </span>
+              <span class="tag">Study</span>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- SIDE PROJECTS -->
+      <section class="now-block reveal" aria-labelledby="h-side">
+        <div class="block-tag"><span class="num">§ 05.2</span><span>Side</span></div>
+        <div>
+          <h3 id="h-side">Smaller things, in flight on the off-hours.</h3>
+          <ol class="now-items">
+            <li>
+              <span class="idx">01</span>
+              <span class="txt">
+                <strong>Website management system</strong> for the Bangladesh Embassy in Minnesota. Small surface, high stakes on content stability; the interesting problem is predictable, auditable publishing — not the CMS shell.
+              </span>
+              <span class="tag">Client</span>
+            </li>
+            <li>
+              <span class="idx">02</span>
+              <span class="txt">
+                <strong>HRMS for AccTech LLC.</strong> Adjacent to the payroll platform — employee records, leave, attendance. Same underlying domain model, different surface.
+              </span>
+              <span class="tag">Client</span>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- READING -->
+      <section class="now-block reveal" aria-labelledby="h-reading">
+        <div class="block-tag"><span class="num">§ 05.3</span><span>Reading</span></div>
+        <div>
+          <h3 id="h-reading">Bangladesh — <em>1971 and what came after.</em></h3>
+          <p class="prose" style="max-width:60ch; color:var(--fg-secondary); margin-bottom:var(--sp-5)">
+            Off the screen, the current reading is political and historical. Titles below are in Bangla; transliterated for the page.
+          </p>
+          <div class="books">
+            <div class="book">
+              <span class="num">I.</span>
+              <div class="meta">
+                <span class="title">Nobboi er Nagorik Burjeya Ovvutthan O Onnano Prosongo</span>
+                <span class="author">Bodruddin Umar</span>
+              </div>
+              <span class="status reading">● Now reading</span>
+            </div>
+            <div class="book">
+              <span class="num">II.</span>
+              <div class="meta">
+                <span class="title">Amar Dekha Rajnitir Pochish Bochor</span>
+                <span class="author">Abul Mansur Ahmad</span>
+              </div>
+              <span class="status">In rotation</span>
+            </div>
+            <div class="book">
+              <span class="num">III.</span>
+              <div class="meta">
+                <span class="title">Parbatya Chattagram — Shantibahini, Zia Hotta, Manzur Khun</span>
+                <span class="author">Mohiuddin Ahmad</span>
+              </div>
+              <span class="status">In rotation</span>
+            </div>
+            <div class="book">
+              <span class="num">IV.</span>
+              <div class="meta">
+                <span class="title">Muldhara '71</span>
+                <span class="author">Moidul Hasan</span>
+              </div>
+              <span class="status">Queued</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TOOLKIT -->
+      <section class="now-block reveal" aria-labelledby="h-tools">
+        <div class="block-tag"><span class="num">§ 05.4</span><span>Workbench</span></div>
+        <div>
+          <h3 id="h-tools">The short list of tools that actually get used every day.</h3>
+          <p class="prose" style="max-width:60ch; color:var(--fg-secondary); margin-bottom:var(--sp-5)">
+            Not an inventory — a shortlist. Anything not here either gets swapped around too often to list, or isn't load-bearing.
+          </p>
+          <div class="toolkit">
+            <div class="tool">
+              <div class="k">Editor</div>
+              <div class="v">WebStorm</div>
+              <div class="why">Refactors across a big Vue / Nuxt monorepo without fighting the tool.</div>
+            </div>
+            <div class="tool">
+              <div class="k">Browser</div>
+              <div class="v">Chrome</div>
+              <div class="why">DevTools protocol + Lighthouse still set the baseline for perf work.</div>
+            </div>
+            <div class="tool">
+              <div class="k">Package mgr.</div>
+              <div class="v">pnpm</div>
+              <div class="why">Content-addressable store and strict hoisting. Matches how I think about deps.</div>
+            </div>
+            <div class="tool">
+              <div class="k">AI pair</div>
+              <div class="v">Claude Code</div>
+              <div class="why">For the boring 80%. Reviews are mine.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="revision-note reveal">
+        <span class="tag">Note</span>
+        <em>This page drifts.</em>
+        <span>Refreshed every few months. If the date at the top is stale, the work below probably is too — ask before assuming.</span>
+      </div>
+
+      <p class="footnote reveal" id="fn-5">
+        <span class="ref">⁴</span> Convention borrowed from <em>nownownow.com</em> and Derek Sivers' <em>/now</em> page. The value of the format is its honesty: a public page that has to be accurate, or taken down.
+      </p>
+
+    </div>
+
+    <div class="section-rule" data-end="§ 05 / End" style="grid-column: 1 / -1;"></div>
+
+  </section>
+
+</main>
+
+<script>
+  // Last-revised — auto from file mtime, in ICT (Asia/Dhaka, UTC+06)
+  (function rev(){
+    try {
+      const d = new Date(document.lastModified || Date.now());
+      const u = d.getTime() + d.getTimezoneOffset()*60000;
+      const i = new Date(u + 6*3600*1000);
+      const p = n => String(n).padStart(2,'0');
+      const s = i.getUTCFullYear()+'-'+p(i.getUTCMonth()+1)+'-'+p(i.getUTCDate())+' '+p(i.getUTCHours())+':'+p(i.getUTCMinutes())+' ICT';
+      const el = document.getElementById('last-revised');
+      if (el) el.textContent = s;
+    } catch(_) {}
+  })();
+
+  // World clocks
+  (function clocks(){
+    const zones = [
+      { id: 'dhk', date: 'date-dhk', tz: 'Asia/Dhaka' },
+      { id: 'lon', date: 'date-lon', tz: 'Europe/London' },
+      { id: 'nyc', date: 'date-nyc', tz: 'America/New_York' },
+      { id: 'sfo', date: 'date-sfo', tz: 'America/Los_Angeles' },
+    ];
+    function fmt(tz) {
+      const now = new Date();
+      const t = new Intl.DateTimeFormat('en-GB', {
+        timeZone: tz, hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit'
+      }).formatToParts(now);
+      const parts = Object.fromEntries(t.map(p => [p.type, p.value]));
+      const d = new Intl.DateTimeFormat('en-GB', {
+        timeZone: tz, weekday: 'short', day: '2-digit', month: 'short'
+      }).format(now);
+      return { hm: `${parts.hour}:${parts.minute}`, s: parts.second, mer: (parts.dayPeriod || '').toUpperCase(), d };
+    }
+    function tick() {
+      zones.forEach(z => {
+        const f = fmt(z.tz);
+        const el = document.getElementById('clk-'+z.id);
+        const de = document.getElementById(z.date);
+        if (el) el.innerHTML = `<span class="h">${f.hm}</span><span class="sec">:${f.s}</span><span class="meridiem">${f.mer}</span>`;
+        if (de) de.textContent = f.d.toUpperCase();
+      });
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  // Reveal
+  (function reveal(){
+    const r = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const els = document.querySelectorAll('.reveal');
+    if (r) { els.forEach(e => e.classList.add('in')); return; }
+    els.forEach((e,i) => setTimeout(() => e.classList.add('in'), 80 + i*70));
+  })();
+</script>
+</body>
+</html>
