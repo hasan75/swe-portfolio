@@ -112,13 +112,6 @@
   font-variant-numeric: tabular-nums;
 }
 .edu-stats .val .accent { color: var(--accent); }
-.edu-stats .val .tbd {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  color: var(--fg-tertiary);
-  font-style: italic;
-  letter-spacing: var(--tracking-mono);
-}
 .edu-stats .unit {
   font-family: var(--font-mono);
   font-size: 11px;
@@ -186,17 +179,6 @@
   letter-spacing: -0.005em;
 }
 .honour .title em { font-style: italic; color: var(--accent); }
-.honour .title .placeholder {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-style: normal;
-  color: var(--fg-tertiary);
-  letter-spacing: var(--tracking-mono);
-  padding: 1px 6px;
-  background: rgba(200, 57, 28, 0.08);
-  border: 1px dashed rgba(200, 57, 28, 0.4);
-  margin: 0 2px;
-}
 .honour .meta {
   font-family: var(--font-mono);
   font-size: var(--fs-mono-m);
@@ -314,38 +296,6 @@
   line-height: 1.5;
 }
 
-/* Placeholder note */
-.fill-notice {
-  border: 1px dashed rgba(200, 57, 28, 0.5);
-  background: rgba(200, 57, 28, 0.06);
-  padding: var(--sp-4) var(--sp-5);
-  margin-bottom: var(--sp-7);
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono-m);
-  letter-spacing: var(--tracking-mono);
-  color: var(--fg-secondary);
-  line-height: 1.6;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--sp-4);
-  align-items: start;
-}
-.fill-notice .tag {
-  font-size: 10px;
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--accent);
-  padding: 3px 8px;
-  border: 1px solid var(--accent);
-  white-space: nowrap;
-}
-.fill-notice em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  color: var(--fg-primary);
-  font-size: 15px;
-}
-
 /* Mobile */
 @media (max-width: 980px) {
   .transcript-head { grid-template-columns: 1fr; }
@@ -362,7 +312,6 @@
   .honour .title { grid-column: 1 / -1; grid-row: 2; }
   .honour .year { grid-column: 2; grid-row: 1; }
   .coursework li { grid-template-columns: 56px 1fr auto; font-size: 12px; }
-  .fill-notice { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -392,6 +341,7 @@
       <div class="block"><span class="key">Location</span><span class="val">Dhaka, Bangladesh</span></div>
       <div class="block"><span class="key">Status</span><span class="val"><span style="color:var(--accent)">●</span> Graduated<br/>Honours &amp; awards below.</span></div>
       <div class="block"><span class="key">See also</span><span class="val">§ 02 About<br/>§ 04 Research</span></div>
+      <div class="block"><span class="key">Contact</span><span class="val"><span class="contact-links"></span></span></div>
     </aside>
 
     <div class="body">
@@ -624,5 +574,6 @@
   })();
 </script>
 <script src="_nav.js"></script>
+<script src="_contact-links.js"></script>
 </body>
 </html>

@@ -165,6 +165,51 @@ body {
   .masthead-right .pulse { animation: none; opacity: 1; }
 }
 
+/* ─── NAV RAIL (desktop only) ────────────────────────── */
+.nav-rail {
+  position: fixed;
+  left: var(--sp-5);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  color: var(--fg-tertiary);
+  text-transform: uppercase;
+}
+.nav-rail a {
+  color: inherit;
+  text-decoration: none;
+  padding: var(--sp-1) 0;
+  transition: color var(--dur-quick) linear;
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: baseline;
+  gap: var(--sp-2);
+  white-space: nowrap;
+}
+.nav-rail a .num { color: var(--fg-tertiary); font-size: 10px; }
+.nav-rail a .lbl { color: inherit; letter-spacing: var(--tracking-caps); }
+.nav-rail a:hover { color: var(--fg-primary); }
+.nav-rail a:hover .num { color: var(--fg-secondary); }
+.nav-rail a.active { color: var(--accent); }
+.nav-rail a.active .num { color: var(--accent); }
+.nav-rail a.active::before {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: 0.65em;
+  width: 10px;
+  height: 1px;
+  background: var(--accent);
+}
+@media (max-width: 1180px) { .nav-rail { display: none; } }
+
 /* ─── PAGE CONTAINER ─────────────────────────────────── */
 .page {
   max-width: var(--page-max);
@@ -421,6 +466,47 @@ body {
   .type-cursor { animation: none; }
 }
 
+/* ─── PORTRAIT ────────────────────────────────────────── */
+.dp-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(30%) contrast(1.05);
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  margin-bottom: var(--sp-6);
+}
+
+/* ─── CONTACT LINKS ───────────────────────────────────── */
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.contact-links a {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--fg-secondary);
+  text-decoration: none;
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-mono);
+  text-transform: none;
+  transition: color var(--dur-quick) linear;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.contact-links a:hover { color: var(--accent); }
+.contact-links svg {
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity var(--dur-quick) linear;
+}
+.contact-links a:hover svg { opacity: 1; }
+
 /* ─── MOBILE — REDESIGNED, NOT COMPRESSED ─────────────── */
 @media (max-width: 880px) {
   .masthead-inner {
@@ -480,6 +566,71 @@ body {
   .masthead-left { font-size: 10px; }
   .masthead-right { font-size: 10px; }
 }
+
+/* ─── MOBILE NAV ───────────────────────────────────────── */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--rule-strong);
+  color: var(--fg-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  padding: 3px var(--sp-3);
+  cursor: pointer;
+  margin-left: var(--sp-3);
+  vertical-align: middle;
+  transition: color var(--dur-quick) linear, border-color var(--dur-quick) linear;
+}
+.menu-toggle:hover { color: var(--fg-primary); border-color: var(--fg-secondary); }
+@media (max-width: 1180px) { .menu-toggle { display: inline-block; } }
+
+.mobile-nav-overlay {
+  position: fixed; inset: 0; z-index: 90;
+  background: var(--bg-page);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--dur-deliberate) var(--ease-out-quart);
+}
+@media (prefers-reduced-motion: reduce) { .mobile-nav-overlay { transition: none; } }
+.mobile-nav-overlay.is-open { opacity: 1; pointer-events: auto; }
+
+.mobile-nav-inner {
+  padding: calc(var(--sp-8) + var(--sp-5)) var(--grid-margin) var(--sp-7);
+  height: 100%;
+  overflow-y: auto;
+  max-width: var(--page-max);
+  margin: 0 auto;
+}
+
+.mobile-nav-links {
+  display: flex; flex-direction: column;
+}
+.mobile-nav-links a {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  align-items: baseline;
+  gap: var(--sp-4);
+  text-decoration: none;
+  color: var(--fg-tertiary);
+  font-family: var(--font-mono);
+  font-size: var(--fs-display-s);
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+  padding: var(--sp-4) 0;
+  border-bottom: 1px solid var(--rule-faint);
+  transition: color var(--dur-quick) linear;
+}
+.mobile-nav-links a:last-child { border-bottom: none; }
+.mobile-nav-links a:hover { color: var(--fg-primary); }
+.mobile-nav-links a.active { color: var(--accent); }
+.mobile-nav-links a .num {
+  font-size: var(--fs-mono-s);
+  letter-spacing: var(--tracking-caps);
+  align-self: center;
+  color: inherit;
+  opacity: 0.6;
+}
 </style>
 </head>
 <body>
@@ -510,6 +661,7 @@ body {
 
     <!-- Marginalia column (metadata) -->
     <aside class="marginalia reveal" id="s01-margin">
+      <img src="public/images/dp_image.png" alt="Hasan Ahmed" class="dp-photo" />
       <div class="block">
         <span class="key">Entry</span>
         <span class="val">§ 01 — Opening</span>
@@ -529,6 +681,12 @@ body {
       <div class="block">
         <span class="key">Reading time</span>
         <span class="val">≈ 40 seconds</span>
+      </div>
+      <div class="block">
+        <span class="key">Contact</span>
+        <span class="val">
+          <span class="contact-links"></span>
+        </span>
       </div>
     </aside>
 
@@ -591,7 +749,7 @@ body {
         </div>
         <div class="cell">
           <span class="key">Based</span>
-          <span class="val">Dhaka, Bangladesh<br/>Applying: Denmark, Fall 2026</span>
+          <span class="val">Dhaka, Bangladesh</span>
         </div>
       </div>
 
@@ -689,5 +847,6 @@ body {
   })();
 </script>
 <script src="_nav.js"></script>
+<script src="_contact-links.js"></script>
 </body>
 </html>
