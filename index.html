@@ -165,54 +165,6 @@ body {
   .masthead-right .pulse { animation: none; opacity: 1; }
 }
 
-/* ─── NAV RAIL (desktop only) ────────────────────────── */
-.nav-rail {
-  position: fixed;
-  left: var(--sp-5);
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono-s);
-  letter-spacing: var(--tracking-caps);
-  color: var(--fg-tertiary);
-  text-transform: uppercase;
-}
-.nav-rail a {
-  color: inherit;
-  text-decoration: none;
-  padding: var(--sp-1) 0;
-  transition: color var(--dur-quick) linear;
-  position: relative;
-  display: grid;
-  grid-template-columns: 22px 1fr;
-  align-items: baseline;
-  gap: var(--sp-2);
-  white-space: nowrap;
-}
-.nav-rail a .num { color: var(--fg-tertiary); font-size: 10px; }
-.nav-rail a .lbl { color: inherit; letter-spacing: var(--tracking-caps); }
-.nav-rail a:hover { color: var(--fg-primary); }
-.nav-rail a:hover .num { color: var(--fg-secondary); }
-.nav-rail a.active { color: var(--accent); }
-.nav-rail a.active .num { color: var(--accent); }
-.nav-rail a.active::before {
-  content: "";
-  position: absolute;
-  left: -16px;
-  top: 0.65em;
-  width: 10px;
-  height: 1px;
-  background: var(--accent);
-}
-
-@media (max-width: 1180px) {
-  .nav-rail { display: none; }
-}
-
 /* ─── PAGE CONTAINER ─────────────────────────────────── */
 .page {
   max-width: var(--page-max);
@@ -548,17 +500,7 @@ body {
 </header>
 
 <!-- ─── NAV RAIL ─── -->
-<nav class="nav-rail" aria-label="Section index">
-  <a href="#s01" class="active"><span class="num">01</span><span class="lbl">Opening</span></a>
-  <a href="#s02"><span class="num">02</span><span class="lbl">About</span></a>
-  <a href="#s03"><span class="num">03</span><span class="lbl">Work</span></a>
-  <a href="#s04"><span class="num">04</span><span class="lbl">Research</span></a>
-  <a href="#s05"><span class="num">05</span><span class="lbl">Now</span></a>
-  <a href="#s06"><span class="num">06</span><span class="lbl">Notes</span></a>
-  <a href="#s07"><span class="num">07</span><span class="lbl">Commits</span></a>
-  <a href="#s08"><span class="num">08</span><span class="lbl">Education</span></a>
-  <a href="#s09"><span class="num">09</span><span class="lbl">Colophon</span></a>
-</nav>
+<nav class="nav-rail" aria-label="Section index"></nav>
 
 <!-- ─── PAGE ─── -->
 <main class="page">
@@ -746,5 +688,6 @@ body {
     sections.forEach(s => io.observe(s));
   })();
 </script>
+<script src="_nav.js"></script>
 </body>
 </html>
