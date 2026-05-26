@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>(function(){try{var t=localStorage.getItem('fm.theme');if(!t||t==='dark')return;document.documentElement.dataset.theme=t==='system'?(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):t;}catch(_){}})();</script>
 <title>Colophon — Hasan Ahmed · Design Reference</title>
 <meta name="description" content="The colophon for Hasan Ahmed's Field Manual — typefaces, colour palette, spacing tokens, and the design rationale behind this hand-crafted portfolio.">
 <meta property="og:title" content="Colophon — Hasan Ahmed">
@@ -122,6 +123,7 @@
   border: 1px solid rgba(255,255,255,0.1);
   margin-bottom: var(--sp-4);
 }
+html[data-theme="light"] .plate .swatch { border-color: rgba(0, 0, 0, 0.12); }
 .plate .name {
   font-family: var(--font-serif);
   font-size: 16px;
@@ -742,6 +744,7 @@
     els.forEach((e,i) => setTimeout(() => e.classList.add('in'), 60 + i*60));
   })();
 </script>
+<script src="_theme.js"></script>
 <script src="_nav.js"></script>
 </body>
 </html>

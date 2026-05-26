@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>(function(){try{var t=localStorage.getItem('fm.theme');if(!t||t==='dark')return;document.documentElement.dataset.theme=t==='system'?(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):t;}catch(_){}})();</script>
 <title>About — Hasan Ahmed · Software Engineer</title>
 <meta name="description" content="A short biography of someone who refuses to pick a lane. Software engineer, researcher, and field guide — Hasan Ahmed's story in his own words.">
 <meta property="og:title" content="About — Hasan Ahmed">
@@ -172,6 +173,13 @@
 
   .fw-wrap { grid-template-columns: 1fr; }
 }
+
+/* ─── LIGHT MODE — SVG MAP ─── */
+html[data-theme="light"] .fw-figure .map-grid-line { stroke: rgba(30, 24, 18, 0.06); }
+html[data-theme="light"] .fw-figure .map-outline { stroke: rgba(30, 24, 18, 0.28); }
+html[data-theme="light"] .fw-figure .map-labels { fill: #5C5044; }
+html[data-theme="light"] .fw-figure .map-compass { fill: #9A8A7A; }
+html[data-theme="light"] .fw-figure .map-compass-line { stroke: rgba(30, 24, 18, 0.4); }
 </style>
 </head>
 <body>
@@ -330,15 +338,15 @@
                 <!-- Abstracted region sketch — hairlines only, no decoration. -->
                 <defs>
                   <pattern id="grid" width="12" height="12" patternUnits="userSpaceOnUse">
-                    <path d="M 12 0 L 0 0 0 12" fill="none" stroke="rgba(232,225,209,0.06)" stroke-width="0.5"/>
+                    <path class="map-grid-line" d="M 12 0 L 0 0 0 12" fill="none" stroke="rgba(232,225,209,0.06)" stroke-width="0.5"/>
                   </pattern>
                 </defs>
                 <rect width="240" height="180" fill="url(#grid)"/>
                 <!-- Coastline / region outline (schematic, not geographic truth) -->
-                <path d="M 10 40 Q 60 30 90 55 T 160 65 Q 200 55 230 80 L 225 135 Q 180 150 130 140 T 40 150 Z"
+                <path class="map-outline" d="M 10 40 Q 60 30 90 55 T 160 65 Q 200 55 230 80 L 225 135 Q 180 150 130 140 T 40 150 Z"
                       fill="none" stroke="rgba(232,225,209,0.28)" stroke-width="1"/>
                 <!-- Four markers -->
-                <g font-family="JetBrains Mono, monospace" font-size="7" fill="#A8A193" letter-spacing="0.06em">
+                <g class="map-labels" font-family="JetBrains Mono, monospace" font-size="7" fill="#A8A193" letter-spacing="0.06em">
                   <circle cx="72" cy="120" r="2.2" fill="#C8391C"/>
                   <text x="78" y="123">BANDARBAN</text>
 
@@ -352,9 +360,9 @@
                   <text x="146" y="51">SUNAMGANJ</text>
                 </g>
                 <!-- Compass -->
-                <g transform="translate(215,30)" font-family="JetBrains Mono, monospace" font-size="7" fill="#6B6459">
-                  <line x1="0" y1="-8" x2="0" y2="8" stroke="rgba(232,225,209,0.4)" stroke-width="0.5"/>
-                  <line x1="-8" y1="0" x2="8" y2="0" stroke="rgba(232,225,209,0.4)" stroke-width="0.5"/>
+                <g class="map-compass" transform="translate(215,30)" font-family="JetBrains Mono, monospace" font-size="7" fill="#6B6459">
+                  <line class="map-compass-line" x1="0" y1="-8" x2="0" y2="8" stroke="rgba(232,225,209,0.4)" stroke-width="0.5"/>
+                  <line class="map-compass-line" x1="-8" y1="0" x2="8" y2="0" stroke="rgba(232,225,209,0.4)" stroke-width="0.5"/>
                   <text x="-2" y="-10">N</text>
                 </g>
               </svg>
@@ -401,6 +409,7 @@
     els.forEach((el, i) => setTimeout(() => el.classList.add('in'), 80 + i * 70));
   })();
 </script>
+<script src="_theme.js"></script>
 <script src="_nav.js"></script>
 <script src="_contact-links.js"></script>
 </body>
