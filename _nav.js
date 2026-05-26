@@ -1,25 +1,40 @@
 (function () {
   var LINKS = [
-    { num: '01', lbl: 'Opening',   file: 'index.html' },
-    { num: '02', lbl: 'About',     file: 'About.html' },
-    { num: '03', lbl: 'Work',      file: 'Work.html' },
-    { num: '04', lbl: 'Research',  file: 'Research.html' },
-    { num: '05', lbl: 'Now',       file: 'Now.html' },
-    { num: '06', lbl: 'Notes',     file: 'Notes.html' },
-    { num: '07', lbl: 'Commits',   file: 'Commits.html' },
-    { num: '08', lbl: 'Education', file: 'Education.html' },
-    { num: '09', lbl: 'Colophon',  file: 'Colophon.html' },
+    { num: '01', lbl: 'Opening',   slug: 'index'     },
+    { num: '02', lbl: 'About',     slug: 'about'     },
+    { num: '03', lbl: 'Work',      slug: 'work'      },
+    { num: '04', lbl: 'Research',  slug: 'research'  },
+    { num: '05', lbl: 'Now',       slug: 'now'       },
+    { num: '06', lbl: 'Notes',     slug: 'notes'     },
+    { num: '07', lbl: 'Commits',   slug: 'commits'   },
+    { num: '08', lbl: 'Education', slug: 'education' },
+    { num: '09', lbl: 'Colophon',  slug: 'colophon'  },
   ];
 
-  var current = window.location.pathname.split('/').pop() || 'index.html';
+  // Parse pathname into meaningful segments (skip empty and 'index.html')
+  var parts = window.location.pathname.split('/').filter(function (p) {
+    return p && p !== 'index.html';
+  });
+  // Strip .html in case server preserves extensions (local dev)
+  var current = parts.length > 0 ? parts[parts.length - 1].replace(/\.html$/, '') : 'index';
+
+  // Depth = number of non-html segments (each adds one '../' to get back to root)
+  var depth = parts.filter(function (p) { return !p.endsWith('.html'); }).length;
+  var prefix = depth > 0 ? new Array(depth + 1).join('../') : '';
 
   function active(link) {
-    return current === link.file ||
-      (link.file === 'Notes.html' && current.indexOf('Notes') === 0);
+    if (link.slug === 'notes') {
+      return parts.indexOf('notes') !== -1;
+    }
+    return current === link.slug;
+  }
+
+  function linkHref(link) {
+    return link.slug === 'index' ? (prefix || './') : prefix + link.slug + '/';
   }
 
   function linkHTML(link) {
-    return '<a href="' + link.file + '"' + (active(link) ? ' class="active"' : '') + '>'
+    return '<a href="' + linkHref(link) + '"' + (active(link) ? ' class="active"' : '') + '>'
       + '<span class="num">' + link.num + '</span>'
       + '<span class="lbl">' + link.lbl + '</span>'
       + '</a>';
