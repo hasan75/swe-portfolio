@@ -23,6 +23,21 @@
 <style>
 /* ─── § 02 — ABOUT (section-local styles) ─── */
 
+.see-also a { display: inline-block; }
+.see-also a + a { margin-top: var(--sp-2); }
+.see-also a {
+  color: var(--fg-primary); text-decoration: none;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0 1px; background-repeat: no-repeat;
+  background-position: 0 100%; padding-bottom: 2px;
+  transition: color var(--dur-deliberate) var(--ease-out-quart),
+              background-size var(--dur-deliberate) var(--ease-out-quart);
+}
+.see-also a:hover {
+  color: var(--accent);
+  background-size: 100% 1px;
+}
+
 /* Sub-block — a labeled chunk within the body column */
 .subblock {
   position: relative;
@@ -224,7 +239,7 @@ html[data-theme="light"] .fw-figure .map-compass-line { stroke: rgba(30, 24, 18,
       </div>
       <div class="block">
         <span class="key">See also</span>
-        <span class="val">§ 04 Research<br/>§ 08 Education</span>
+        <span class="val see-also"><a href="Research.html">§ 04 Research</a><br/><a href="Education.html">§ 08 Education</a></span>
       </div>
       <div class="block">
         <span class="key">Contact</span>
