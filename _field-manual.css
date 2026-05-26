@@ -487,6 +487,6 @@ html[data-theme="light"] {
   transition: color var(--dur-quick) linear;
   line-height: 0;
 }
-.tt-btn[aria-pressed="true"] { color: var(--fg-primary); }
+.tt-btn[aria-pressed="true"] { color: var(--accent); }
 .tt-btn[aria-pressed="false"]:hover { color: var(--fg-secondary); }
 .tt-btn svg { display: block; width: 14px; height: 14px; }
