@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>(function(){try{var t=localStorage.getItem('fm.theme');if(!t||t==='dark')return;document.documentElement.dataset.theme=t==='system'?(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):t;}catch(_){}})();</script>
 <title>Data Fetching in Nuxt 4 — Hasan Ahmed</title>
 <meta name="description" content="A deep dive into data fetching in Nuxt 4 — useFetch, useAsyncData, server routes, caching, and how the patterns differ from Nuxt 3. By Hasan Ahmed.">
 <meta property="og:title" content="Data Fetching in Nuxt 4 — Hasan Ahmed">
@@ -791,6 +792,7 @@
     });
   });
 </script>
+<script src="_theme.js"></script>
 <script src="_nav.js"></script>
 </body>
 </html>
