@@ -215,6 +215,20 @@ body {
   display: block; font-weight: var(--fw-regular);
 }
 .marginalia .val em { font-style: italic; font-family: var(--font-serif); color: var(--fg-primary); }
+.marginalia .val.see-also a { display: inline-block; }
+.marginalia .val.see-also a + a { margin-top: var(--sp-2); }
+.marginalia .val.see-also a {
+  color: var(--fg-primary); text-decoration: none;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0 1px; background-repeat: no-repeat;
+  background-position: 0 100%; padding-bottom: 2px;
+  transition: color var(--dur-deliberate) var(--ease-out-quart),
+              background-size var(--dur-deliberate) var(--ease-out-quart);
+}
+.marginalia .val.see-also a:hover {
+  color: var(--accent);
+  background-size: 100% 1px;
+}
 
 .body { position: relative; }
 

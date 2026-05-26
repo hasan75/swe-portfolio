@@ -9,34 +9,20 @@
 <meta property="og:title" content="About — Hasan Ahmed">
 <meta property="og:description" content="A short biography of someone who refuses to pick a lane. Software engineer, researcher, and field guide.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://hahmed.netlify.app/About.html">
+<meta property="og:url" content="https://hahmed.netlify.app/about/">
 <meta property="og:image" content="https://hahmed.netlify.app/public/images/dp_image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="About — Hasan Ahmed">
 <meta name="twitter:description" content="A short biography of someone who refuses to pick a lane. Software engineer, researcher, and field guide.">
 <meta name="twitter:image" content="https://hahmed.netlify.app/public/images/dp_image.png">
-<link rel="canonical" href="https://hahmed.netlify.app/About.html">
+<link rel="canonical" href="https://hahmed.netlify.app/about/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..800;1,8..60,300..700&family=JetBrains+Mono:wght@300..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="_field-manual.css">
+<link rel="stylesheet" href="../_field-manual.css">
 <style>
 /* ─── § 02 — ABOUT (section-local styles) ─── */
 
-.see-also a { display: inline-block; }
-.see-also a + a { margin-top: var(--sp-2); }
-.see-also a {
-  color: var(--fg-primary); text-decoration: none;
-  background-image: linear-gradient(var(--accent), var(--accent));
-  background-size: 0 1px; background-repeat: no-repeat;
-  background-position: 0 100%; padding-bottom: 2px;
-  transition: color var(--dur-deliberate) var(--ease-out-quart),
-              background-size var(--dur-deliberate) var(--ease-out-quart);
-}
-.see-also a:hover {
-  color: var(--accent);
-  background-size: 100% 1px;
-}
 
 /* Sub-block — a labeled chunk within the body column */
 .subblock {
@@ -202,7 +188,7 @@ html[data-theme="light"] .fw-figure .map-compass-line { stroke: rgba(30, 24, 18,
 <!-- ─── MASTHEAD ─── -->
 <header class="masthead">
   <div class="masthead-inner">
-    <div class="masthead-left"><a href="index.html">Hasan Ahmed &nbsp;/&nbsp; Field Manual &nbsp;/&nbsp; Vol. 01</a></div>
+    <div class="masthead-left"><a href="../">Hasan Ahmed &nbsp;/&nbsp; Field Manual &nbsp;/&nbsp; Vol. 01</a></div>
     <div class="masthead-center"><span class="sigil">§</span><span id="current-section">02 — About</span></div>
     <div class="masthead-right">
       <span class="pulse"></span>
@@ -239,7 +225,7 @@ html[data-theme="light"] .fw-figure .map-compass-line { stroke: rgba(30, 24, 18,
       </div>
       <div class="block">
         <span class="key">See also</span>
-        <span class="val see-also"><a href="Research.html">§ 04 Research</a><br/><a href="Education.html">§ 08 Education</a></span>
+        <span class="val see-also"><a href="../research/">§ 04 Research</a><br/><a href="../education/">§ 08 Education</a></span>
       </div>
       <div class="block">
         <span class="key">Contact</span>
@@ -424,8 +410,8 @@ html[data-theme="light"] .fw-figure .map-compass-line { stroke: rgba(30, 24, 18,
     els.forEach((el, i) => setTimeout(() => el.classList.add('in'), 80 + i * 70));
   })();
 </script>
-<script src="_theme.js"></script>
-<script src="_nav.js"></script>
-<script src="_contact-links.js"></script>
+<script src="../_theme.js"></script>
+<script src="../_nav.js"></script>
+<script src="../_contact-links.js"></script>
 </body>
 </html>
